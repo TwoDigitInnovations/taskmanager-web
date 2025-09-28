@@ -1,0 +1,446 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/no-unknown-property */
+import { useState, useEffect } from "react";
+import { Api } from "@/src/services/service";
+import { checkForEmptyKeys } from "@/src/services/InputsNullChecker";
+import moment from "moment";
+import { MultiSelect } from "react-multi-select-component";
+import JobFilter from "../JobFilter";
+import _, { map } from 'underscore';
+
+const CreateTask = (props) => {
+  const jobID = props?.jobId
+  const [clientlist, setClientList] = useState([]);
+  const [submitted, setSubmitted] = useState(false);
+  const [jobInfo, setJobInfo] = useState({
+    startDate: moment(new Date()).format().slice(0, 16),
+    endDate: moment(new Date()).format().slice(0, 16),
+    startTime: "",
+    endTime: "",
+    title: "",
+    location: "",
+    latitude: "",
+    longitude: "",
+    description: "",
+    jobtype: "event",
+    amount: "",
+    jobPerson: "",
+  });
+
+  const [clientOpt, setClientOpt] = useState([]);
+  const [selectClient, setSelectClient] = useState([]);
+  const [isOrg, setIsOrg] = useState(false);
+  const [isPast, setIsPast] = useState(false);
+
+  let startt = moment(new Date());
+  let ends = moment(new Date());
+  let [start, setstart] = useState(startt);
+  let [end, setend] = useState(ends);
+
+  const getJobHour = async (startTime, endTime) => {
+    console.log(startTime, endTime)
+
+    const hr = await JobFilter({ startDate: startTime, endDate: endTime })
+    console.log(hr)
+    setJobInfo({
+      ...jobInfo,
+      job_hrs: parseFloat(await JobFilter({ startDate: startTime, endDate: endTime })).toFixed(2),
+      startTime,
+      endTime
+    });
+  };
+
+  useEffect(() => {
+    if (props?.organization?._id || props.user.isOrganization) {
+      setIsOrg(true);
+    }
+    setJobInfo({
+      startDate: new Date(),
+      endDate: new Date(),
+      title: "",
+      location: "",
+      latitude: "",
+      longitude: "",
+      description: "",
+      jobtype: "event",
+      amount: "",
+      jobPerson: "",
+    });
+    getClientList("");
+  }, []);
+
+  useEffect(() => {
+    if (props?.organization?._id || props.user.isOrganization) {
+      setIsOrg(true);
+    }
+    setJobInfo({
+      startDate: new Date(),
+      endDate: new Date(),
+      title: "",
+      location: "",
+      latitude: "",
+      longitude: "",
+      description: "",
+      jobtype: "event",
+      amount: "",
+      jobPerson: "",
+    });
+    if (props?.jobId) {
+      getJobDetail(props?.jobId)
+    }
+  }, [jobID]);
+
+  const getClientList = (client_id) => {
+    props.loader(true);
+    // let url = "provider/client?sort=a";
+    // if (props?.organization?._id) {
+    //   url = `provider/client?org_id=${props?.organization?._id}?sort=a`;
+    // }
+    Api("get", 'project/GetAllProjectByORg', "", props.router).then(
+      async (res) => {
+        props.loader(false);
+        if (res?.status) {
+          let options = [];
+          res.data.forEach((ele, index) => {
+            options.push({
+              label: ele.name,
+              value: ele._id,
+              disabled: false,
+
+            });
+            if (res.data.length === index + 1) {
+              setClientOpt(options);
+            }
+          });
+          setClientList(res.data.clients);
+        } else {
+          props.toaster({ type: "success", message: res?.message });
+        }
+      },
+      (err) => {
+        props.loader(false);
+        props.toaster({ type: "error", message: err.message });
+        console.log(err);
+      }
+    );
+  };
+
+
+
+
+
+
+  const getJobDetail = (id, o, guard) => {
+    // props.loader(true);
+
+    Api("get", `jobs/${id}`, "", props.router).then(async (res) => {
+      props.loader(false);
+      if (res.status) {
+        setJobInfo(res?.data?.job);
+        setSelectClient([{ value: res?.data?.job.project }])
+        let now = new Date(res?.data?.job?.startDate);
+        let startt = moment(now);
+        let end = new Date(res?.data?.job?.endDate);
+        let ends = moment(end);
+        setstart(startt);
+        setend(ends);
+      } else {
+        props.toaster({ type: "error", message: res.message });
+      }
+    });
+  };
+
+
+
+  const submit = (type) => {
+    const user = localStorage.getItem("userDetail");
+    let { anyEmptyInputs } = checkForEmptyKeys(jobInfo);
+    if (anyEmptyInputs.length > 0) {
+      if (jobInfo.client_id === undefined) {
+      } else {
+        setSubmitted(true);
+        return;
+      }
+    }
+    let url = 'jobs/create'
+    if (props?.jobId) {
+      url = `jobs/${props?.jobId}`
+    }
+
+    if (!!user) {
+
+      Api(
+        "post",
+        url,
+        jobInfo,
+        props.router
+      ).then((res) => {
+        props.loader(false);
+        if (res.status) {
+          props.setShowForm(false);
+          props.getJobs();
+          props.updateTask();
+          setIsPast(false);
+          setJobInfo({
+            startDate: new Date(),
+            endDate: new Date(),
+            title: "",
+            location: "",
+            latitude: "",
+            longitude: "",
+            description: "",
+            jobtype: "event",
+            amount: "",
+            jobPerson: "",
+          });
+        } else {
+          props.toaster({ type: "error", message: res.message });
+        }
+      });
+    }
+  };
+
+
+
+  useEffect(() => {
+    if (jobInfo.endDate) {
+      if (new Date().getTime() > new Date(jobInfo.endDate).getTime()) {
+        setIsPast(true);
+      } else {
+        setIsPast(false);
+      }
+    }
+  }, [jobInfo]);
+
+  return (
+    <div className=" bg-black  overflow-x-auto">
+      <div className=" pb-5">
+        <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-3 rounded-sm  border-t-4 border-red-700 ">
+          <div>
+            <p className="text-white font-bold md:text-3xl text-lg">
+              {props.repeat}
+            </p>
+          </div>
+        </div>
+
+        <div className=" border-2 border-red-700 rounded-sm p-5">
+          <div className="grid md:grid-cols-2 grid-cols-1 items-start">
+            <div className="grid grid-cols-1 md:mr-2">
+              <p className="text-white text-lg font-semibold">Task Date</p>
+              <input
+                value={moment(jobInfo?.startDate).format('YYYY-MM-DD')}
+                onChange={(text) => {
+                  const newDate = moment(text.target.value, 'YYYY-MM-DD').format()
+                  setJobInfo({ ...jobInfo, startDate: newDate });
+                }}
+                type="date"
+                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-3 "
+              />
+              {submitted && jobInfo.title === "" && (
+                <p className="text-red-700 mt-1">Task Name is required</p>
+              )}
+            </div>
+
+            <div className="grid md:grid-cols-2 grid-cols-1">
+              <div className="grid grid-cols-1">
+                <p className="text-white text-lg font-semibold">
+                  {"Start Time"}
+                </p>
+                <input
+                  value={moment(jobInfo?.startTime).format('HH:mm')}
+                  max={jobInfo.endTime}
+                  onChange={(text) => {
+                    console.log(text.target.value)
+                    const newDate = moment(text.target.value, 'HH:mm').format()
+                    console.log(newDate)
+                    setJobInfo({ ...jobInfo, startTime: newDate });
+                    getJobHour(newDate, jobInfo.endTime);
+                  }}
+                  type="time"
+                  className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-3 "
+                />
+              </div>
+
+              <div className="grid grid-cols-1">
+                <p className="text-white text-lg font-semibold">
+                  {"End Time"}
+                </p>
+                <input
+                  value={moment(jobInfo.endTime).format('HH:mm')}
+                  // min={jobInfo.startTime}
+                  onChange={(text) => {
+                    const newDate = moment(text.target.value, 'HH:mm').format()
+                    console.log(newDate)
+                    setJobInfo({ ...jobInfo, endTime: newDate });
+                    getJobHour(jobInfo.startTime, newDate);
+                  }}
+                  type="time"
+                  className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-3 "
+                />
+              </div>
+            </div>
+          </div>
+
+          <div
+            className={`grid ${isOrg ? "md:grid-cols-2 " : "md:grid-cols-1"
+              } grid-cols-1 mt-3 items-start`}
+          >
+            <div className="grid md:grid-cols-1 grid-cols-1 mt-3 items-start md:mr-3">
+              <p className="text-white text-lg font-semibold">
+                Select Project
+              </p>
+              <MultiSelect
+                options={clientOpt}
+                hasSelectAll={false}
+                value={selectClient}
+                onChange={(text) => {
+                  console.log(text);
+                  if (text.length > 1) {
+                    setSelectClient([text[1]]);
+                    setJobInfo({
+                      ...jobInfo,
+                      project: text[1].value,
+                    });
+                  } else if (text.length === 1) {
+                    setSelectClient(text)
+                    setJobInfo({
+                      ...jobInfo,
+                      project: text[0].value,
+                    });
+                  } else {
+                    setSelectClient([])
+                    setJobInfo({
+                      ...jobInfo,
+                      location: '',
+                    });
+                  }
+
+
+                }}
+                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-1.5 "
+
+                labelledBy="Select Client"
+                ClearSelectedIcon
+              />
+
+            </div>
+
+            <div className="grid md:grid-cols-1 grid-cols-1 mt-3 items-start">
+              <p className="text-white text-lg font-semibold">Hours</p>
+              <input
+                readOnly
+                value={jobInfo?.job_hrs}
+                onChange={(text) => {
+                  setJobInfo({ ...jobInfo, job_hrs: text.target.value });
+                }}
+                min="0"
+                type="number"
+                placeholder="00"
+                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-3 icncolor"
+              />
+            </div>
+
+          </div>
+
+          <div className="grid md:grid-cols-2 grid-cols-1 mt-3 items-start">
+            <div className="grid grid-cols-1 md:mr-2 ">
+              <div className="grid grid-cols-2 mb-1">
+                <p className="text-white text-lg font-semibold ">
+                  Work Type
+                </p>
+
+              </div>
+              <select value={jobInfo?.work_type}
+                onChange={(text) => {
+                  setJobInfo({ ...jobInfo, work_type: text.target.value });
+                }} className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-3 "
+              >
+                <option value=''>Slelect work type</option>
+                <option value='Regular'>Regular</option>
+                <option value='Maintenance'>Maintenance</option>
+              </select>
+            </div>
+
+            <div className="grid grid-cols-1 md:mr-2 ">
+              <div className="grid grid-cols-2 mb-1">
+                <p className="text-white text-lg font-semibold ">
+                  Work Rele
+                </p>
+
+              </div>
+              <select value={jobInfo?.work_role}
+                onChange={(text) => {
+                  setJobInfo({ ...jobInfo, work_role: text.target.value });
+                }} className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-3 "
+              >
+                <option value=''>Slelect work type</option>
+                <option value='Designer'>Designer</option>
+                <option value='Development'>Developer</option>
+                <option value='Development'>Tester</option>
+              </select>
+            </div>
+          </div>
+
+
+
+          <div className="grid md:grid-cols-1 grid-cols-1 mt-3 items-start">
+            <p className="text-white text-lg font-semibold">
+              Task list
+            </p>
+            <textarea
+              value={jobInfo.description}
+              onChange={(text) => {
+                setJobInfo({ ...jobInfo, description: text.target.value });
+              }}
+              min="0"
+              type="number"
+              rows={5}
+              className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor"
+            />
+            {submitted && jobInfo.description === "" && (
+              <p className="text-red-700 mt-1">
+                Job Responsibility is required
+              </p>
+            )}
+          </div>
+
+          <div className="flex justify-between mt-4">
+            <div className="flex gap-5">
+              <button
+                className={`text-white ${isPast ? "bg-red-800" : "bg-red-600"
+                  } rounded-sm  text-md w-36 h-10`}
+                onClick={submit}
+              >
+                {props.repeat === "Create New Task" ? "Create" : props.repeat}
+              </button>
+
+            </div>
+
+            <button
+              className="text-white bg-red-700 rounded-sm  text-md  w-36 h-10"
+              onClick={() => {
+                props.setShowForm(false);
+                setJobInfo({
+                  startDate: new Date(),
+                  endDate: new Date(),
+                  title: "",
+                  location: "",
+                  latitude: "",
+                  longitude: "",
+                  description: "",
+                  jobtype: "event",
+                  amount: "",
+                  jobPerson: "",
+                });
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CreateTask;
