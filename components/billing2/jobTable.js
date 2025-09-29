@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import Table, { indexID } from "../../../src/components/table"; // new
+import Table, { indexID } from "../table"; // new
 
 function JobTable(props) {
   const columns = useMemo(

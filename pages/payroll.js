@@ -1,4 +1,4 @@
-import AuthGuard from "@/components/AuthGuard"
+import Payroll from "@/components/billing2/payroll";
 import AuthGuard from "./AuthGuard";
 
 const payroll = (props) => {

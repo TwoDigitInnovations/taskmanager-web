@@ -14,9 +14,7 @@ import {
   ChevronDoubleRightIcon,
 } from "@heroicons/react/solid";
 import { Button, PageButton } from "./../buttons";
-// import { classNames } from "./utils";
-import { SortIcon, SortUpIcon, SortDownIcon, Eyeicon } from "./../icons";
-import Image from "next/image";
+
 
 // Define a default UI for filtering
 function GlobalFilter({

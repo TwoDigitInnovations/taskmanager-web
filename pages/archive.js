@@ -12,7 +12,7 @@ import { useScreenshot } from "use-react-screenshot";
 import { useExcelDownloder } from "react-xls";
 import { IoSearch, IoCalendar } from "react-icons/io5";
 import ArchiveTable from "../components/billing2/archiveTable";
-import ViewArchive from "../src/components/billing2/viewArchive";
+import ViewArchive from "../components/billing2/viewArchive";
 import AuthGuard from "./AuthGuard";
 
 export const billContext = createContext();

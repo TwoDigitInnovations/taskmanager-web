@@ -1,12 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
-import { Api } from "../../src/services/service";
-import { checkForEmptyKeys } from "../../src/services/InputsNullChecker";
-import LocationDropdown from "../../src/components/LocationDropdown";
+import { Api } from "@/src/services/service";
+import { checkForEmptyKeys } from "@/src/services/InputsNullChecker";
+import LocationDropdown from "@/components/LocationDropdown";
 import { useRouter } from "next/router";
-import Constants from "../../src/services/constant";
-import moment from "moment";
-import Organization from "./organization";
+
 import AuthGuard from "../AuthGuard";
 
 const CUorganization = (props) => {

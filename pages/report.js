@@ -2,14 +2,13 @@
 import React, { useEffect, useState, useMemo } from "react";
 
 import { useRouter } from "next/router";
-import ActivityList from "../src/components/report/activityList";
-import ActivityTable from "../src/components/report/activityTable.";
-import { IoSearch, IoCalendar } from "react-icons/io5";
-import { Api } from "../src/services/service";
+import ActivityList from "@/components/report/activityList";
+import ActivityTable from "@/components/report/activityTable.";
+
+import { Api } from "@/src/services/service";
 import moment from "moment";
-import { timeSince } from "../src/services/service";
-import Table from "../src/components/report/customTableAct";
-import CountUp from "react-countup";
+import { timeSince } from "@/src/services/service";
+
 import AuthGuard from "./AuthGuard";
 
 const Report = (props) => {

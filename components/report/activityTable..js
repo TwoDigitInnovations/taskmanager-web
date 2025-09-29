@@ -1,10 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable jsx-a11y/alt-text */
-import Table from "../../../src/components/table"; // new
+import Table from "@/components/table"; // new
 import React, { useMemo } from "react";
 import Dialog from "@mui/material/Dialog";
 import { IoCloseCircleOutline, IoEyeSharp } from "react-icons/io5";
-import Image from "next/image";
 
 const ActivityTable = (props) => {
   const [open, setOpen] = React.useState(false);

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import LocationDropdown from "../LocationDropdown";
-import Image from "next/image";
 
 const MyOrganization = () => {
   const [profileData, setProfileData] = useState({

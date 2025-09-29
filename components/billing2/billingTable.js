@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import moment from "moment";
-import Table from "../../../src/components/table"; // new
+import Table from "../table"; // new
 import React, { useMemo } from "react";
 import { IoEyeSharp } from "react-icons/io5";
 import { RiDeleteBinFill } from "react-icons/ri";

@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from "react";
 
 import { useRouter } from "next/router";
-import HistoryTable from "../src/components/history/historyTable";
+import HistoryTable from "@/components/history/historyTable";
 import { IoSearch, IoCalendar } from "react-icons/io5";
-import { Api } from "../src/services/service";
+import { Api } from "@/src/services/service";
 import moment from "moment";
 import AuthGuard from "./AuthGuard";
 

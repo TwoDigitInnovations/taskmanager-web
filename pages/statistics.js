@@ -1,12 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { DoughnutChart } from "../src/components/daughnutChart";
-import { LineChart } from "../src/components/lineChart";
-import { StockBarChart } from "../src/components/stackedBarChar";
-import { Api, sortByMonth } from "../src/services/service";
+import { DoughnutChart } from "@/components/daughnutChart";
+import { LineChart } from "@/components/lineChart";
+import { StockBarChart } from "@/components/stackedBarChar";
+import { Api, sortByMonth } from "@/src/services/service";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import moment from "moment";
-import DateTimeRangeContainer from "react-advanced-datetimerange-picker";
 import CountUp from "react-countup";
 import AuthGuard from "./AuthGuard";
 

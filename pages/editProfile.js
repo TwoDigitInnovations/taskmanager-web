@@ -1,12 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useContext } from "react";
-import { DownArrow } from "../src/components/icons";
-import ProfileData from "../src/components/profile/profiledata";
-import ChangePassword from "../src/components/profile/changePassword";
-import MyOrganization from "../src/components/profile/myOrganization";
-import { Api } from "../src/services/service";
+import { DownArrow } from "@/components/icons";
+import ProfileData from "@/components/profile/profiledata";
+import ChangePassword from "@/components/profile/changePassword";
+import { Api } from "@/src/services/service";
 import { useRouter } from "next/router";
-import { Context, userContext } from "../pages/_app";
+import { Context, userContext } from "@/pages/_app";
 import AuthGuard from "./AuthGuard";
 
 const EditProfie = (props) => {

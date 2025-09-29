@@ -1,13 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import Table, { indexID } from "../../../src/components/table"; // new
+import Table, { indexID } from "../table"; // new
 import React, { useMemo, useContext, useState, useEffect } from "react";
-import { Api } from "../../services/service";
+import { Api } from "../../src/services/service";
 import moment from "moment";
 import { useExcelDownloder } from "react-xls";
 import { IoEyeSharp } from "react-icons/io5";
-import { RiDeleteBinFill } from "react-icons/ri";
+
 import { Checkbox } from "@material-ui/core";
-import { billContext } from "../../../pages/billing2";
+import { billContext } from "@/pages/billing2";
+
 
 const ClientList = (props) => {
   //  console.log(props.excelData);

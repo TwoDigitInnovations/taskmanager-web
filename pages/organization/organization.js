@@ -6,10 +6,10 @@ import Table, {
   StatusPill,
   billStatus,
   indexID,
-} from "../../src/components/table"; // new
+} from "@/components/table"; // new
 import { useRouter } from "next/router";
 import { IoCloseCircleOutline, IoEyeSharp } from "react-icons/io5";
-import { Api } from "../../src/services/service";
+import { Api } from "@/src/services/service";
 
 const Organization = (props) => {
   const [orgList, setOrgList] = useState([]);
@@ -23,9 +23,8 @@ const Organization = (props) => {
     return (
       <div className="flex justify-center items-center">
         <button
-          className={` w-20 rounded-sm py-1 text-white text-sm ${
-            value === "Active" ? "bg-green-700" : "bg-red-700"
-          }`}
+          className={` w-20 rounded-sm py-1 text-white text-sm ${value === "Active" ? "bg-green-700" : "bg-red-700"
+            }`}
         >
           Active
         </button>

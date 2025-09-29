@@ -9,16 +9,17 @@ import React, {
   useContext,
 } from "react";
 import Image from "next/image";
-import { Api } from "../../services/service";
+import { Api } from "../../src/services/service";
 import { useRouter } from "next/router";
-import JobTable from "./jobTable";
+
 import moment from "moment";
 import { AiFillCloseSquare } from "react-icons/ai";
 import { BiRefresh } from "react-icons/bi";
 import * as htmlToImage from "html-to-image";
 import { useExcelDownloder } from "react-xls";
-import { billContext } from "../../../pages/billing2";
-import { userContext } from "../../../pages/_app";
+import { billContext } from "@/pages/billing2";
+import { userContext } from "@/pages/_app";
+
 
 const ViewBill = React.forwardRef((props, ref) => {
   const { billId, setBillId } = props;

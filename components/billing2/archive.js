@@ -2,20 +2,13 @@
 import React, { useEffect, useState, useRef, createRef, createContext } from "react";
 
 import { useRouter } from "next/router";
-// import BillingTable from "../src/components/billing2/billingTable";
-// import Bill from "../src/components/billing2/billGenerate";
-
 import moment from "moment";
 import { extendMoment } from "moment-range";
-// import ViewBill from "../src/components/billing2/viewBill";
-import ReactToPrint, { useReactToPrint } from "react-to-print";
-import { useScreenshot } from "use-react-screenshot";
-import html2canvas from "html2canvas";
+import { useReactToPrint } from "react-to-print";
 import { useExcelDownloder } from "react-xls";
-import { IoSearch, IoCalendar } from "react-icons/io5";
 import ArchiveTable from "./archiveTable";
 import ViewArchive from "./viewArchive";
-import { Api } from "../../services/service";
+import { Api } from "../../src/services/service";
 
 export const billContext = createContext();
 const Archive = (props) => {

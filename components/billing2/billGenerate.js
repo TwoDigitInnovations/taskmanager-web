@@ -1,17 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect, useContext } from "react";
-import InvoicesList from "./invoiceListTable";
-import { IoSearch, IoCalendar } from "react-icons/io5";
-import { Api } from "../../services/service";
-import { checkForEmptyKeys } from "../../services/InputsNullChecker";
-import { DownloadTableExcel } from "react-export-table-to-excel";
+import { Api } from "../../src/services/service";
 import { useExcelDownloder } from "react-xls";
-import { MultiSelect } from "react-multi-select-component";
 import moment from "moment";
-import { Context, userContext } from "../../../pages/_app";
 import ClientList from "./clientList";
-import { billContext } from "../../../pages/billing2";
-import Payroll from "./payroll";
+import { billContext } from "@/pages/billing2";
 
 function getWeekNumbersForYear(year) {
   const weekNumbers = [];
@@ -522,43 +515,8 @@ const Bill = (props) => {
             >
               Search
             </button>
-            {/* <button
-            className="bg-white text-red-700 py-1 px-3 rounded-md ml-2"
-            onClick={() => {
-              setBillInfo({
-                start: new Date(),
-                end: new Date(),
-                client_id: "",
-              });
-            }}
-          >
-            Reset
-          </button> */}
           </div>
         </div>
-
-        {/* <div className="border-2 border-red-700 rounded-lg p-5">
-          <div className="flex mb-5 justify-end">
-            <button
-              className="bg-green-700 text-white py-1 px-2 rounded-md"
-              onClick={() => submits(props.guardRange)}
-            >
-              Generate Invoices
-            </button> */}
-        {/* <button
-            className="bg-white text-red-700 py-1 px-3 rounded-md ml-2"
-            onClick={() => {
-              setBillInfo({
-                start: new Date(),
-                end: new Date(),
-                client_id: "",
-              });
-            }}
-          >
-            Reset
-          </button> */}
-        {/* </div> */}
-
         <ClientList
           data={clentData}
           {...props}
@@ -570,93 +528,7 @@ const Bill = (props) => {
           isrefresh={props.isrefresh}
           setIsRefresh={props.setIsRefresh}
         />
-        {/* </div> */}
       </div>
-      {/* <Payroll {...props} /> */}
-      {/* <div className="mt-5">
-        <div className="border-2 border-red-700 rounded-lg p-5">
-          <p className="text-white text-lg font-bold">
-            Payroll from {guardRange?.startDate} to{" "}
-            {guardRange?.endDate}
-          </p>
-
-          <div className="flex justify-end items-start">
-          </div>
-      
-          <div className=" grid md:grid-cols-2 grid-cols-1  mt-5">
-            <div className="grid grid-cols-1 md:mr-2 ">
-              <p className="text-white text-lg font-semibold mt-2">
-                Start Date
-              </p>
-              <input
-                value={guardRange?.startDate}
-                onChange={(text) => {
-                  setGuardRange({
-                    ...guardRange,
-                    startDate: text.target.value,
-                  });
-                  localStorage.setItem("start", text.target.value);
-                  props?.gaurdHistory.forEach((ele) => {
-                    ele.startDate = text.target.value;
-                  });
-                  props?.setGuardHistory([...props?.gaurdHistory]);
-                }}
-                type="date"
-                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-1.5 "
-              />
-            </div>
-            <div className="grid grid-cols-1">
-              <p className="text-white text-lg font-semibold mt-2">End Date</p>
-              <input
-                value={guardRange?.endDate}
-                onChange={(text) => {
-                  setGuardRange({
-                    ...guardRange,
-                    endDate: text.target.value,
-                  });
-                  localStorage.setItem("end", text.target.value);
-                  props?.gaurdHistory.forEach((ele) => {
-                    ele.endDate = text.target.value;
-                  });
-
-                  props?.setGuardHistory([...props?.gaurdHistory]);
-                }}
-                type="date"
-                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black  p-1.5 "
-              />
-            </div>
-
-          </div>
-
-          <div className=" flex justify-between mt-5">
-            <ExcelDownloder
-              filename={"book"}
-              type={Type.Button} 
-            >
-              <button className="bg-red-700 text-white py-1 px-3 rounded-md ml-2">
-                Excel
-              </button>
-            </ExcelDownloder>
-            <button
-              className="bg-green-700 text-white py-1 px-2 rounded-md"
-              onClick={() => {
-                props?.getGuardHistory(guardRange);
-              }}
-            >
-              Search
-            </button>
-          </div>
-        </div>
-        <InvoicesList
-          data={props?.gaurdHistory}
-          {...props}
-          guardRange={guardRange}
-          ActionSection={ActionSection}
-
-        />
-      
-      </div> */}
-
 
     </div>
   );

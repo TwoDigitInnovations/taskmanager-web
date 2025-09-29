@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Api } from "../../../src/services/service";
-import { checkForEmptyKeys } from "../../services/InputsNullChecker";
+import { Api } from "@/src/services/service";
+import { checkForEmptyKeys } from "@/src/services/InputsNullChecker";
 
 const ChangePassword = (props) => {
   const [password, setpassword] = useState({

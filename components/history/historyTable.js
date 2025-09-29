@@ -1,7 +1,6 @@
-import Table, { indexID } from "../../../src/components/table"; // new
+import Table, { indexID } from "@/components/table"; // new
 import React, { useMemo } from "react";
 import JobFilter from "../JobFilter";
-import { MdEventAvailable } from "react-icons/md";
 
 const HistoryTable = (props) => {
   const columns = useMemo(

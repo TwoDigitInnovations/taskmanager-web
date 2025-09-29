@@ -1,7 +1,7 @@
 import { useExcelDownloder } from "react-xls";
 import { useEffect, useState, useMemo } from "react";
 import moment from "moment";
-import { Api } from "../../services/service";
+import { Api } from "../../src/services/service";
 import { useRouter } from "next/router";
 import PaginationTable from "../PaginationTable";
 

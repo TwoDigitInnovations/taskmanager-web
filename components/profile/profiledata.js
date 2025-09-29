@@ -2,11 +2,11 @@
 import { useEffect, useState } from "react";
 import LocationDropdown from "../LocationDropdown";
 import Image from "next/image";
-import { Api } from "../../../src/services/service";
+import { Api } from "@/src/services/service";
 import {
   checkForEmptyKeys,
   checkEmail,
-} from "../../services/InputsNullChecker";
+} from "@/src/services/InputsNullChecker";
 
 const ProfileData = (props) => {
   const [profileData, setProfileData] = useState({

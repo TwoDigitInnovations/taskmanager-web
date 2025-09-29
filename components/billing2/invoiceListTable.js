@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import Table, { indexID } from "../../../src/components/table"; // new
+import Table, { indexID } from "../table"; // new
 import React, { useMemo, useContext, useState, useEffect } from "react";
 // import { IoEyeSharp } from "react-icons/io5";
 // import { RiDeleteBinFill } from "react-icons/ri";
