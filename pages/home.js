@@ -9,7 +9,7 @@ import Tooltip from "@mui/material/Tooltip";
 import BillingTable from "@/components/billing/billingTable";
 import { Table } from "@mui/material";
 import { indexID } from "@/components/table";
-import AuthGuard from "@/components/AuthGuard";
+import AuthGuard from "./AuthGuard";
 
 const Index = (props) => {
   const { user, organization } = props;

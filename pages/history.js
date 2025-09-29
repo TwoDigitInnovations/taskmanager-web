@@ -6,6 +6,7 @@ import HistoryTable from "../src/components/history/historyTable";
 import { IoSearch, IoCalendar } from "react-icons/io5";
 import { Api } from "../src/services/service";
 import moment from "moment";
+import AuthGuard from "./AuthGuard";
 
 const History = (props) => {
   const router = useRouter();
@@ -73,30 +74,32 @@ const History = (props) => {
     }
   };
   return (
-    <div className="min-h-screen bg-black md:-mt-16 overflow-x-auto">
-      <div className="pt-20 ">
-        <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-4 rounded-xl border-t-8 border-red-700 md:mx-5 m mx-3">
-          <div>
-            <p className="text-white font-bold md:text-3xl text-lg">History</p>
-          </div>
-          <div className="flex items-center justify-end ">
+    <AuthGuard allowedRoles={["ADMIN"]}>
+      <div className="min-h-screen bg-black md:-mt-16 overflow-x-auto">
+        <div className="pt-20 ">
+          <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-4 rounded-xl border-t-8 border-red-700 md:mx-5 m mx-3">
+            <div>
+              <p className="text-white font-bold md:text-3xl text-lg">History</p>
+            </div>
+            <div className="flex items-center justify-end ">
 
-            <input
-              className="  rounded-md border-2 border-[var(--red-900)] outline-none ml-2 text-white bg-black w-72 p-1.5 "
-              onChange={(text) => {
-                searchList(text.target.value);
-              }}
-            />
-            <div className="h-10 w-10 bg-red-700 rounded-md ml-3 flex justify-center items-center">
-              <IoSearch className="text-white text-xl" />
+              <input
+                className="  rounded-md border-2 border-[var(--red-900)] outline-none ml-2 text-white bg-black w-72 p-1.5 "
+                onChange={(text) => {
+                  searchList(text.target.value);
+                }}
+              />
+              <div className="h-10 w-10 bg-red-700 rounded-md ml-3 flex justify-center items-center">
+                <IoSearch className="text-white text-xl" />
+              </div>
             </div>
           </div>
-        </div>
-        <div className="px-5">
-          <HistoryTable data={historyList} />
+          <div className="px-5">
+            <HistoryTable data={historyList} />
+          </div>
         </div>
       </div>
-    </div>
+    </AuthGuard>
   );
 };
 

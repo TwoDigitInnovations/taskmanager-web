@@ -9,6 +9,8 @@ import moment from "moment";
 import Tooltip from "@mui/material/Tooltip";
 import { Api } from "@/src/services/service";
 import Stickytables from "./stickytables";
+import { userContext } from "@/pages/_app";
+// import TaskDetailModal from "./TaskView";
 
 const WeekDayTable = (props) => {
   const [week, setWeek] = useState();
@@ -18,6 +20,8 @@ const WeekDayTable = (props) => {
   const [dateObj, setDateObj] = useState({});
   const [wo, setWo] = useState([]);
   const [t, setT] = useState();
+  const [user, setUser] = useContext(userContext)
+
 
   console.log(week)
 
@@ -314,9 +318,11 @@ const WeekDayTable = (props) => {
           <div className="w-full">
             {value?.map((item, index) => {
               console.log('iiiiiiiii>>>>>>', item)
+              let ownProperty = item?.posted_by?._id === user?.id || user.type === 'ADMIN';
+              console.log(ownProperty)
               return (
                 <div
-                  className={` bg-green-700 p-2 m-1 rounded-sm w-full`}
+                  className={`${ownProperty ? 'bg-green-700' : 'bg-black'}  p-2 m-1 rounded-sm w-full`}
                   key={index}
                 >
                   <p className="text-white f11">Name :  {item?.posted_by?.username}</p>
@@ -336,7 +342,7 @@ const WeekDayTable = (props) => {
 
 
 
-                  <div className="flex justify-start items-end mt-1">
+                  {ownProperty && <div className="flex justify-start items-end mt-1">
                     {/* {item?.invites?.length > 0 && !item.public && ( */}
 
                     <Tooltip title={<p>Edit</p>} arrow>
@@ -362,7 +368,7 @@ const WeekDayTable = (props) => {
                         <MdDeleteForever className="text-black text-lmd" />
                       </div>
                     </Tooltip>
-                  </div>
+                  </div>}
                 </div>
               );
             })}

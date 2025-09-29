@@ -20,6 +20,7 @@ import { Navigation } from 'swiper/modules';
 import { EffectFade } from 'swiper/modules';
 import CountUp from "react-countup";
 import SignUp from "./signup";
+import AuthGuard from "./AuthGuard";
 
 const GuardList = (props) => {
   const router = useRouter();
@@ -375,90 +376,91 @@ const GuardList = (props) => {
   }
 
   return (
-    <div className="min-h-screen bg-black  overflow-x-auto">
-      < div className="px-5 pt-7">
-        <div className="grid md:grid-cols-3 grid-col-1 gap-3">
-          <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4 relative flex justify-center    cursor-pointer" onClick={() => setGuardList(statusData?.siaExp)}>
-            <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-24 rounded-md px-5">
-              <p className="font-bold text-lg text-center text-white  px-3">SIA Badge Sataus / Expired</p>
-              <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
-                <CountUp end={statusData?.sia || 0} /> / <CountUp end={statusData?.siaExp?.length || 0} />
-              </p>
+    <AuthGuard allowedRoles={["ADMIN"]}>
+      <div className="min-h-screen bg-black  overflow-x-auto">
+        < div className="px-5 pt-7">
+          <div className="grid md:grid-cols-3 grid-col-1 gap-3">
+            <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4 relative flex justify-center    cursor-pointer" onClick={() => setGuardList(statusData?.siaExp)}>
+              <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-24 rounded-md px-5">
+                <p className="font-bold text-lg text-center text-white  px-3">SIA Badge Sataus / Expired</p>
+                <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
+                  <CountUp end={statusData?.sia || 0} /> / <CountUp end={statusData?.siaExp?.length || 0} />
+                </p>
+              </div>
             </div>
-          </div>
-          <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4    relative flex justify-center   cursor-pointer" onClick={() => setGuardList(mainList)} >
-            <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-24 rounded-md px-5">
-              <p className="font-bold text-lg text-center text-white  px-3">Total number of guards</p>
-              <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
-                <CountUp end={statusData?.guards || 0} />
-              </p>
+            <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4    relative flex justify-center   cursor-pointer" onClick={() => setGuardList(mainList)} >
+              <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-24 rounded-md px-5">
+                <p className="font-bold text-lg text-center text-white  px-3">Total number of guards</p>
+                <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
+                  <CountUp end={statusData?.guards || 0} />
+                </p>
+              </div>
             </div>
-          </div>
 
-          <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4   relative flex justify-center    cursor-pointer" onClick={() => setGuardList(statusData?.suspended)}>
-            <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-24 rounded-md px-5">
-              <p className="font-bold text-lg text-center text-white  px-3">Suspended</p>
-              <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
-                <CountUp end={statusData?.suspended?.length || 0} />
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <SignUp {...props} getDevlopers={getGuardList} />
-      <div className="mt-5">
-        <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-3  border-t-4 border-red-700 md:mx-5 m mx-3">
-          <div>
-            <p className="text-white font-bold md:text-3xl text-lg">
-              Guard List
-            </p>
-          </div>
-          <div className="flex items-center justify-end ">
-
-            <input
-              className="  rounded-md border-2 border-[var(--red-900)] outline-none ml-2 text-white bg-black w-72 p-1.5 "
-              onChange={(text) => {
-                searchList(text.target.value);
-              }}
-            />
-
-            <div className="h-10 w-10 bg-red-700 rounded-md ml-3 flex justify-center items-center">
-              <IoSearch className="text-white text-xl" />
+            <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4   relative flex justify-center    cursor-pointer" onClick={() => setGuardList(statusData?.suspended)}>
+              <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-24 rounded-md px-5">
+                <p className="font-bold text-lg text-center text-white  px-3">Suspended</p>
+                <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
+                  <CountUp end={statusData?.suspended?.length || 0} />
+                </p>
+              </div>
             </div>
           </div>
         </div>
-        <div className="px-5">
-          <Table columns={columns} data={guardList} />
-        </div>
-        <Dialog open={open} onClose={handleClose} maxWidth='md'>
-          <div className="p-5 border-t-4  border-t-[var(--red-900)] bg-[var(--customGray)] relative overflow-hidden">
-            <IoCloseCircleOutline
-              className="text-red-700 h-8 w-8 absolute right-2 top-2"
-              onClick={handleClose}
-            />
-            <div className="md:flex justify-between border-b-2 border-b-gray-300 py-2">
-              <div>
+        <SignUp {...props} getDevlopers={getGuardList} />
+        <div className="mt-5">
+          <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-3  border-t-4 border-red-700 md:mx-5 m mx-3">
+            <div>
+              <p className="text-white font-bold md:text-3xl text-lg">
+                Guard List
+              </p>
+            </div>
+            <div className="flex items-center justify-end ">
 
-                <div className="flex justify-start items-start">
-                  <Avatar
-                    alt={singleData.username}
-                    src={singleData.profile}
-                    sx={{ width: 60, height: 60 }}
-                  />
-                  <div className="ml-3">
-                    <p className="text-red-700 md:text-xl font-bold text-xs md:mt-0 mt-2">
-                      Guard Details
-                    </p>
-                    <p className="text-white md:text-lg text-xs">
-                      {singleData?.fullName}
-                    </p>
-                    <p className="text-white md:text-lg text-xs">
-                      Username: {singleData?.username}
-                    </p>
-                    <p className="text-white md:text-lg text-xs">
-                      Email: {singleData.email}
-                    </p>
-                    {/* {<div className="md:hidden flex justify-start items-center min-w-[400px] md:border-l-2 md:border-l-gray-300 ">
+              <input
+                className="  rounded-md border-2 border-[var(--red-900)] outline-none ml-2 text-white bg-black w-72 p-1.5 "
+                onChange={(text) => {
+                  searchList(text.target.value);
+                }}
+              />
+
+              <div className="h-10 w-10 bg-red-700 rounded-md ml-3 flex justify-center items-center">
+                <IoSearch className="text-white text-xl" />
+              </div>
+            </div>
+          </div>
+          <div className="px-5">
+            <Table columns={columns} data={guardList} />
+          </div>
+          <Dialog open={open} onClose={handleClose} maxWidth='md'>
+            <div className="p-5 border-t-4  border-t-[var(--red-900)] bg-[var(--customGray)] relative overflow-hidden">
+              <IoCloseCircleOutline
+                className="text-red-700 h-8 w-8 absolute right-2 top-2"
+                onClick={handleClose}
+              />
+              <div className="md:flex justify-between border-b-2 border-b-gray-300 py-2">
+                <div>
+
+                  <div className="flex justify-start items-start">
+                    <Avatar
+                      alt={singleData.username}
+                      src={singleData.profile}
+                      sx={{ width: 60, height: 60 }}
+                    />
+                    <div className="ml-3">
+                      <p className="text-red-700 md:text-xl font-bold text-xs md:mt-0 mt-2">
+                        Guard Details
+                      </p>
+                      <p className="text-white md:text-lg text-xs">
+                        {singleData?.fullName}
+                      </p>
+                      <p className="text-white md:text-lg text-xs">
+                        Username: {singleData?.username}
+                      </p>
+                      <p className="text-white md:text-lg text-xs">
+                        Email: {singleData.email}
+                      </p>
+                      {/* {<div className="md:hidden flex justify-start items-center min-w-[400px] md:border-l-2 md:border-l-gray-300 ">
                       <div className="">
                         <p className="text-red-700 md:text-xl font-bold text-xs md:mt-0 mt-2">
                           Bank Details
@@ -477,116 +479,200 @@ const GuardList = (props) => {
                         </p>
                       </div>
                     </div>} */}
+                    </div>
                   </div>
+
                 </div>
 
+                {<div className="flex  justify-start items-center min-w-[400px] md:border-l-2 md:border-l-gray-300 ">
+                  <div className="md:ml-3">
+                    <p className="text-red-700 md:text-xl font-bold text-xs md:mt-0 mt-2">
+                      Bank Details
+                    </p>
+                    <p className="text-white md:text-lg text-xs">
+                      Name: {singleData?.bankDetails?.name || 'NA'}
+                    </p>
+                    <p className="text-white md:text-base text-xs">
+                      Account No: {singleData?.bankDetails?.account || 'NA'}
+                    </p>
+                    <p className="text-white md:text-base text-xs">
+                      Bank Name: {singleData?.bankDetails?.bank_name || 'NA'}
+                    </p>
+                    <p className="text-white md:text-base text-xs">
+                      Sort Code: {singleData?.bankDetails?.code || 'NA'}
+                    </p>
+                  </div>
+                </div>}
               </div>
-
-              {<div className="flex  justify-start items-center min-w-[400px] md:border-l-2 md:border-l-gray-300 ">
-                <div className="md:ml-3">
-                  <p className="text-red-700 md:text-xl font-bold text-xs md:mt-0 mt-2">
-                    Bank Details
-                  </p>
-                  <p className="text-white md:text-lg text-xs">
-                    Name: {singleData?.bankDetails?.name || 'NA'}
-                  </p>
-                  <p className="text-white md:text-base text-xs">
-                    Account No: {singleData?.bankDetails?.account || 'NA'}
-                  </p>
-                  <p className="text-white md:text-base text-xs">
-                    Bank Name: {singleData?.bankDetails?.bank_name || 'NA'}
-                  </p>
-                  <p className="text-white md:text-base text-xs">
-                    Sort Code: {singleData?.bankDetails?.code || 'NA'}
-                  </p>
-                </div>
-              </div>}
-            </div>
-            <p className="text-red-700 md:text-xl font-bold text-xs pt-2">
-              Identity
-            </p>
-            {!singleData.identity || singleData?.identity?.length === 0 && <div className="md:w-[880px] md:h-80 w-68  h-60  flex justify-center items-center ">
-              <p className="text-white md:text-lg text-xs">
-                Identity not found.
+              <p className="text-red-700 md:text-xl font-bold text-xs pt-2">
+                Identity
               </p>
-            </div>}
-            {singleData?.identity && singleData?.identity?.length > 0 && <Swiper navigation={true} modules={[Navigation]} className="mySwiper mt-5 md:w-[880px] w-68" onRealIndexChange={(newindex) => setCuurentIndex(newindex.activeIndex)} onSlideChange={() => console.log('slide change')}
+              {!singleData.identity || singleData?.identity?.length === 0 && <div className="md:w-[880px] md:h-80 w-68  h-60  flex justify-center items-center ">
+                <p className="text-white md:text-lg text-xs">
+                  Identity not found.
+                </p>
+              </div>}
+              {singleData?.identity && singleData?.identity?.length > 0 && <Swiper navigation={true} modules={[Navigation]} className="mySwiper mt-5 md:w-[880px] w-68" onRealIndexChange={(newindex) => setCuurentIndex(newindex.activeIndex)} onSlideChange={() => console.log('slide change')}
 
-              onSwiper={(swiper) => console.log(swiper)}>
-              {singleData?.identity?.map((item) => (<SwiperSlide key={item.title}>
-                <div className="w-full flex justify-center">
-                  <div className="md:w-80 md:h-64 w-60 h-48 relative rounded-lg ">
-                    <img
-                      src={item?.key && imageFullPath(item?.key) || "/idproofs.jpg"}
-                      alt="icon"
-                      layout="responsive"
-                      className="rounded-sm md:w-80 md:h-64 w-60 h-48 "
-                    />
-                    {/* </Image> */}
+                onSwiper={(swiper) => console.log(swiper)}>
+                {singleData?.identity?.map((item) => (<SwiperSlide key={item.title}>
+                  <div className="w-full flex justify-center">
+                    <div className="md:w-80 md:h-64 w-60 h-48 relative rounded-lg ">
+                      <img
+                        src={item?.key && imageFullPath(item?.key) || "/idproofs.jpg"}
+                        alt="icon"
+                        layout="responsive"
+                        className="rounded-sm md:w-80 md:h-64 w-60 h-48 "
+                      />
+                      {/* </Image> */}
+                    </div>
                   </div>
-                </div>
-              </SwiperSlide>
-              ))}
+                </SwiperSlide>
+                ))}
 
-            </Swiper>}
-            {singleData?.identity && singleData?.identity?.length > 0 && <div className="flex flex-col  justify-center mt-5">
-              <div className="grid md:grid-cols-3 grid-cols-1">
-                {singleData?.identity?.map((item, i) => (
-                  <div key={item._id} className="w-full justify-center">
-                    {item?.type === "SI_BATCH" && (
-                      <div >
-                        <div className="flex  mt-3 md:justify-center">
-                          <input
-                            type="checkbox"
-                            checked={item?.type === "SI_BATCH"}
-                            readOnly
-                            title="Passport"
-                          />
-                          <p className={`font-bold ml-3 md:text-base text-xs ${currentIndex === i ? 'text-white' : 'text-red-700'}`}>SIA Batch </p>
-                        </div>
-                        {/* <p className="mt-3 text-red-700 font-bold">
+              </Swiper>}
+              {singleData?.identity && singleData?.identity?.length > 0 && <div className="flex flex-col  justify-center mt-5">
+                <div className="grid md:grid-cols-3 grid-cols-1">
+                  {singleData?.identity?.map((item, i) => (
+                    <div key={item._id} className="w-full justify-center">
+                      {item?.type === "SI_BATCH" && (
+                        <div >
+                          <div className="flex  mt-3 md:justify-center">
+                            <input
+                              type="checkbox"
+                              checked={item?.type === "SI_BATCH"}
+                              readOnly
+                              title="Passport"
+                            />
+                            <p className={`font-bold ml-3 md:text-base text-xs ${currentIndex === i ? 'text-white' : 'text-red-700'}`}>SIA Batch </p>
+                          </div>
+                          {/* <p className="mt-3 text-red-700 font-bold">
                           Ex. Date :-{" "}
                           <span className="text-white">
                             {moment(item.expire).format("DD MMM, YYYY")}
                           </span>
                         </p> */}
-                      </div>
-                    )}
-                    {item?.type === "PASSPORT" && (
-                      <div className="flex  mt-3 md:justify-center">
-                        <input
-                          type="checkbox"
-                          checked={item?.type === "PASSPORT"}
-                          readOnly
-                          title="Passport"
-                        />
-                        <p className={`font-bold ml-3 md:text-base text-xs ${currentIndex === i ? 'text-white' : 'text-red-700'}`}>Passport</p>
-                      </div>
-                    )}
+                        </div>
+                      )}
+                      {item?.type === "PASSPORT" && (
+                        <div className="flex  mt-3 md:justify-center">
+                          <input
+                            type="checkbox"
+                            checked={item?.type === "PASSPORT"}
+                            readOnly
+                            title="Passport"
+                          />
+                          <p className={`font-bold ml-3 md:text-base text-xs ${currentIndex === i ? 'text-white' : 'text-red-700'}`}>Passport</p>
+                        </div>
+                      )}
 
-                    {item?.type === "DL" && (
-                      <div className="flex  mt-3 md:justify-center">
-                        <input
-                          type="checkbox"
-                          checked={item?.type === "DL"}
-                          readOnly
-                          title="Passport"
-                        />
-                        <p className={`font-bold ml-3 md:text-base text-xs ${currentIndex === i ? 'text-white' : 'text-red-700'}`}>
-                          Driving Licence
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                ))}
+                      {item?.type === "DL" && (
+                        <div className="flex  mt-3 md:justify-center">
+                          <input
+                            type="checkbox"
+                            checked={item?.type === "DL"}
+                            readOnly
+                            title="Passport"
+                          />
+                          <p className={`font-bold ml-3 md:text-base text-xs ${currentIndex === i ? 'text-white' : 'text-red-700'}`}>
+                            Driving Licence
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>}
+              <div className="h-12">
+                <div className="flex  mt-5  justify-center  ">
+                  <button
+                    className="bg-green-700 text-white rounded-md w-28 p-2 mr-2"
+                    onClick={() => {
+                      verifyDoc(singleData.email, true);
+                    }}
+                  >
+                    Verify
+                  </button>
+                  <button
+                    className="bg-red-700 text-white rounded-md w-28 p-2"
+                    onClick={() => {
+                      verifyDoc(singleData.email, false);
+                    }}
+                  >
+                    Suspend
+                  </button>
+                </div>
               </div>
-            </div>}
-            <div className="h-12">
-              <div className="flex  mt-5  justify-center  ">
+
+            </div>
+          </Dialog>
+
+          <Dialog open={showPayrollPopup} onClose={() => setShowPayrollPopup(false)}>
+            <div className="p-5 border-2  border-[var(--red-900)] bg-black relative overflow-hidden">
+              <IoCloseCircleOutline
+                className="text-red-700 h-8 w-8 absolute right-2 top-2"
+                onClick={() => setShowPayrollPopup(false)}
+              />
+              <div className="flex justify-start items-center">
+                <Avatar
+                  alt={singleData.username}
+                  src={singleData.profile}
+                  sx={{ width: 60, height: 60 }}
+                />
+                <div className="ml-3">
+                  <p className="text-white md:text-lg text-xs">
+                    {singleData?.username}
+                  </p>
+                  <p className="text-white md:text-lg text-xs">
+                    {singleData.email}
+                  </p>
+                </div>
+              </div>
+              <div className="py-5">
+                <p className="text-white">Current Payroll Type : {singleData?.payroll?.type}</p>
+                <p className="text-white">Updated Payroll Type : {singleData?.payroll?.selected}</p>
+              </div>
+
+              <div className="flex bg-stone-800 py-2 my-4 rounded-md  md:h-14 sm:h-10 min-w-full relative items-center w-64 md:min-w-full ">
+                <div className="flex md:mx-4 mx-2.5  justify-center md:h-10 sm:h-8 items-center ">
+                  <div className="md:w-5 md:h-5 w-4 h-4 relative">
+                    <Image
+                      src="/lock.png"
+                      width="20"
+                      height="20"
+                      alt="icon"
+                      layout="responsive"
+                    ></Image>
+                  </div>
+                </div>
+                <input
+                  placeholder="Password"
+                  type={showPass ? "text" : "password"}
+                  className="bg-stone-800 outline-none pl-2 text-white text-xs md:text-base border-l-2 border-black md:h-10 h-5"
+                  value={password}
+                  onChange={(text) => { setPassword(text.target.value) }}
+                />
+                <div
+                  className="absolute right-3 "
+                  onClick={() => setShowPass(!showPass)}
+                >
+                  <div className="md:w-5 md:h-3.5 w-3.5 h-2.5 relative">
+                    <Image
+                      src={showPass ? "/eye.png" : "/eye-1.png"}
+                      width="20"
+                      height="15"
+                      alt="icon"
+                      layout="responsive"
+                    ></Image>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex  mt-5  justify-center ">
                 <button
                   className="bg-green-700 text-white rounded-md w-28 p-2 mr-2"
                   onClick={() => {
-                    verifyDoc(singleData.email, true);
+                    verifypayroll('verify', 'Verified successfully');
                   }}
                 >
                   Verify
@@ -594,100 +680,17 @@ const GuardList = (props) => {
                 <button
                   className="bg-red-700 text-white rounded-md w-28 p-2"
                   onClick={() => {
-                    verifyDoc(singleData.email, false);
+                    verifypayroll('suspend', 'Suspended successfully');
                   }}
                 >
                   Suspend
                 </button>
               </div>
             </div>
-
-          </div>
-        </Dialog>
-
-        <Dialog open={showPayrollPopup} onClose={() => setShowPayrollPopup(false)}>
-          <div className="p-5 border-2  border-[var(--red-900)] bg-black relative overflow-hidden">
-            <IoCloseCircleOutline
-              className="text-red-700 h-8 w-8 absolute right-2 top-2"
-              onClick={() => setShowPayrollPopup(false)}
-            />
-            <div className="flex justify-start items-center">
-              <Avatar
-                alt={singleData.username}
-                src={singleData.profile}
-                sx={{ width: 60, height: 60 }}
-              />
-              <div className="ml-3">
-                <p className="text-white md:text-lg text-xs">
-                  {singleData?.username}
-                </p>
-                <p className="text-white md:text-lg text-xs">
-                  {singleData.email}
-                </p>
-              </div>
-            </div>
-            <div className="py-5">
-              <p className="text-white">Current Payroll Type : {singleData?.payroll?.type}</p>
-              <p className="text-white">Updated Payroll Type : {singleData?.payroll?.selected}</p>
-            </div>
-
-            <div className="flex bg-stone-800 py-2 my-4 rounded-md  md:h-14 sm:h-10 min-w-full relative items-center w-64 md:min-w-full ">
-              <div className="flex md:mx-4 mx-2.5  justify-center md:h-10 sm:h-8 items-center ">
-                <div className="md:w-5 md:h-5 w-4 h-4 relative">
-                  <Image
-                    src="/lock.png"
-                    width="20"
-                    height="20"
-                    alt="icon"
-                    layout="responsive"
-                  ></Image>
-                </div>
-              </div>
-              <input
-                placeholder="Password"
-                type={showPass ? "text" : "password"}
-                className="bg-stone-800 outline-none pl-2 text-white text-xs md:text-base border-l-2 border-black md:h-10 h-5"
-                value={password}
-                onChange={(text) => { setPassword(text.target.value) }}
-              />
-              <div
-                className="absolute right-3 "
-                onClick={() => setShowPass(!showPass)}
-              >
-                <div className="md:w-5 md:h-3.5 w-3.5 h-2.5 relative">
-                  <Image
-                    src={showPass ? "/eye.png" : "/eye-1.png"}
-                    width="20"
-                    height="15"
-                    alt="icon"
-                    layout="responsive"
-                  ></Image>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex  mt-5  justify-center ">
-              <button
-                className="bg-green-700 text-white rounded-md w-28 p-2 mr-2"
-                onClick={() => {
-                  verifypayroll('verify', 'Verified successfully');
-                }}
-              >
-                Verify
-              </button>
-              <button
-                className="bg-red-700 text-white rounded-md w-28 p-2"
-                onClick={() => {
-                  verifypayroll('suspend', 'Suspended successfully');
-                }}
-              >
-                Suspend
-              </button>
-            </div>
-          </div>
-        </Dialog>
+          </Dialog>
+        </div>
       </div>
-    </div>
+    </AuthGuard>
   );
 };
 

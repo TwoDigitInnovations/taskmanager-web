@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import moment from "moment";
 import DateTimeRangeContainer from "react-advanced-datetimerange-picker";
 import CountUp from "react-countup";
+import AuthGuard from "./AuthGuard";
 
 const Statistics = (props) => {
   const { user, organization } = props;
@@ -299,136 +300,137 @@ const Statistics = (props) => {
   };
 
   return (
-    <div className="min-h-screen bg-black md:p-5 p-3  pt-16 md:mt-0 pb-10">
-      < div className="md:mt-0 mt-5">
-        <div className="grid md:grid-cols-3 grid-col-1 gap-3">
-          <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4 relative flex justify-center    cursor-pointer" >
-            <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-16 rounded-md px-5">
-              <p className="font-bold text-lg text-center text-white  px-3">Profit</p>
-              <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
-                <CountUp end={boxData?.Profit || 0} />
-              </p>
+    <AuthGuard allowedRoles={["ADMIN"]}>
+      <div className="min-h-screen bg-black md:p-5 p-3  pt-16 md:mt-0 pb-10">
+        < div className="md:mt-0 mt-5">
+          <div className="grid md:grid-cols-3 grid-col-1 gap-3">
+            <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4 relative flex justify-center    cursor-pointer" >
+              <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-16 rounded-md px-5">
+                <p className="font-bold text-lg text-center text-white  px-3">Profit</p>
+                <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
+                  <CountUp end={boxData?.Profit || 0} />
+                </p>
+              </div>
             </div>
-          </div>
-          <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4    relative flex justify-center   cursor-pointer" >
-            <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-16 rounded-md px-5">
-              <p className="font-bold text-lg text-center text-white  px-3">Vat</p>
-              <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
-                <CountUp end={boxData?.Vat || 0} />
-              </p>
-            </div>
-          </div>
-
-          <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4   relative flex justify-center    cursor-pointer" >
-            <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-16 rounded-md px-5">
-              <p className="font-bold text-lg text-center text-white  px-3">Revenue</p>
-              <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
-                <CountUp end={(boxData?.Vat + boxData?.['Net Income']) || 0} />
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="flex items-center justify-between w-full md:col-span-1 col-span-2 mb-2 mt-3">
-        <div>
-          {!showForm && (
-            <button
-              className={`text-white px-3 md:h-10 h-7 bg-red-700 md:text-md f10 border-2 border-red-700 `}
-              onClick={() => {
-                setShowForm(true);
-              }}
-            >
-              Enter Report Period
-            </button>
-          )}
-        </div>
-        <div>
-          <p className="text-white">{showDate}</p>
-        </div>
-        <div className="flex md:h-10 h-7  rounded-sm items-center justify-center   bg-black">
-          <button
-            className={`text-white px-3 md:h-10 h-7 hover:bg-red-700 md:text-md f10 border-2 border-red-700 ${types === "AGGREGATE" && "bg-red-700 border-red-700"
-              }`}
-            onClick={() => {
-              setShowDate(false);
-              setTypes("AGGREGATE");
-              changeType("AGGREGATE");
-            }}
-          >
-            Yearly view
-          </button>
-
-          <button
-            className={`text-white px-3 md:h-10 h-7 hover:bg-red-700 md:text-md f10 border-2 border-red-700 ml-2 ${types === "MONTHLY" && "bg-red-700 border-red-700"
-              }`}
-            onClick={() => {
-              setShowDate(false);
-              setTypes("MONTHLY");
-              changeType("MONTHLY");
-            }}
-          >
-            Month view
-          </button>
-
-          <button
-            className={`text-white px-3 md:h-10 h-7 hover:bg-red-700 md:text-md f10 border-2 border-red-700 ml-2 ${types === "DAILY" && "bg-red-700 border-red-700"
-              }`}
-            onClick={() => {
-              setShowDate(false);
-              setTypes("DAILY");
-              changeType("DAILY");
-            }}
-          >
-            Daily view
-          </button>
-        </div>
-      </div>
-      {showForm && (
-        <div className="h-auto">
-          <div className=" pb-5">
-            <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-3 rounded-sm  border-t-4 border-red-700 ">
-              <div>
-                <p className="text-white font-bold md:text-3xl text-lg">
-                  Select Report Period
+            <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4    relative flex justify-center   cursor-pointer" >
+              <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-16 rounded-md px-5">
+                <p className="font-bold text-lg text-center text-white  px-3">Vat</p>
+                <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
+                  <CountUp end={boxData?.Vat || 0} />
                 </p>
               </div>
             </div>
 
-            <div className=" border-2 border-red-700 rounded-sm p-5">
-              <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
-                <div className="grid grid-cols-1">
-                  <p className="text-white text-lg font-semibold">
-                    {"Start Date"}
-                  </p>
-                  <input
-                    value={jobInfo?.startDate}
-                    max={jobInfo.endDate}
-                    onChange={(text) => {
-                      setJobInfo({ ...jobInfo, startDate: text.target.value });
-                      // getJobHour(text.target.value, jobInfo?.endDate);
-                    }}
-                    type="date"
-                    className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-1.5 "
-                  />
-                </div>
+            <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4   relative flex justify-center    cursor-pointer" >
+              <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-16 rounded-md px-5">
+                <p className="font-bold text-lg text-center text-white  px-3">Revenue</p>
+                <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
+                  <CountUp end={(boxData?.Vat + boxData?.['Net Income']) || 0} />
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center justify-between w-full md:col-span-1 col-span-2 mb-2 mt-3">
+          <div>
+            {!showForm && (
+              <button
+                className={`text-white px-3 md:h-10 h-7 bg-red-700 md:text-md f10 border-2 border-red-700 `}
+                onClick={() => {
+                  setShowForm(true);
+                }}
+              >
+                Enter Report Period
+              </button>
+            )}
+          </div>
+          <div>
+            <p className="text-white">{showDate}</p>
+          </div>
+          <div className="flex md:h-10 h-7  rounded-sm items-center justify-center   bg-black">
+            <button
+              className={`text-white px-3 md:h-10 h-7 hover:bg-red-700 md:text-md f10 border-2 border-red-700 ${types === "AGGREGATE" && "bg-red-700 border-red-700"
+                }`}
+              onClick={() => {
+                setShowDate(false);
+                setTypes("AGGREGATE");
+                changeType("AGGREGATE");
+              }}
+            >
+              Yearly view
+            </button>
 
-                <div className="grid grid-cols-1">
-                  <p className="text-white text-lg font-semibold">
-                    {"End Date"}
+            <button
+              className={`text-white px-3 md:h-10 h-7 hover:bg-red-700 md:text-md f10 border-2 border-red-700 ml-2 ${types === "MONTHLY" && "bg-red-700 border-red-700"
+                }`}
+              onClick={() => {
+                setShowDate(false);
+                setTypes("MONTHLY");
+                changeType("MONTHLY");
+              }}
+            >
+              Month view
+            </button>
+
+            <button
+              className={`text-white px-3 md:h-10 h-7 hover:bg-red-700 md:text-md f10 border-2 border-red-700 ml-2 ${types === "DAILY" && "bg-red-700 border-red-700"
+                }`}
+              onClick={() => {
+                setShowDate(false);
+                setTypes("DAILY");
+                changeType("DAILY");
+              }}
+            >
+              Daily view
+            </button>
+          </div>
+        </div>
+        {showForm && (
+          <div className="h-auto">
+            <div className=" pb-5">
+              <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-3 rounded-sm  border-t-4 border-red-700 ">
+                <div>
+                  <p className="text-white font-bold md:text-3xl text-lg">
+                    Select Report Period
                   </p>
-                  <input
-                    value={jobInfo.endDate}
-                    min={jobInfo.startDate}
-                    onChange={(text) => {
-                      setJobInfo({ ...jobInfo, endDate: text.target.value });
-                      // getJobHour(jobInfo?.startDate, text.target.value);
-                    }}
-                    type="date"
-                    className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-1.5 "
-                  />
                 </div>
               </div>
-              {/* <div className="grid  grid-cols-1 items-start">
+
+              <div className=" border-2 border-red-700 rounded-sm p-5">
+                <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+                  <div className="grid grid-cols-1">
+                    <p className="text-white text-lg font-semibold">
+                      {"Start Date"}
+                    </p>
+                    <input
+                      value={jobInfo?.startDate}
+                      max={jobInfo.endDate}
+                      onChange={(text) => {
+                        setJobInfo({ ...jobInfo, startDate: text.target.value });
+                        // getJobHour(text.target.value, jobInfo?.endDate);
+                      }}
+                      type="date"
+                      className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-1.5 "
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1">
+                    <p className="text-white text-lg font-semibold">
+                      {"End Date"}
+                    </p>
+                    <input
+                      value={jobInfo.endDate}
+                      min={jobInfo.startDate}
+                      onChange={(text) => {
+                        setJobInfo({ ...jobInfo, endDate: text.target.value });
+                        // getJobHour(jobInfo?.startDate, text.target.value);
+                      }}
+                      type="date"
+                      className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-1.5 "
+                    />
+                  </div>
+                </div>
+                {/* <div className="grid  grid-cols-1 items-start">
                 <div className="grid grid-cols-1 ">
                   <p className="text-white text-lg font-semibold">
                     {"Start Date - End Date"}
@@ -456,96 +458,97 @@ const Statistics = (props) => {
                 </div>
               </div> */}
 
-              <div className="md:flex justify-between mt-4">
-                <div className="flex gap-5">
-                  <button
-                    className="text-white bg-red-700 rounded-sm  text-md py-21 w-36 h-10"
-                    onClick={() => {
-                      // setShowForm(false);
-                      setShowDate(true);
+                <div className="md:flex justify-between mt-4">
+                  <div className="flex gap-5">
+                    <button
+                      className="text-white bg-red-700 rounded-sm  text-md py-21 w-36 h-10"
+                      onClick={() => {
+                        // setShowForm(false);
+                        setShowDate(true);
 
-                      // getline(
-                      //   `admin/stats/1/${orgId}/${types}?startDate=${jobInfo?.startDate}&endDate=${jobInfo?.endDate}`
-                      // );
-                      // getStockBar(
-                      //   `admin/stats/3/${orgId}/${types}?startDate=${jobInfo?.startDate}&endDate=${jobInfo?.endDate}`
-                      // );
-                      // getDaughNut(
-                      //   `admin/stats/4/${orgId}?startDate=${jobInfo?.startDate.toString()}&endDate=${jobInfo?.endDate.toString()}`
-                      // );
-                      getline(
-                        `admin/stats/1/${orgId}/AGGREGATE?startDate=${jobInfo?.startDate}&endDate=${jobInfo?.endDate}`
-                      );
-                      getStockBar(
-                        `admin/stats/3/${orgId}/AGGREGATE?startDate=${jobInfo?.startDate}&endDate=${jobInfo?.endDate}`
-                      );
-                      getDaughNut(
-                        `admin/stats/4/${orgId}?startDate=${jobInfo?.startDate.toString()}&endDate=${jobInfo?.endDate.toString()}`
-                      );
-                      setTypes("")
+                        // getline(
+                        //   `admin/stats/1/${orgId}/${types}?startDate=${jobInfo?.startDate}&endDate=${jobInfo?.endDate}`
+                        // );
+                        // getStockBar(
+                        //   `admin/stats/3/${orgId}/${types}?startDate=${jobInfo?.startDate}&endDate=${jobInfo?.endDate}`
+                        // );
+                        // getDaughNut(
+                        //   `admin/stats/4/${orgId}?startDate=${jobInfo?.startDate.toString()}&endDate=${jobInfo?.endDate.toString()}`
+                        // );
+                        getline(
+                          `admin/stats/1/${orgId}/AGGREGATE?startDate=${jobInfo?.startDate}&endDate=${jobInfo?.endDate}`
+                        );
+                        getStockBar(
+                          `admin/stats/3/${orgId}/AGGREGATE?startDate=${jobInfo?.startDate}&endDate=${jobInfo?.endDate}`
+                        );
+                        getDaughNut(
+                          `admin/stats/4/${orgId}?startDate=${jobInfo?.startDate.toString()}&endDate=${jobInfo?.endDate.toString()}`
+                        );
+                        setTypes("")
+                      }}
+                    >
+                      Search
+                    </button>
+                    <button className="text-white bg-red-700 rounded-sm  text-md py-21 w-36 h-10"
+                      onClick={() => {
+                        // setShowForm(false);
+                        setShowDate(true);
+
+                        getline(
+                          `admin/stats/1/${orgId}/AGGREGATE?startDate=${jobInfo?.startDate}&endDate=${jobInfo?.endDate}`
+                        );
+                        getStockBar(
+                          `admin/stats/3/${orgId}/AGGREGATE?startDate=${jobInfo?.startDate}&endDate=${jobInfo?.endDate}`, true
+                        );
+                        getDaughNut(
+                          `admin/stats/4/${orgId}?startDate=${jobInfo?.startDate.toString()}&endDate=${jobInfo?.endDate.toString()}`
+                        );
+                        setTypes("")
+                      }}>
+                      Aggregate View
+                    </button>
+                  </div>
+
+                  <button
+                    className="text-white bg-red-700 rounded-sm  text-md py-21 w-36 h-10 md:mt-0 mt-5"
+                    onClick={() => {
+                      setShowForm(false);
                     }}
                   >
-                    Search
-                  </button>
-                  <button className="text-white bg-red-700 rounded-sm  text-md py-21 w-36 h-10"
-                    onClick={() => {
-                      // setShowForm(false);
-                      setShowDate(true);
-
-                      getline(
-                        `admin/stats/1/${orgId}/AGGREGATE?startDate=${jobInfo?.startDate}&endDate=${jobInfo?.endDate}`
-                      );
-                      getStockBar(
-                        `admin/stats/3/${orgId}/AGGREGATE?startDate=${jobInfo?.startDate}&endDate=${jobInfo?.endDate}`, true
-                      );
-                      getDaughNut(
-                        `admin/stats/4/${orgId}?startDate=${jobInfo?.startDate.toString()}&endDate=${jobInfo?.endDate.toString()}`
-                      );
-                      setTypes("")
-                    }}>
-                    Aggregate View
+                    Cancel
                   </button>
                 </div>
-
-                <button
-                  className="text-white bg-red-700 rounded-sm  text-md py-21 w-36 h-10 md:mt-0 mt-5"
-                  onClick={() => {
-                    setShowForm(false);
-                  }}
-                >
-                  Cancel
-                </button>
               </div>
             </div>
           </div>
-        </div>
-      )}
-      <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-3 rounded-sm  border-t-4 border-red-700 ">
-        <div>
-          <p className="text-white font-bold md:text-3xl text-lg">
-            Income Reports
-          </p>
-        </div>
-      </div>
-
-      <div className=" border-2 border-red-700 rounded-sm p-5">
-        <div className="bg-white rounded-md max-h-80 ">
-          <StockBarChart stockBar={stockBar} types={types} />
-        </div>
-        <div className="bg-white rounded-md max-h-80 mt-5">
-          <LineChart data={line} types={types} />
-        </div>
-
-        <div className="  max-h-96 mt-5 ">
-          <div className="bg-white rounded-md pb-5">
-            <p className="text-center py-4 font-semibold text-sm text-gray-700">
-              {daughNut?.message}
+        )}
+        <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-3 rounded-sm  border-t-4 border-red-700 ">
+          <div>
+            <p className="text-white font-bold md:text-3xl text-lg">
+              Income Reports
             </p>
-            <DoughnutChart daughNut={daughNut} />
+          </div>
+        </div>
+
+        <div className=" border-2 border-red-700 rounded-sm p-5">
+          <div className="bg-white rounded-md max-h-80 ">
+            <StockBarChart stockBar={stockBar} types={types} />
+          </div>
+          <div className="bg-white rounded-md max-h-80 mt-5">
+            <LineChart data={line} types={types} />
+          </div>
+
+          <div className="  max-h-96 mt-5 ">
+            <div className="bg-white rounded-md pb-5">
+              <p className="text-center py-4 font-semibold text-sm text-gray-700">
+                {daughNut?.message}
+              </p>
+              <DoughnutChart daughNut={daughNut} />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </AuthGuard>
   );
 };
 

@@ -9,7 +9,7 @@ import { MultiSelect } from "react-multi-select-component";
 import ClientTable from "@/components/clients/clienttable";
 import { IoSearch, IoCalendar } from "react-icons/io5";
 import CountUp from "react-countup";
-import AuthGuard from "@/components/AuthGuard";
+import AuthGuard from "../AuthGuard";
 
 const ClientsList = (props) => {
   const router = useRouter();

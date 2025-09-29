@@ -8,6 +8,7 @@ import Profiledata from "@/components/guardview/profiledata";
 import BankDetail from "@/components/guardview/BankDetail";
 import AssignMentHistory from "@/components/guardview/AssignMentHistory";
 import { Api } from "@/src/services/service";
+import AuthGuard from "./AuthGuard";
 
 const Guardview = (props) => {
   const { organization } = props;
@@ -128,39 +129,40 @@ const Guardview = (props) => {
   };
 
   return (
-    <div className="min-h-screen bg-black md:-mt-16">
-      <div className="md:p-5 p-3 pt-20 ">
-        <div className="grid md:grid-cols-2 grid-cols-1">
-          <div className="flex">
-            <div className="md:h-40 md:w-40 h-20 w-20 relative ml-0 md:ml-10  ">
-              <Image
-                src={"/images.png"}
-                alt="icon"
-                layout="fill" // required
-                objectFit="cover"
-                className="rounded-full"
-              ></Image>
+    <AuthGuard allowedRoles={["ADMIN"]}>
+      <div className="min-h-screen bg-black md:-mt-16">
+        <div className="md:p-5 p-3 pt-20 ">
+          <div className="grid md:grid-cols-2 grid-cols-1">
+            <div className="flex">
+              <div className="md:h-40 md:w-40 h-20 w-20 relative ml-0 md:ml-10  ">
+                <Image
+                  src={"/images.png"}
+                  alt="icon"
+                  layout="fill" // required
+                  objectFit="cover"
+                  className="rounded-full"
+                ></Image>
+              </div>
+              <div className="p-5">
+                <p className="text-white">
+                  {guardHistory?.gaurdDetails?.fullName}
+                </p>
+                <p className="text-gray-500 text-sm">Field Staff</p>
+              </div>
             </div>
-            <div className="p-5">
-              <p className="text-white">
-                {guardHistory?.gaurdDetails?.fullName}
-              </p>
-              <p className="text-gray-500 text-sm">Field Staff</p>
+            <div className="flex justify-end items-center">
+              <button
+                className="bg-red-700 text-white p-2 rounded-sm w-40 "
+                onClick={() => {
+                  verifyDoc();
+                }}
+              >
+                Suspend Staff
+              </button>
             </div>
           </div>
-          <div className="flex justify-end items-center">
-            <button
-              className="bg-red-700 text-white p-2 rounded-sm w-40 "
-              onClick={() => {
-                verifyDoc();
-              }}
-            >
-              Suspend Staff
-            </button>
-          </div>
-        </div>
-        <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-3 rounded-sm  border-t-4 border-red-700 ">
-          {/* <div>
+          <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-3 rounded-sm  border-t-4 border-red-700 ">
+            {/* <div>
             <p className="text-white font-semibold text-sm ">
               <span className="text-gray-400">Recent post:</span> LSC -
               Reception
@@ -173,76 +175,77 @@ const Guardview = (props) => {
               <span className="text-gray-400">SIA Batch No:</span> ade000001
             </p>
           </div> */}
-        </div>
-        <div className="  rounded-sm md:p-5">
-          <div className="grid md:grid-cols-4 grid-cols-1 ">
-            <div className="md:border-r-2 md:border-stone-800 flex md:flex-col flex-row md:justify-start justify-between">
-              {menu?.map((item, i) => (
-                <li
-                  key={i}
-                  className="py-2  flex  md:px-5 px-1  align-middle "
-                  onClick={() => {
-                    item.active = true;
-                    menu.forEach((ele) => {
-                      ele.active = item?.title === ele.title;
-                    });
-                    setMenu([...menu]);
-                  }}
-                >
-                  <a
-                    className={`flex md:ml-2 font-bold hover:text-white cursor-pointer md:text-md text-sm ${item?.active ? "text-white" : "text-[var(--red-900)]"
-                      }`}
+          </div>
+          <div className="  rounded-sm md:p-5">
+            <div className="grid md:grid-cols-4 grid-cols-1 ">
+              <div className="md:border-r-2 md:border-stone-800 flex md:flex-col flex-row md:justify-start justify-between">
+                {menu?.map((item, i) => (
+                  <li
+                    key={i}
+                    className="py-2  flex  md:px-5 px-1  align-middle "
+                    onClick={() => {
+                      item.active = true;
+                      menu.forEach((ele) => {
+                        ele.active = item?.title === ele.title;
+                      });
+                      setMenu([...menu]);
+                    }}
                   >
-                    {item?.title}
-                  </a>
-                  <div className="text-right flex-1 md:block hidden ">
-                    <Image
-                      src={item?.active ? "/fwd-white.png" : "/fwd-red.png"}
-                      width="8"
-                      height="15"
-                      alt="icon"
-                      layout="fixed"
-                    ></Image>
-                  </div>
-                </li>
-              ))}
-            </div>
+                    <a
+                      className={`flex md:ml-2 font-bold hover:text-white cursor-pointer md:text-md text-sm ${item?.active ? "text-white" : "text-[var(--red-900)]"
+                        }`}
+                    >
+                      {item?.title}
+                    </a>
+                    <div className="text-right flex-1 md:block hidden ">
+                      <Image
+                        src={item?.active ? "/fwd-white.png" : "/fwd-red.png"}
+                        width="8"
+                        height="15"
+                        alt="icon"
+                        layout="fixed"
+                      ></Image>
+                    </div>
+                  </li>
+                ))}
+              </div>
 
-            <div className="md:col-span-3 md:pl-10">
-              {menu[0].active && (
-                <div>
-                  <Profiledata
-                    guardHistory={guardHistory}
-                    {...props}
-                    router={router}
-                    getGuardHistory={getGuardHistory}
-                  />
-                </div>
-              )}
-              {menu[1].active && (
-                <div>
-                  <BankDetail
-                    guardHistory={guardHistory}
-                    {...props}
-                    router={router}
-                    getGuardHistory={getGuardHistory}
-                  />
-                </div>
-              )}
-              {menu[2].active && (
-                <div>
-                  <AssignMentHistory
-                    guardHistory={guardHistory}
-                    data={printData}
-                    {...props}
-                  />
-                </div>
-              )}
+              <div className="md:col-span-3 md:pl-10">
+                {menu[0].active && (
+                  <div>
+                    <Profiledata
+                      guardHistory={guardHistory}
+                      {...props}
+                      router={router}
+                      getGuardHistory={getGuardHistory}
+                    />
+                  </div>
+                )}
+                {menu[1].active && (
+                  <div>
+                    <BankDetail
+                      guardHistory={guardHistory}
+                      {...props}
+                      router={router}
+                      getGuardHistory={getGuardHistory}
+                    />
+                  </div>
+                )}
+                {menu[2].active && (
+                  <div>
+                    <AssignMentHistory
+                      guardHistory={guardHistory}
+                      data={printData}
+                      {...props}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </AuthGuard>
   );
 };
 

@@ -10,6 +10,7 @@ import moment from "moment";
 import { timeSince } from "../src/services/service";
 import Table from "../src/components/report/customTableAct";
 import CountUp from "react-countup";
+import AuthGuard from "./AuthGuard";
 
 const Report = (props) => {
   const router = useRouter();
@@ -163,44 +164,45 @@ const Report = (props) => {
     // setActiVityType('')
   }
   return (
-    <div className="min-h-screen bg-black md:-mt-16 overflow-x-auto">
-      < div className="px-5 md:pt-[89px] pt-5">
-        <div className="grid md:grid-cols-3 grid-col-1 gap-3">
-          <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4 relative flex justify-center cursor-pointer" >
-            <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-24 rounded-md px-5">
-              <p className="font-bold text-lg text-center text-white  px-3"><span onClick={() => { filterClock('clock in'); setTitle('Clock In') }}>Clock in</span> / <span onClick={() => { filterClock('clock out'); setTitle('Clock Out') }}>Clock out</span></p>
-              {/* <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
+    <AuthGuard allowedRoles={["ADMIN"]}>
+      <div className="min-h-screen bg-black md:-mt-16 overflow-x-auto">
+        < div className="px-5 md:pt-[89px] pt-5">
+          <div className="grid md:grid-cols-3 grid-col-1 gap-3">
+            <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4 relative flex justify-center cursor-pointer" >
+              <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-24 rounded-md px-5">
+                <p className="font-bold text-lg text-center text-white  px-3"><span onClick={() => { filterClock('clock in'); setTitle('Clock In') }}>Clock in</span> / <span onClick={() => { filterClock('clock out'); setTitle('Clock Out') }}>Clock out</span></p>
+                {/* <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
                 <CountUp end={0} /> / <CountUp end={0} />
               </p> */}
+              </div>
             </div>
-          </div>
-          <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4    relative flex justify-center   cursor-pointer"  >
-            <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-24 rounded-md px-5">
-              <p className="font-bold text-lg text-center text-white  px-3" onClick={() => { setTitle('Incident') }}>Incident Report</p>
-              {/* <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
+            <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4    relative flex justify-center   cursor-pointer"  >
+              <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-24 rounded-md px-5">
+                <p className="font-bold text-lg text-center text-white  px-3" onClick={() => { setTitle('Incident') }}>Incident Report</p>
+                {/* <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
                 <CountUp end={0} />
               </p> */}
+              </div>
             </div>
-          </div>
 
-          <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4   relative flex justify-center    cursor-pointer" >
-            <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-24 rounded-md px-5">
-              <p className="font-bold text-lg text-center text-white  px-3" onClick={() => { filterShiftreport(); setTitle('Shift') }}>Shift Report</p>
-              {/* <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
+            <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4   relative flex justify-center    cursor-pointer" >
+              <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-24 rounded-md px-5">
+                <p className="font-bold text-lg text-center text-white  px-3" onClick={() => { filterShiftreport(); setTitle('Shift') }}>Shift Report</p>
+                {/* <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
                 <CountUp end={0} />
               </p> */}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      {title !== 'Incident' && <div className="pt-5 ">
-        <div className="grid md:grid-cols-2 grid-cols-1 bg-stone-900 md:px-5 p-4 border-x  border-t-[5px] border-red-700 md:mx-5 m mx-5">
-          <div>
-            <p className="text-white font-bold md:text-3xl text-lg">
-              {title} Report
-            </p>
-          </div>
-          {/* <div className="flex md:justify-end justify-start items-center md:pt-0 pt-5">
+        {title !== 'Incident' && <div className="pt-5 ">
+          <div className="grid md:grid-cols-2 grid-cols-1 bg-stone-900 md:px-5 p-4 border-x  border-t-[5px] border-red-700 md:mx-5 m mx-5">
+            <div>
+              <p className="text-white font-bold md:text-3xl text-lg">
+                {title} Report
+              </p>
+            </div>
+            {/* <div className="flex md:justify-end justify-start items-center md:pt-0 pt-5">
             <div className="flex rounded-lg w-60 bg-black">
               <button
                 className={`text-white ${activitytype === "Hour" && "bg-red-700"
@@ -233,58 +235,58 @@ const Report = (props) => {
             </div>
 
           </div> */}
-        </div>
-        <div className="px-5">
-          <div className="rounded-sm border border-red-700 py-5 px-3 border-t-0">
-            {filterData.map((noti) => (
-              <ActivityList data={noti} key={noti._id} />
-            ))}
-            <div className="flex justify-between mt-5 px-5">
-              <p
-                className="text-white"
-                role="button"
-                onClick={() => {
-                  if (page !== 1) {
-                    setPage(page - 1);
-                    getNotification(page - 1);
-                  }
-                }}
-              >
-                Previous
-              </p>
-              <p
-                className="text-white"
-                role="button"
-                onClick={() => {
-                  if (currentData.length < 10) {
-                    return;
-                  } else {
-                    setPage(page + 1);
-                    getNotification(page + 1);
-                  }
-                }}
-              >
-                Next
+          </div>
+          <div className="px-5">
+            <div className="rounded-sm border border-red-700 py-5 px-3 border-t-0">
+              {filterData.map((noti) => (
+                <ActivityList data={noti} key={noti._id} />
+              ))}
+              <div className="flex justify-between mt-5 px-5">
+                <p
+                  className="text-white"
+                  role="button"
+                  onClick={() => {
+                    if (page !== 1) {
+                      setPage(page - 1);
+                      getNotification(page - 1);
+                    }
+                  }}
+                >
+                  Previous
+                </p>
+                <p
+                  className="text-white"
+                  role="button"
+                  onClick={() => {
+                    if (currentData.length < 10) {
+                      return;
+                    } else {
+                      setPage(page + 1);
+                      getNotification(page + 1);
+                    }
+                  }}
+                >
+                  Next
+                </p>
+              </div>
+              {/* <Table columns={columns} data={filterData} /> */}
+
+              {filterData.length === 0 && (
+                <p className="text-white font-bold text-lg text-center">
+                  There is no activities
+                </p>
+              )}
+            </div>
+          </div>
+        </div>}
+        {title === 'Incident' && <div className="pt-5 " id="incident">
+          <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-4  border-t-8 border-red-700 md:mx-5 m mx-3">
+            <div>
+              <p className="text-white font-bold md:text-3xl text-lg">
+                Incident Report
               </p>
             </div>
-            {/* <Table columns={columns} data={filterData} /> */}
-
-            {filterData.length === 0 && (
-              <p className="text-white font-bold text-lg text-center">
-                There is no activities
-              </p>
-            )}
-          </div>
-        </div>
-      </div>}
-      {title === 'Incident' && <div className="pt-5 " id="incident">
-        <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-4  border-t-8 border-red-700 md:mx-5 m mx-3">
-          <div>
-            <p className="text-white font-bold md:text-3xl text-lg">
-              Incident Report
-            </p>
-          </div>
-          {/* <div className="flex justify-end">
+            {/* <div className="flex justify-end">
             <select className="  bg-red-700 outline-none text-white rounded-full font-bold text-lg px-5 ">
               <option className="text-red-700" value="">
                 Select
@@ -297,12 +299,13 @@ const Report = (props) => {
               <IoCalendar className="text-white" />
             </div>
           </div> */}
-        </div>
-        <div className="px-5">
-          <ActivityTable data={incidentList} />
-        </div>
-      </div>}
-    </div>
+          </div>
+          <div className="px-5">
+            <ActivityTable data={incidentList} />
+          </div>
+        </div>}
+      </div>
+    </AuthGuard>
   );
 };
 

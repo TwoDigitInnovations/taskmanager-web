@@ -2,19 +2,18 @@
 import React, { useEffect, useState, useRef, createRef, createContext } from "react";
 
 import { useRouter } from "next/router";
-import BillingTable from "../src/components/billing2/billingTable";
-import Bill from "../src/components/billing2/billGenerate";
+
 import { Api } from "../src/services/service";
 import moment from "moment";
 import { extendMoment } from "moment-range";
-import ViewBill from "../src/components/billing2/viewBill";
 import ReactToPrint, { useReactToPrint } from "react-to-print";
 import { useScreenshot } from "use-react-screenshot";
 // import html2canvas from "html2canvas";
 import { useExcelDownloder } from "react-xls";
 import { IoSearch, IoCalendar } from "react-icons/io5";
-import ArchiveTable from "../src/components/billing2/archiveTable";
+import ArchiveTable from "../components/billing2/archiveTable";
 import ViewArchive from "../src/components/billing2/viewArchive";
+import AuthGuard from "./AuthGuard";
 
 export const billContext = createContext();
 const Billing = (props) => {
@@ -329,28 +328,29 @@ const Billing = (props) => {
     };
 
     return (
-        <billContext.Provider value={[billArray, setBillArray]}>
-            <div className="min-h-screen bg-black md:-mt-16 overflow-x-auto">
-                <div className="pt-20 ">
-                    {billId !== undefined && billId !== "" && (
-                        <div className="flex justify-center pb-5">
-                            <ViewArchive
-                                {...props}
-                                setBillId={setBillId}
-                                billId={billId}
-                                ref={componentRef}
-                                handlePrint={handlePrint}
-                                getBillList={getBillList}
-                                setIsRefresh={setIsRefresh}
-                                isrefresh={isrefresh}
-                            />
-                        </div>
-                    )}
-                    <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-4 rounded-xl border-t-8 border-red-700 md:mx-5 m mx-3">
-                        <div className="flex flex-col justify-between">
-                            <p className="text-white font-bold md:text-3xl text-lg">Deleted Invoices</p>
-                        </div>
-                        {/* <div className="flex justify-end items-center">
+        <AuthGuard allowedRoles={["ADMIN"]}>
+            <billContext.Provider value={[billArray, setBillArray]}>
+                <div className="min-h-screen bg-black md:-mt-16 overflow-x-auto">
+                    <div className="pt-20 ">
+                        {billId !== undefined && billId !== "" && (
+                            <div className="flex justify-center pb-5">
+                                <ViewArchive
+                                    {...props}
+                                    setBillId={setBillId}
+                                    billId={billId}
+                                    ref={componentRef}
+                                    handlePrint={handlePrint}
+                                    getBillList={getBillList}
+                                    setIsRefresh={setIsRefresh}
+                                    isrefresh={isrefresh}
+                                />
+                            </div>
+                        )}
+                        <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-4 rounded-xl border-t-8 border-red-700 md:mx-5 m mx-3">
+                            <div className="flex flex-col justify-between">
+                                <p className="text-white font-bold md:text-3xl text-lg">Deleted Invoices</p>
+                            </div>
+                            {/* <div className="flex justify-end items-center">
                             <div className="flex rounded-lg max-w-max bg-black">
                                 <button
                                     className={`${type === "man" && "bg-red-700"
@@ -372,7 +372,7 @@ const Billing = (props) => {
                                 </button>
                             </div>
                         </div> */}
-                        {/* {type === "man" && (
+                            {/* {type === "man" && (
                             <div className="w-full flex justify-between items-center col-span-2 mt-4">
                                 <div className=" flex items-center">
                                     <ExcelDownloder
@@ -419,26 +419,27 @@ const Billing = (props) => {
                                 </div>
                             </div>
                         )} */}
-                    </div>
+                        </div>
 
-                    <div className="px-5">
+                        <div className="px-5">
 
-                        <>
-                            {/* {billList?.length > 0 && ( */}
-                            <ArchiveTable
-                                data={billList}
-                                setBillId={setBillId}
-                                deleteInvoice={deleteInvoice}
-                                resStoreInvoice={resStoreInvoice}
-                            />
-                            {/* )} */}
-                        </>
+                            <>
+                                {/* {billList?.length > 0 && ( */}
+                                <ArchiveTable
+                                    data={billList}
+                                    setBillId={setBillId}
+                                    deleteInvoice={deleteInvoice}
+                                    resStoreInvoice={resStoreInvoice}
+                                />
+                                {/* )} */}
+                            </>
 
+                        </div>
                     </div>
                 </div>
-            </div>
 
-        </billContext.Provider>
+            </billContext.Provider>
+        </AuthGuard>
     );
 };
 

@@ -3,7 +3,7 @@
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { FaUserCheck } from "react-icons/fa";
@@ -13,12 +13,14 @@ import moment from "moment";
 import { IoChevronBack, IoChevronForward, IoRepeat } from "react-icons/io5";
 import { MdDeleteForever, MdModeEditOutline } from "react-icons/md";
 import { Api } from "@/src/services/service";
+import { userContext } from "@/pages/_app";
 
 export function CalendarTable(props) {
   const [data, setData] = useState([]);
   const [mainData, setMainData] = useState([]);
   const [hoverData, setHoverData] = useState({});
   const [dateObj, setDateObj] = useState();
+  const [user, setUser] = useContext(userContext)
 
   useEffect(() => {
     if (!!props.data) {
@@ -27,19 +29,25 @@ export function CalendarTable(props) {
   }, [props.data]);
 
   const checkColors = (item) => {
-    console.log(item)
-    let d = item?.invites?.filter(
-      (f) =>
-        f.job_status === "ACTIVE" &&
-        (f.status === "ACCEPTED" || f.status === "ASSIGNED")
-    );
-    const R = item?.invites?.filter((f) => f.status === "REJECTED");
+    // console.log(item)
+    // let d = item?.invites?.filter(
+    //   (f) =>
+    //     f.job_status === "ACTIVE" &&
+    //     (f.status === "ACCEPTED" || f.status === "ASSIGNED")
+    // );
+    // const R = item?.invites?.filter((f) => f.status === "REJECTED");
     // if (item?.applicant?.length > 0 && d !== undefined && item.applicant?.length === item?.person) {
     //   return 'rgb(21 128 61)'
     // } else if (R !== undefined && R?.length === item?.person) {
     //   return 'rgb(185 28 28)'
     // }
-    return 'rgb(21 128 61)'
+    let ownProperty = item?.posted_by?._id === user?.id || user.type === 'ADMIN';
+    if (ownProperty) {
+      return 'rgb(21 128 61)'
+    } else {
+      return 'rgb(0 0 0)'
+    }
+
   }
 
   const setDataTable = () => {
@@ -101,7 +109,7 @@ export function CalendarTable(props) {
   }
 
   const hoverComp = () => {
-
+    let ownProperty = hoverData?.posted_by?._id === user?.id || user.type === 'ADMIN';
     return (
       <div className="bg-stone-700 p-2  rounded-sm w-40">
         <p className="text-white f11">Project: {hoverData?.name}</p>
@@ -116,7 +124,7 @@ export function CalendarTable(props) {
           Hours: {hoverData?.job_hrs}
         </p>
 
-        <div className="flex justify-start items-end mt-1">
+        {ownProperty && <div className="flex justify-start items-end mt-1">
 
           <Tooltip title={<p>Edit</p>} arrow>
             <div
@@ -142,7 +150,7 @@ export function CalendarTable(props) {
             </div>
           </Tooltip>
 
-        </div>
+        </div>}
       </div>
     );
   };

@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import Constants from "../../src/services/constant";
 import moment from "moment";
 import Organization from "./organization";
+import AuthGuard from "../AuthGuard";
 
 const CUorganization = (props) => {
   const router = useRouter();
@@ -109,113 +110,114 @@ const CUorganization = (props) => {
   };
 
   return (
-    <div className="min-h-screen bg-black md:-mt-16 overflow-x-auto">
-      <div className="pt-20 ">
-        <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-3 rounded-xl border-t-4 border-red-700 md:mx-5  mx-3">
-          <div>
-            <p className="text-white font-bold md:text-3xl text-lg">
-              Organization
-            </p>
-          </div>
-          <div className="flex justify-end" onClick={submit}>
-            <button className="text-white bg-red-700 rounded-lg  mr-3 text-md py-21 w-32 ">
-              Save
-            </button>
-          </div>
-        </div>
-
-        <div className="rounded-xl border-2 border-red-700 md:mx-5 mx-3 p-5">
-          <div className="grid md:grid-cols-2 grid-cols-1">
-            <div className="grid grid-cols-1 md:mr-2">
-              <p className="text-white text-lg font-semibold mt-2">
-                Organization Name
+    <AuthGuard allowedRoles={["ADMIN"]}>
+      <div className="min-h-screen bg-black md:-mt-16 overflow-x-auto">
+        <div className="pt-20 ">
+          <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-3 rounded-xl border-t-4 border-red-700 md:mx-5  mx-3">
+            <div>
+              <p className="text-white font-bold md:text-3xl text-lg">
+                Organization
               </p>
-              <input
-                value={organization.organizationName}
-                onChange={(text) => {
-                  setorganization({
-                    ...organization,
-                    organizationName: text.target.value,
-                  });
-                }}
-                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-white bg-black  p-1.5 "
-              />
-              {submitted && organization.organizationName === "" && (
-                <p className="text-red-700 mt-1">
-                  Organization Name is required
-                </p>
-              )}
             </div>
-            <div className="grid grid-cols-1 md:mr-2">
-              <p className="text-white text-lg font-semibold mt-2">User Name</p>
-              <input
-                value={organization.username}
-                onChange={(text) => {
-                  setorganization({
-                    ...organization,
-                    username: text.target.value,
-                  });
-                }}
-                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-white bg-black  p-1.5 "
-              />
-              {submitted && organization.username === "" && (
-                <p className="text-red-700 mt-1">UserName is required</p>
-              )}
+            <div className="flex justify-end" onClick={submit}>
+              <button className="text-white bg-red-700 rounded-lg  mr-3 text-md py-21 w-32 ">
+                Save
+              </button>
             </div>
-            <div className="grid grid-cols-1 md:mr-2">
-              <p className="text-white text-lg font-semibold mt-2">Password</p>
-              <input
-                value={organization.password}
-                onChange={(text) => {
-                  setorganization({
-                    ...organization,
-                    password: text.target.value,
-                  });
-                }}
-                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-white bg-black  p-1.5 "
-              />
-              {submitted && organization.password === "" && (
-                <p className="text-red-700 mt-1">Password is required</p>
-              )}
-            </div>
-            <div className="grid grid-cols-1">
-              <p className="text-white text-lg font-semibold mt-2">
-                Organization Short Code
-              </p>
-              <input
-                value={organization.code}
-                onChange={(text) => {
-                  setorganization({
-                    ...organization,
-                    code: text.target.value,
-                  });
-                }}
-                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-white bg-black  p-1.5 "
-              />
-              {submitted && organization.code === "" && (
-                <p className="text-red-700 mt-1">
-                  Organization Short Code is required
-                </p>
-              )}
-            </div>
-            <div className="grid grid-cols-1 md:mr-2">
-              <p className="text-white text-lg font-semibold mt-2">Email</p>
-              <input
-                value={organization.email}
-                onChange={(text) => {
-                  setorganization({
-                    ...organization,
-                    email: text.target.value,
-                  });
-                }}
-                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-white bg-black  p-1.5 "
-              />
-              {submitted && organization.email === "" && (
-                <p className="text-red-700 mt-1">Email is required</p>
-              )}
-            </div>
+          </div>
 
-            {/* <div className="grid grid-cols-1 md:mr-2">
+          <div className="rounded-xl border-2 border-red-700 md:mx-5 mx-3 p-5">
+            <div className="grid md:grid-cols-2 grid-cols-1">
+              <div className="grid grid-cols-1 md:mr-2">
+                <p className="text-white text-lg font-semibold mt-2">
+                  Organization Name
+                </p>
+                <input
+                  value={organization.organizationName}
+                  onChange={(text) => {
+                    setorganization({
+                      ...organization,
+                      organizationName: text.target.value,
+                    });
+                  }}
+                  className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-white bg-black  p-1.5 "
+                />
+                {submitted && organization.organizationName === "" && (
+                  <p className="text-red-700 mt-1">
+                    Organization Name is required
+                  </p>
+                )}
+              </div>
+              <div className="grid grid-cols-1 md:mr-2">
+                <p className="text-white text-lg font-semibold mt-2">User Name</p>
+                <input
+                  value={organization.username}
+                  onChange={(text) => {
+                    setorganization({
+                      ...organization,
+                      username: text.target.value,
+                    });
+                  }}
+                  className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-white bg-black  p-1.5 "
+                />
+                {submitted && organization.username === "" && (
+                  <p className="text-red-700 mt-1">UserName is required</p>
+                )}
+              </div>
+              <div className="grid grid-cols-1 md:mr-2">
+                <p className="text-white text-lg font-semibold mt-2">Password</p>
+                <input
+                  value={organization.password}
+                  onChange={(text) => {
+                    setorganization({
+                      ...organization,
+                      password: text.target.value,
+                    });
+                  }}
+                  className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-white bg-black  p-1.5 "
+                />
+                {submitted && organization.password === "" && (
+                  <p className="text-red-700 mt-1">Password is required</p>
+                )}
+              </div>
+              <div className="grid grid-cols-1">
+                <p className="text-white text-lg font-semibold mt-2">
+                  Organization Short Code
+                </p>
+                <input
+                  value={organization.code}
+                  onChange={(text) => {
+                    setorganization({
+                      ...organization,
+                      code: text.target.value,
+                    });
+                  }}
+                  className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-white bg-black  p-1.5 "
+                />
+                {submitted && organization.code === "" && (
+                  <p className="text-red-700 mt-1">
+                    Organization Short Code is required
+                  </p>
+                )}
+              </div>
+              <div className="grid grid-cols-1 md:mr-2">
+                <p className="text-white text-lg font-semibold mt-2">Email</p>
+                <input
+                  value={organization.email}
+                  onChange={(text) => {
+                    setorganization({
+                      ...organization,
+                      email: text.target.value,
+                    });
+                  }}
+                  className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-white bg-black  p-1.5 "
+                />
+                {submitted && organization.email === "" && (
+                  <p className="text-red-700 mt-1">Email is required</p>
+                )}
+              </div>
+
+              {/* <div className="grid grid-cols-1 md:mr-2">
               <p className="text-white text-lg font-semibold mt-2">Address</p>
               <input
                 value={organization.location}
@@ -231,40 +233,40 @@ const CUorganization = (props) => {
                 <p className="text-red-700 mt-1">Address is required</p>
               )}
             </div> */}
-            <div className="grid grid-cols-1 mt-2">
-              <LocationDropdown
-                value={organization.location}
-                getLocationVaue={getLocationVaue}
-                setorganization={setorganization}
-                title="Address"
-              />
-              {submitted && organization.location === "" && (
-                <p className="text-red-700 mt-1">Address is required</p>
-              )}
+              <div className="grid grid-cols-1 mt-2">
+                <LocationDropdown
+                  value={organization.location}
+                  getLocationVaue={getLocationVaue}
+                  setorganization={setorganization}
+                  title="Address"
+                />
+                {submitted && organization.location === "" && (
+                  <p className="text-red-700 mt-1">Address is required</p>
+                )}
+              </div>
             </div>
-          </div>
 
-          <div className="grid md:grid-cols-3 grid-cols-1">
-            <div className="grid grid-cols-1 md:mr-2">
-              <p className="text-white text-lg font-semibold mt-2">
-                Phone Number
-              </p>
-              <input
-                value={organization.phone}
-                onChange={(text) => {
-                  setorganization({
-                    ...organization,
-                    phone: text.target.value,
-                  });
-                }}
-                type="number"
-                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-white bg-black  p-1.5 "
-              />
-              {submitted && organization.phone === "" && (
-                <p className="text-red-700 mt-1">Phone Number is required</p>
-              )}
-            </div>
-            {/* <div className="grid grid-cols-1 md:mr-2">
+            <div className="grid md:grid-cols-3 grid-cols-1">
+              <div className="grid grid-cols-1 md:mr-2">
+                <p className="text-white text-lg font-semibold mt-2">
+                  Phone Number
+                </p>
+                <input
+                  value={organization.phone}
+                  onChange={(text) => {
+                    setorganization({
+                      ...organization,
+                      phone: text.target.value,
+                    });
+                  }}
+                  type="number"
+                  className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-white bg-black  p-1.5 "
+                />
+                {submitted && organization.phone === "" && (
+                  <p className="text-red-700 mt-1">Phone Number is required</p>
+                )}
+              </div>
+              {/* <div className="grid grid-cols-1 md:mr-2">
               <p className="text-white text-lg font-semibold mt-2">
                 Requires Billing Modules
               </p>
@@ -301,7 +303,7 @@ const CUorganization = (props) => {
                   </p>
                 )}
             </div> */}
-            {/* <div className="grid grid-cols-1 md:mr-2">
+              {/* <div className="grid grid-cols-1 md:mr-2">
               <p className="text-white text-lg font-semibold mt-2">
                 Upload Organization Logo
               </p>
@@ -322,9 +324,9 @@ const CUorganization = (props) => {
                 </p>
               )}
             </div> */}
-          </div>
+            </div>
 
-          {/* <div className="grid grid-cols-1 ">
+            {/* <div className="grid grid-cols-1 ">
             <p className="text-white text-lg font-semibold mt-2">
               Task Extra Comment Template
             </p>
@@ -345,9 +347,10 @@ const CUorganization = (props) => {
               </p>
             )}
           </div> */}
+          </div>
         </div>
       </div>
-    </div>
+    </AuthGuard>
   );
 };
 

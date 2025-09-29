@@ -14,6 +14,7 @@ import { useScreenshot } from "use-react-screenshot";
 import { useExcelDownloder } from "react-xls";
 import { IoSearch, IoCalendar } from "react-icons/io5";
 import Archive from "../src/components/billing2/archive";
+import AuthGuard from "./AuthGuard";
 
 export const billContext = createContext();
 const Billing = (props) => {
@@ -330,156 +331,158 @@ const Billing = (props) => {
   };
 
   return (
-    <billContext.Provider value={[billArray, setBillArray]}>
-      <div className="min-h-screen bg-black md:-mt-16 overflow-x-auto">
-        <div className="pt-20 ">
-          {billId !== undefined && billId !== "" && (
-            <div className="flex justify-center pb-5">
-              <ViewBill
-                {...props}
-                setBillId={setBillId}
-                billId={billId}
-                ref={componentRef}
-                handlePrint={handlePrint}
-                getBillList={getBillList}
-                setIsRefresh={setIsRefresh}
-                isrefresh={isrefresh}
-              />
-            </div>
-          )}
-          <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-4 rounded-xl border-t-8 border-red-700 md:mx-5 m mx-3">
-            <div className="flex flex-col justify-between">
-              <p className="text-white font-bold md:text-3xl text-lg">Billing</p>
-            </div>
-            <div className="flex justify-end items-center">
-              <div className="flex rounded-lg max-w-max bg-black">
-                <button
-                  className={`${type === "man" && "bg-red-700"
-                    } text-white  rounded-lg text-xs px-5 h-8`}
-                  onClick={() => {
-                    setType("man");
-                  }}
-                >
-                  Manage Invoices
-                </button>
-                <button
-                  className={`${type === "gen" && "bg-red-700"
-                    } text-white  rounded-lg text-xs px-5 h-8`}
-                  onClick={() => {
-                    setType("gen");
-                  }}
-                >
-                  Generate Invoices
-                </button>
-                <button
-                  className={`${type === "del" && "bg-red-700"
-                    } text-white  rounded-lg text-xs px-5 h-8`}
-                  onClick={() => {
-                    setType("del");
-                    // router.push('/archive')
-                  }}
-                >
-                  Deleted Invoices
-                </button>
-              </div>
-            </div>
-            {type === "man" && (
-              <div className="w-full flex justify-between items-center col-span-2 mt-4">
-                <div className=" flex items-center">
-                  <ExcelDownloder
-                    filename={"client"}
-                    // filename={`client-${props?.billInfo?.start} to ${props?.billInfo?.end} `}
-                    type={Type.Button} // or type={'button'}
-                  >
-                    <button className="bg-red-700 text-white  rounded-lg text-xs px-5 h-8 mr-2">
-                      Excel
-                    </button>
-                  </ExcelDownloder>
-                </div>
-                <div className="flex items-center justify-end ">
-                  <div>
-                    <p className="text-white text-base font-semibold ml-2">Start Date</p>
-
-                    <input
-                      className="  rounded-md border-2 text-sm  border-[var(--red-900)] outline-none ml-2 text-white bg-black w-44 p-1.5 "
-                      type="date"
-                      value={searchdata?.start}
-                      onChange={(text) => {
-                        setSearchdata({ ...searchdata, start: text.target.value });
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <p className="text-white text-base font-semibold ml-2">End Date</p>
-                    <input
-                      className="  rounded-md border-2 border-[var(--red-900)] text-sm  outline-none ml-2 text-white bg-black w-44 p-1.5 "
-                      type="date"
-                      value={searchdata?.end}
-                      onChange={(text) => {
-                        setSearchdata({ ...searchdata, end: text.target.value });
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <p className="text-white text-base font-semibold ml-2">Search</p>
-                    <input
-                      className="  rounded-md border-2 border-[var(--red-900)] text-sm outline-none ml-2 text-white bg-black w-72 p-1.5 "
-                      placeholder="Search...."
-                      value={searchdata?.search}
-                      onChange={(text) => {
-                        setSearchdata({ ...searchdata, search: text.target.value });
-                      }}
-                    />
-                  </div>
-                  <div
-                    onClick={searchList}
-                    className="h-8 w-8 bg-red-700 rounded-md ml-3 flex justify-center items-center mt-5"
-                  >
-                    <IoSearch className="text-white text-xl" />
-                  </div>
-                </div>
+    <AuthGuard allowedRoles={["ADMIN"]}>
+      <billContext.Provider value={[billArray, setBillArray]}>
+        <div className="min-h-screen bg-black md:-mt-16 overflow-x-auto">
+          <div className="pt-20 ">
+            {billId !== undefined && billId !== "" && (
+              <div className="flex justify-center pb-5">
+                <ViewBill
+                  {...props}
+                  setBillId={setBillId}
+                  billId={billId}
+                  ref={componentRef}
+                  handlePrint={handlePrint}
+                  getBillList={getBillList}
+                  setIsRefresh={setIsRefresh}
+                  isrefresh={isrefresh}
+                />
               </div>
             )}
-          </div>
+            <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-4 rounded-xl border-t-8 border-red-700 md:mx-5 m mx-3">
+              <div className="flex flex-col justify-between">
+                <p className="text-white font-bold md:text-3xl text-lg">Billing</p>
+              </div>
+              <div className="flex justify-end items-center">
+                <div className="flex rounded-lg max-w-max bg-black">
+                  <button
+                    className={`${type === "man" && "bg-red-700"
+                      } text-white  rounded-lg text-xs px-5 h-8`}
+                    onClick={() => {
+                      setType("man");
+                    }}
+                  >
+                    Manage Invoices
+                  </button>
+                  <button
+                    className={`${type === "gen" && "bg-red-700"
+                      } text-white  rounded-lg text-xs px-5 h-8`}
+                    onClick={() => {
+                      setType("gen");
+                    }}
+                  >
+                    Generate Invoices
+                  </button>
+                  <button
+                    className={`${type === "del" && "bg-red-700"
+                      } text-white  rounded-lg text-xs px-5 h-8`}
+                    onClick={() => {
+                      setType("del");
+                      // router.push('/archive')
+                    }}
+                  >
+                    Deleted Invoices
+                  </button>
+                </div>
+              </div>
+              {type === "man" && (
+                <div className="w-full flex justify-between items-center col-span-2 mt-4">
+                  <div className=" flex items-center">
+                    <ExcelDownloder
+                      filename={"client"}
+                      // filename={`client-${props?.billInfo?.start} to ${props?.billInfo?.end} `}
+                      type={Type.Button} // or type={'button'}
+                    >
+                      <button className="bg-red-700 text-white  rounded-lg text-xs px-5 h-8 mr-2">
+                        Excel
+                      </button>
+                    </ExcelDownloder>
+                  </div>
+                  <div className="flex items-center justify-end ">
+                    <div>
+                      <p className="text-white text-base font-semibold ml-2">Start Date</p>
 
-          <div className="px-5">
-            {type === "man" && (
-              <>
-                {/* {billList?.length > 0 && ( */}
-                <BillingTable
-                  data={billList}
-                  setBillId={setBillId}
-                  deleteInvoice={deleteInvoice}
-                />
-                {/* )} */}
-              </>)
-            }
+                      <input
+                        className="  rounded-md border-2 text-sm  border-[var(--red-900)] outline-none ml-2 text-white bg-black w-44 p-1.5 "
+                        type="date"
+                        value={searchdata?.start}
+                        onChange={(text) => {
+                          setSearchdata({ ...searchdata, start: text.target.value });
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <p className="text-white text-base font-semibold ml-2">End Date</p>
+                      <input
+                        className="  rounded-md border-2 border-[var(--red-900)] text-sm  outline-none ml-2 text-white bg-black w-44 p-1.5 "
+                        type="date"
+                        value={searchdata?.end}
+                        onChange={(text) => {
+                          setSearchdata({ ...searchdata, end: text.target.value });
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <p className="text-white text-base font-semibold ml-2">Search</p>
+                      <input
+                        className="  rounded-md border-2 border-[var(--red-900)] text-sm outline-none ml-2 text-white bg-black w-72 p-1.5 "
+                        placeholder="Search...."
+                        value={searchdata?.search}
+                        onChange={(text) => {
+                          setSearchdata({ ...searchdata, search: text.target.value });
+                        }}
+                      />
+                    </div>
+                    <div
+                      onClick={searchList}
+                      className="h-8 w-8 bg-red-700 rounded-md ml-3 flex justify-center items-center mt-5"
+                    >
+                      <IoSearch className="text-white text-xl" />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
 
-            {type === "gen" && <Bill
-              {...props}
-              opt={opt}
-              exeldata={exeldata}
-              selected={selected}
-              setSelected={setSelected}
-              setBillId={setBillId}
-              // guardRange={guardRange}
-              // setGuardRange={setGuardRange}
-              getGuardHistory={getGuardHistory}
-              setGuardHistory={setGuardHistory}
-              gaurdHistory={gaurdHistory}
-              router={router}
-              isrefresh={isrefresh}
-              setIsRefresh={setIsRefresh}
-            />}
+            <div className="px-5">
+              {type === "man" && (
+                <>
+                  {/* {billList?.length > 0 && ( */}
+                  <BillingTable
+                    data={billList}
+                    setBillId={setBillId}
+                    deleteInvoice={deleteInvoice}
+                  />
+                  {/* )} */}
+                </>)
+              }
 
-            {
-              type === 'del' && <Archive    {...props} />
-            }
+              {type === "gen" && <Bill
+                {...props}
+                opt={opt}
+                exeldata={exeldata}
+                selected={selected}
+                setSelected={setSelected}
+                setBillId={setBillId}
+                // guardRange={guardRange}
+                // setGuardRange={setGuardRange}
+                getGuardHistory={getGuardHistory}
+                setGuardHistory={setGuardHistory}
+                gaurdHistory={gaurdHistory}
+                router={router}
+                isrefresh={isrefresh}
+                setIsRefresh={setIsRefresh}
+              />}
 
+              {
+                type === 'del' && <Archive    {...props} />
+              }
+
+            </div>
           </div>
         </div>
-      </div>
-    </billContext.Provider>
+      </billContext.Provider>
+    </AuthGuard>
   );
 };
 

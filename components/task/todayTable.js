@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import CustomCalendarTable from "./customCalendar";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { IoChevronBack, IoChevronForward, IoRepeat } from "react-icons/io5";
 import { FaUserCheck } from "react-icons/fa";
 import moment from "moment";
@@ -9,6 +9,7 @@ import { ImLink } from "react-icons/im";
 import Tooltip from "@mui/material/Tooltip";
 import { Api } from "@/src/services/service";
 import Stickytables from "./stickytables";
+import { userContext } from "@/pages/_app";
 
 
 
@@ -16,6 +17,7 @@ const TodayTable = (props) => {
   const [curruntDate, setCurrentDate] = useState(new Date());
   const [data, setData] = useState([]);
   const [dateObj, setDateObj] = useState(props.date);
+  let [user, setUser] = useContext(userContext)
 
   useEffect(() => {
     if (!!props.data) {
@@ -212,11 +214,12 @@ const TodayTable = (props) => {
     // if (d?.length) {
     //   c = d?.filter(f => f.start)
     // }
+    let ownProperty = row?.original?.event?.posted_by?._id === user?.id || user.type === 'ADMIN';
     return (
       <div className="w-32">
         {!!value ? (
           <div
-            className={` bg-green-700 p-2 m-1 rounded-sm w-32`}
+            className={` ${ownProperty ? 'bg-green-700' : 'bg-black'}  p-2 m-1 rounded-sm w-32`}
           >
             <p className="text-white f11">
               Name: {row?.original?.event?.posted_by?.username}
@@ -227,7 +230,7 @@ const TodayTable = (props) => {
             <p className="text-white f11">
               End Time: {moment(value?.endTime).format("hh:mm A")}
             </p>
-            <div className="flex justify-start items-end mt-1">
+            {ownProperty && <div className="flex justify-start items-end mt-1">
               {/* {value?.invites?.length > 0 && !value.public && ( */}
 
               <Tooltip title={<p>Edit</p>} arrow>
@@ -255,7 +258,7 @@ const TodayTable = (props) => {
                 </div>
               </Tooltip>
 
-            </div>
+            </div>}
           </div>
         ) : null}
       </div>

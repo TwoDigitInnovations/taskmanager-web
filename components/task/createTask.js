@@ -283,7 +283,7 @@ const CreateTask = (props) => {
 
           <div
             className={`grid ${isOrg ? "md:grid-cols-2 " : "md:grid-cols-1"
-              } grid-cols-1 mt-3 items-start`}
+              } md:grid-cols-2 grid-cols-1 mt-3 items-start`}
           >
             <div className="grid md:grid-cols-1 grid-cols-1 mt-3 items-start md:mr-3">
               <p className="text-white text-lg font-semibold">
