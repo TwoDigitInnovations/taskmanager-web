@@ -168,7 +168,7 @@ const Register = (props) => {
     ApiFormData("post", Url, projectObj, props.router).then((res) => {
       props.loader(false);
       props.setShowForm(false);
-      // props.getClientList();
+      props.getClientList();
       if (res.status) {
         setClientObj({
           name: "",
