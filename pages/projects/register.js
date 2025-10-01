@@ -37,10 +37,19 @@ const Register = (props) => {
     platforms: []
   });
   useEffect(() => {
-    getClientList();
+    getClientLists();
   }, []);
 
-  const getClientList = () => {
+  useEffect(() => {
+    console.log(clientOpt)
+    console.log(typeof clientOpt)
+    if (clientObj?.client && clientOpt && clientOpt.length > 0) {
+      let currentClient = clientOpt.find(f => f.value === clientObj.client);
+      setSelectClient([currentClient])
+    }
+  }, [clientOpt, clientObj]);
+
+  const getClientLists = (ids) => {
     props.loader(true);
     let url = "provider/client";
     // if (props?.organization?._id) {
@@ -55,14 +64,19 @@ const Register = (props) => {
             options.push({
               label: ele.fullName,
               value: ele._id,
-              disabled: false,
-              rate: ele.rate,
-              address: ele.address,
             });
             if (res.data.clients.length === index + 1) {
               setClientOpt(options);
             }
           });
+          // if (ids) {
+          //   let currentClient = res.data.clients.find(f => f._id === ids);
+          //   setSelectClient({
+          //     label: currentClient.fullName,
+          //     value: currentClient._id,
+          //   })
+          // }
+          setSelectClient([{ value: res.data.client }])
         } else {
           props.toaster({ type: "success", message: res?.message });
         }
@@ -76,46 +90,48 @@ const Register = (props) => {
   };
 
   useEffect(() => {
-    const getClientList = () => {
-      props.loader(true);
-      Api("get", `project/${clienID}`, "", props.router).then(
-        async (res) => {
-          props.loader(false);
-          if (res?.status) {
-            if (res.data.start_figma_date) {
-              res.data.start_figma_date = moment(new Date(res.data.start_figma_date)).format('YYYY-MM-DD');
-            }
 
-            if (res.data.start_dev_date) {
-              res.data.start_dev_date = moment(new Date(res.data.start_dev_date)).format('YYYY-MM-DD');
-            }
-            if (res.data.original_propsel) {
-              res.data.original_propsel_link = res.data.original_propsel;
-              res.data.original_propsel = ''
-            }
-
-            if (res.data.dev_propsel) {
-              res.data.dev_propsel_link = res.data.dev_propsel;
-              res.data.dev_propsel = ''
-            }
-
-            setClientObj(res.data)
-            setSelectClient([{ value: res.data.client }])
-          } else {
-            props.toaster({ type: "success", message: res?.message });
-          }
-        },
-        (err) => {
-          props.loader(false);
-          props.toaster({ type: "error", message: err.message });
-          console.log(err);
-        }
-      );
-    };
     if (!!clienID) {
       getClientList();
     }
-  }, [clienID, props]);
+  }, [clienID]);
+  const getClientList = () => {
+    props.loader(true);
+    Api("get", `project/${clienID}`, "", props.router).then(
+      async (res) => {
+        props.loader(false);
+        if (res?.status) {
+          if (res.data.start_figma_date) {
+            res.data.start_figma_date = moment(new Date(res.data.start_figma_date)).format('YYYY-MM-DD');
+          }
+
+          if (res.data.start_dev_date) {
+            res.data.start_dev_date = moment(new Date(res.data.start_dev_date)).format('YYYY-MM-DD');
+          }
+          if (res.data.original_propsel) {
+            res.data.original_propsel_link = res.data.original_propsel;
+            res.data.original_propsel = ''
+          }
+
+          if (res.data.dev_propsel) {
+            res.data.dev_propsel_link = res.data.dev_propsel;
+            res.data.dev_propsel = ''
+          }
+
+          setClientObj(res.data)
+          // setSelectClient([{ value: res.data.client }])
+          // getClientLists(res.data.client);
+        } else {
+          props.toaster({ type: "success", message: res?.message });
+        }
+      },
+      (err) => {
+        props.loader(false);
+        props.toaster({ type: "error", message: err.message });
+        console.log(err);
+      }
+    );
+  };
 
 
   const submit = () => {

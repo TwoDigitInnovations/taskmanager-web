@@ -131,6 +131,13 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   /* z-index: 1; */
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color: white !important;
+  background-color: white !important;
+  border-radius: 2px !important;
+  /* z-index: 1; */
+}
+
 input[type="datetime-local"]::-webkit-datetime-edit {
   color: grey;
 }
@@ -142,7 +149,18 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   /* z-index: 1; */
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color: white !important;
+  background-color: white !important;
+  border-radius: 2px !important;
+  /* z-index: 1; */
+}
+
 input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  color: white !important;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
   color: white !important;
 }
 
@@ -547,4 +565,15 @@ input[type="month"]::-webkit-calendar-picker-indicator {
 .swiper-button-prev:after,
 .swiper-button-next:after {
   font-size: 20px !important;
+}
+
+
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  /* Inverts icon color */
+  background-color: #4CAF50;
+  /* Background color (optional, limited effect) */
+  border-radius: 4px;
+  padding: 2px;
 }

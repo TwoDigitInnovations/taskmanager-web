@@ -112,6 +112,13 @@ const CreateTask = (props) => {
               setClientOpt(options);
             }
           });
+          if (client_id) {
+            const singleData = res.data.find(f => f._id === client_id);
+            setSelectClient([{
+              label: singleData.name,
+              value: singleData._id,
+            }])
+          }
           setClientList(res.data.clients);
         } else {
           props.toaster({ type: "success", message: res?.message });
@@ -144,6 +151,7 @@ const CreateTask = (props) => {
         let ends = moment(end);
         setstart(startt);
         setend(ends);
+        getClientList(res?.data?.job.project);
       } else {
         props.toaster({ type: "error", message: res.message });
       }
@@ -231,7 +239,30 @@ const CreateTask = (props) => {
                 value={moment(jobInfo?.startDate).format('YYYY-MM-DD')}
                 onChange={(text) => {
                   const newDate = moment(text.target.value, 'YYYY-MM-DD').format()
-                  setJobInfo({ ...jobInfo, startDate: newDate });
+                  let dd = text.target.value.split('-')[2]
+                  let m = text.target.value.split('-')[1]
+                  let y = text.target.value.split('-')[0]
+                  console.log(text.target.value)
+                  let ndata = {
+                    startDate: newDate
+                  }
+                  if (jobInfo?.startTime) {
+                    let d = moment(jobInfo?.startTime).format();
+                    let nd = new Date(new Date(d).setDate(dd))
+                    let nm = new Date(new Date(nd).setMonth(m - 1))
+                    let ny = new Date(new Date(nm).setFullYear(y))
+                    console.log((ny))
+                    ndata.startTime = moment(new Date(ny), 'YYYY-MM-DD').format()
+                  }
+                  if (jobInfo?.endTime) {
+                    let d = moment(jobInfo?.endTime).format();
+                    let nd = new Date(new Date(d).setDate(dd))
+                    let nm = new Date(new Date(nd).setMonth(m - 1))
+                    let ny = new Date(new Date(nm).setFullYear(y))
+                    console.log((ny))
+                    ndata.endTime = moment(new Date(ny), 'YYYY-MM-DD').format()
+                  }
+                  setJobInfo({ ...jobInfo, ...ndata });
                 }}
                 type="date"
                 className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-3 "
@@ -251,7 +282,14 @@ const CreateTask = (props) => {
                   max={jobInfo.endTime}
                   onChange={(text) => {
                     console.log(text.target.value)
-                    const newDate = moment(text.target.value, 'HH:mm').format()
+                    // const newDate = moment(text.target.value, 'HH:mm').format()
+                    let h = text.target.value.split(':')[0]
+                    let m = text.target.value.split(':')[1]
+
+                    let nee = new Date(jobInfo?.startDate)
+                    let newhrs = new Date(nee.setHours(h))
+                    let newDate = new Date(newhrs.setMinutes(m))
+                    console.log(h, m, newhrs)
                     console.log(newDate)
                     setJobInfo({ ...jobInfo, startTime: newDate });
                     getJobHour(newDate, jobInfo.endTime);
@@ -269,7 +307,15 @@ const CreateTask = (props) => {
                   value={moment(jobInfo.endTime).format('HH:mm')}
                   // min={jobInfo.startTime}
                   onChange={(text) => {
-                    const newDate = moment(text.target.value, 'HH:mm').format()
+                    // const newDate = moment(text.target.value, 'HH:mm').format()
+                    let h = text.target.value.split(':')[0]
+                    let m = text.target.value.split(':')[1]
+
+                    let nee = new Date(jobInfo?.startDate)
+                    let newhrs = new Date(nee.setHours(h))
+                    let newDate = new Date(newhrs.setMinutes(m))
+                    console.log(h, m, newhrs)
+                    console.log(newDate)
                     console.log(newDate)
                     setJobInfo({ ...jobInfo, endTime: newDate });
                     getJobHour(jobInfo.startTime, newDate);
