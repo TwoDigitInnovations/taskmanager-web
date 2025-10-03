@@ -253,7 +253,8 @@ const Layout = ({ children, loader, toaster }) => {
         loader(false);
         // ;
         if (res?.status) {
-          setOrgList(res.data.users);
+          let d = [{ _id: '', username: 'ADMIN' }, ...res.data.users]
+          setOrgList(d);
         } else {
           toaster({ type: "success", message: res?.message });
         }
@@ -685,7 +686,7 @@ const Layout = ({ children, loader, toaster }) => {
             className="text-red-700 h-8 w-8 absolute right-2 top-2"
             onClick={handleClose}
           />
-          <p className="text-white text-lg font-semibold">Organization</p>
+          <p className="text-white text-lg font-semibold">Devlopers</p>
           <select
             className="w-full bg-black text-white border-2 border-red-700 rounded-md p-2 mt-2 outline-none"
             value={JSON.stringify(initial)}

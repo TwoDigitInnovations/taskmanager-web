@@ -9,7 +9,7 @@ import WeekDayTable from "@/components/task/weekDayTable";
 import TodayTable from "@/components/task/todayTable";
 
 import { MultiSelect } from "react-multi-select-component";
-import { userContext } from "../_app";
+import { Context, userContext } from "../_app";
 import { CalendarTable } from "@/components/calendarTable";
 import Modal from "react-modal";
 import moment from "moment";
@@ -17,8 +17,10 @@ import CountUp from "react-countup";
 import { indexID } from "@/components/table";
 import AuthGuard from "../AuthGuard";
 
+
 const Task = (props) => {
   const router = useRouter();
+  const [initial, setInitial] = useContext(Context);
   const [dashStatus, setDashStatus] = useState({})
   const [user, setUser] = useContext(userContext);
   const [jobList, setJobList] = useState([]);
@@ -128,6 +130,13 @@ const Task = (props) => {
     // references are now sync'd and can be accessed.
     // subtitle.style.color = "#f00";
   }
+  useEffect(() => {
+    if (dateObj.startDate && dateObj.endDate) {
+      getAllJobs(dateObj.startDate, dateObj.endDate);
+
+    }
+
+  }, [initial])
 
   function closeModal() {
     setIsOpen(false);
@@ -214,10 +223,10 @@ const Task = (props) => {
       // org_id:
     };
 
-    if (props?.organization?._id) {
+    if (initial._id) {
       data = {
         ...data,
-        org_id: props?.organization?._id,
+        org_id: initial?._id,
       };
     }
 
