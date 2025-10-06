@@ -510,7 +510,7 @@ const Register = (props) => {
                     currency: "",
                     period: "",
                     tasks: "",
-                    status: ""
+                    status: "unpaid"
                   })
                   setClientObj({
                     ...clientObj,
@@ -859,7 +859,7 @@ const Register = (props) => {
               //   onClick={props.repeat === "Update Task" ? updateJob : submit}
               onClick={!!clienID ? submit : submit}
             >
-              {!!clienID ? "Update client" : "Register new client"}
+              {!!clienID ? "Update Project" : "Register New Project"}
             </button>
             <button
               className="text-white bg-red-700 rounded-sm  text-md py-2 w-36 h-10"

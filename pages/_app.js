@@ -67,7 +67,7 @@ function MyApp({ Component, pageProps }) {
       //   router.push("/festaevent");
       // } else {
       //   if (router.route === "/") {
-      router.push("/home");
+      // router.push("/home");
       //   }
       // }
       // if (router.route === "/") {

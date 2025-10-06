@@ -9,6 +9,8 @@ import { Api } from "@/src/services/service";
 import { useRouter } from "next/router";
 import { userContext } from "@/pages/_app";
 import ProjectViewModal from "./ProjectViewModal";
+import { SlGraph } from "react-icons/sl";
+
 
 function ProjectTable(props) {
     const router = useRouter();
@@ -67,6 +69,14 @@ function ProjectTable(props) {
                 {user.type === 'ADMIN' && <div
                     className="h-7 w-9 bg-red-700 rounded-sm ml-2 flex justify-center items-center cursor-pointer"
                     onClick={() => {
+                        router.push(`/projects/${row.original._id}`)
+                    }}
+                >
+                    <SlGraph className="text-white h-4 w-4 " />
+                </div>}
+                {user.type === 'ADMIN' && <div
+                    className="h-7 w-9 bg-red-700 rounded-sm ml-2 flex justify-center items-center cursor-pointer"
+                    onClick={() => {
                         props.setClientID(row.original._id);
                         props.setShowForm(true);
                         props.goToTop();
@@ -85,13 +95,13 @@ function ProjectTable(props) {
                 <div
                     className="h-7 w-9 bg-red-700 rounded-sm ml-2 flex justify-center items-center cursor-pointer"
                     onClick={() => {
-
                         setClient(row.original)
                         setShowModal(true)
                     }}
                 >
                     <IoEyeSharp className="text-white h-4 w-4 " />
                 </div>
+
             </div>
         );
     }

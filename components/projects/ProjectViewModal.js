@@ -119,7 +119,7 @@ export default function ProjectViewModal({ project, onClose }) {
                                     <span className="font-semibold">Username:</span> {l.linkusername}
                                 </p>
                                 <p>
-                                    <span className="font-semibold">Password:</span> {l.linknamepassword}
+                                    <span className="font-semibold">Password:</span> {l.linkpassword}
                                 </p>
                             </li>
                         ))}
