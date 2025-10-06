@@ -163,7 +163,17 @@ export default function ProjectHistoryUI(props) {
             });
             rows.push([]);
         });
+        rows.push([`Work Miletone Summery`]);
+        data.milestone_summary.forEach(t => {
+            rows.push([`${t.status}, ${t.amount}`]);
+        });
+        rows.push([]);
+        rows.push([`Milestones`]);
+        data.milestones.forEach((t, i) => {
+            rows.push([`Milestone-${i + 1}: ${t.status}, ${t.amount}`]);
 
+        });
+        // rows.push([]);
         return rows.map(r => r.join(",")).join("\n");
     }
 
