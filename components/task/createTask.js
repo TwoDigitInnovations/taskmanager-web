@@ -135,6 +135,9 @@ const CreateTask = (props) => {
     Api("get", `jobs/${id}`, "", props.router).then(async (res) => {
       props.loader(false);
       if (res.status) {
+        delete res?.data?.job?.__v
+        delete res?.data?.job?.createdAt
+        delete res?.data?.job?.updatedAt
         setJobInfo(res?.data?.job);
         setSelectClient([{ value: res?.data?.job.project }])
         let now = new Date(res?.data?.job?.startDate);
