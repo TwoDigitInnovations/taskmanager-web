@@ -6,7 +6,7 @@ import { checkForEmptyKeys } from "@/src/services/InputsNullChecker";
 import moment from "moment";
 import { MultiSelect } from "react-multi-select-component";
 import JobFilter from "../JobFilter";
-import _, { map } from 'underscore';
+import _, { isEmpty, map } from 'underscore';
 
 const CreateTask = (props) => {
   const jobID = props?.jobId
@@ -14,17 +14,13 @@ const CreateTask = (props) => {
   const [submitted, setSubmitted] = useState(false);
   const [jobInfo, setJobInfo] = useState({
     startDate: moment(new Date()).format().slice(0, 16),
-    endDate: moment(new Date()).format().slice(0, 16),
     startTime: "",
     endTime: "",
-    title: "",
-    location: "",
-    latitude: "",
-    longitude: "",
+    job_hrs: "",
     description: "",
-    jobtype: "event",
-    amount: "",
-    jobPerson: "",
+    work_type: "",
+    work_role: "",
+    project: "",
   });
 
   const [clientOpt, setClientOpt] = useState([]);
@@ -55,16 +51,14 @@ const CreateTask = (props) => {
       setIsOrg(true);
     }
     setJobInfo({
-      startDate: new Date(),
-      endDate: new Date(),
-      title: "",
-      location: "",
-      latitude: "",
-      longitude: "",
+      startDate: moment(new Date()).format().slice(0, 16),
+      startTime: "",
+      endTime: "",
+      job_hrs: "",
       description: "",
-      jobtype: "event",
-      amount: "",
-      jobPerson: "",
+      work_type: "",
+      work_role: "",
+      project: "",
     });
     getClientList("");
   }, []);
@@ -74,16 +68,14 @@ const CreateTask = (props) => {
       setIsOrg(true);
     }
     setJobInfo({
-      startDate: new Date(),
-      endDate: new Date(),
-      title: "",
-      location: "",
-      latitude: "",
-      longitude: "",
+      startDate: moment(new Date()).format().slice(0, 16),
+      startTime: "",
+      endTime: "",
+      job_hrs: "",
       description: "",
-      jobtype: "event",
-      amount: "",
-      jobPerson: "",
+      work_type: "",
+      work_role: "",
+      project: "",
     });
     if (props?.jobId) {
       getJobDetail(props?.jobId)
@@ -159,16 +151,16 @@ const CreateTask = (props) => {
   };
 
 
-
+  // function isEmptyObjectRobust(obj) {
+  //   return obj && Object.keys(obj).length === 0;
+  // }
   const submit = (type) => {
     const user = localStorage.getItem("userDetail");
     let { anyEmptyInputs } = checkForEmptyKeys(jobInfo);
-    if (anyEmptyInputs.length > 0) {
-      if (jobInfo.client_id === undefined) {
-      } else {
-        setSubmitted(true);
-        return;
-      }
+    console.log(anyEmptyInputs)
+    if (anyEmptyInputs && anyEmptyInputs.length > 0) {
+      props.toaster({ type: "error", message: 'Please fill all details' });
+      return
     }
     let url = 'jobs/create'
     if (props?.jobId) {
@@ -190,16 +182,14 @@ const CreateTask = (props) => {
           props.updateTask();
           setIsPast(false);
           setJobInfo({
-            startDate: new Date(),
-            endDate: new Date(),
-            title: "",
-            location: "",
-            latitude: "",
-            longitude: "",
+            startDate: moment(new Date()).format().slice(0, 16),
+            startTime: "",
+            endTime: "",
+            job_hrs: "",
             description: "",
-            jobtype: "event",
-            amount: "",
-            jobPerson: "",
+            work_type: "",
+            work_role: "",
+            project: "",
           });
         } else {
           props.toaster({ type: "error", message: res.message });
@@ -467,16 +457,14 @@ const CreateTask = (props) => {
               onClick={() => {
                 props.setShowForm(false);
                 setJobInfo({
-                  startDate: new Date(),
-                  endDate: new Date(),
-                  title: "",
-                  location: "",
-                  latitude: "",
-                  longitude: "",
+                  startDate: moment(new Date()).format().slice(0, 16),
+                  startTime: "",
+                  endTime: "",
+                  job_hrs: "",
                   description: "",
-                  jobtype: "event",
-                  amount: "",
-                  jobPerson: "",
+                  work_type: "",
+                  work_role: "",
+                  project: "",
                 });
               }}
             >

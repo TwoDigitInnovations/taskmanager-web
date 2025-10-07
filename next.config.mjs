@@ -3,7 +3,7 @@
 import withTM from "next-transpile-modules";
 
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   images: {
     unoptimized: true,
     remotePatterns: [

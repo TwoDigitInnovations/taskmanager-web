@@ -63,7 +63,7 @@ const Developers = (color, size) => {
 
   )
 }
-const Activityreport = (color, size) => {
+const Reports = (color, size) => {
   return (
     <svg height={size} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M1 10H5L8 1L12 19L15 10H19" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -151,7 +151,7 @@ const Constants = {
   Tasks,
   Clients,
   Guardlist,
-  Activityreport,
+  Reports,
   Statistics,
   Financials,
   Editprofile,

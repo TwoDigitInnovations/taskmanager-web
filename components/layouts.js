@@ -91,10 +91,10 @@ const menuItems = [
   // },
   {
     href: "/report",
-    title: "Activity report",
+    title: "Reports",
     icon: "/privacy.png",
     activeIcon: "/privacy1.png",
-    access: ["ORG"],
+    access: ["ADMIN", "PROVIDER"],
     sub: false,
   },
   // {
@@ -132,7 +132,7 @@ const menuItems = [
   //       title: "Payroll",
   //       icon: "/privacy.png",
   //       activeIcon: "/privacy1.png",
-  //       access: ["USER", "ORG", "ADMIN"],
+  //       access: ["ADMIN"],
   //     },
   //   ]
   // },

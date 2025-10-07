@@ -5,12 +5,10 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 // set fonts
 // pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-// const ConstantsUrl = "http://apis.jjowen.co.uk/v1/api/";
-// const ConstantsUrl = "https://apis.jjowen.co.uk/v1/api/";
+
 const ConstantsUrl = "https://taskmanagerapi.2digitinnovations.com/v1/api/";
 // const ConstantsUrl = "http://localhost:3000/v1/api/";
 
-// "https://sp-app-api.herokuapp.com"
 
 function Api(method, url, data, router) {
   return new Promise(function (resolve, reject) {

@@ -7,43 +7,6 @@ import AuthGuard from '../AuthGuard';
 // Next.js page / component - Tailwind CSS required in the project
 // Put this file in pages/project-history.jsx or components/ProjectHistoryUI.jsx
 
-const sampleData = {
-    status: true,
-    data: {
-        project_name: 'CAR LEARNING APP (Bokakorning)',
-        total_hrs: 39.17,
-        work_type: [
-            {
-                type: 'Regular',
-                total_hrs: 30.67,
-                work_role: [
-                    {
-                        role: 'Development',
-                        total_hrs: 30.67,
-                        users: [
-                            { name: 'ranjan', total_hrs: 19 },
-                            { name: 'rishabh', total_hrs: 11.67 }
-                        ]
-                    }
-                ]
-            },
-            {
-                type: 'Maintenance',
-                total_hrs: 8.5,
-                work_role: [
-                    {
-                        role: 'Designer',
-                        total_hrs: 8.5,
-                        users: [{ name: 'chetan', total_hrs: 8.5 }]
-                    }
-                ]
-            }
-        ]
-    }
-}
-
-
-
 function StatPill({ label, value }) {
     return (
         <div className="flex flex-col items-center p-3 bg-white rounded-2xl shadow-sm">
@@ -118,7 +81,7 @@ function TypeCard({ type, data }) {
 export default function ProjectHistoryUI(props) {
     const router = useRouter();
     const { projectid } = router.query;
-    const [data, setData] = React.useState(sampleData.data);
+    const [data, setData] = React.useState({});
 
     useEffect(() => {
         if (projectid) {
@@ -198,12 +161,12 @@ export default function ProjectHistoryUI(props) {
                     {/* Header */}
                     <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
                         <div>
-                            <h1 className="text-2xl md:text-3xl font-bold text-white">{data.project_name}</h1>
+                            <h1 className="text-2xl md:text-3xl font-bold text-white">{data?.project_name}</h1>
                             <p className="text-sm text-white mt-1">Project hours overview</p>
                         </div>
 
                         <div className="flex items-center gap-3">
-                            <StatPill label="Total Hours" value={`${data.total_hrs} hrs`} />
+                            <StatPill label="Total Hours" value={`${data?.total_hrs} hrs`} />
                             <button className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-medium shadow" onClick={downloadCSV}>Export CSV</button>
                         </div>
                     </header>
@@ -214,13 +177,13 @@ export default function ProjectHistoryUI(props) {
                         <aside className="md:col-span-1 bg-[var(--customGray)] rounded-2xl p-4 shadow-sm">
                             <div className="text-sm font-medium text-white mb-3">Summary</div>
                             <div className="flex flex-col gap-3">
-                                {data.work_type.map((t, i) => (
+                                {data?.work_type?.map((t, i) => (
                                     <div key={i} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
                                         <div>
-                                            <div className="text-sm font-semibold">{t.type}</div>
-                                            <div className="text-xs text-gray-500">{t.work_role.length} role(s)</div>
+                                            <div className="text-sm font-semibold">{t?.type}</div>
+                                            <div className="text-xs text-gray-500">{t?.work_role?.length} role(s)</div>
                                         </div>
-                                        <div className="text-sm font-semibold">{t.total_hrs}h</div>
+                                        <div className="text-sm font-semibold">{t?.total_hrs}h</div>
                                     </div>
                                 ))}
                             </div>
@@ -258,17 +221,17 @@ export default function ProjectHistoryUI(props) {
 
                         {/* Right: details */}
                         <section className="md:col-span-2 space-y-6">
-                            {data.work_type.map((t, i) => (
+                            {data?.work_type?.map((t, i) => (
                                 <div key={i} className="">
                                     <div className="flex items-center justify-between mb-3">
                                         <div>
-                                            <h3 className="text-lg font-semibold text-white">{t.type}</h3>
-                                            <div className="text-xs text-white">{t.total_hrs} hrs • {t.work_role.length} role(s)</div>
+                                            <h3 className="text-lg font-semibold text-white">{t?.type}</h3>
+                                            <div className="text-xs text-white">{t?.total_hrs} hrs • {t?.work_role.length} role(s)</div>
                                         </div>
                                     </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        {t.work_role.map((r, j) => (
+                                        {t?.work_role.map((r, j) => (
                                             <TypeCard key={j} type={{ ...t, work_role: [r] }} data={data} />
                                         ))}
                                     </div>

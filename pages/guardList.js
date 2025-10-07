@@ -412,7 +412,7 @@ const GuardList = (props) => {
           <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-3  border-t-4 border-red-700 md:mx-5 m mx-3">
             <div>
               <p className="text-white font-bold md:text-3xl text-lg">
-                Guard List
+                Member List
               </p>
             </div>
             <div className="flex items-center justify-end ">

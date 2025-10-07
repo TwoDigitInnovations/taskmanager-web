@@ -292,20 +292,6 @@ const Register = (props) => {
             </div>
             <div className="grid grid-cols-1 md:mr-2">
               <p className="text-white text-lg font-semibold">Client</p>
-              {/* <select
-                value={clientObj.start_dev_date}
-                onChange={(text) => {
-                  setClientObj({
-                    ...clientObj,
-                    start_dev_date: text.target.value,
-                  });
-                }}
-                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-3 icncolor"
-
-              >
-                <option>Pending</option>
-                <option>Paid</option>
-              </select> */}
               <MultiSelect
                 options={clientOpt}
                 hasSelectAll={false}
@@ -522,102 +508,142 @@ const Register = (props) => {
               </button>
             </div>
 
-            <table className="mt-5">
-              {clientObj.milestones.map((item, index) => (<tr key={index} >
-                <td className="p-2">   <p className="text-white text-lg font-semibold">{index + 1}</p></td>
-                <td className="p-2">
-                  <input
-                    placeholder="Amount"
-                    value={item?.amount}
-                    onChange={(text) => {
-                      item.amount = text.target.value
-                      setClientObj({
-                        ...clientObj,
-                      });
-                    }}
-                    type="number"
-                    className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
-                  />
-                </td>
-                <td className="p-2">
-                  <input
-                    placeholder="Currency"
-                    value={item?.currency}
-                    onChange={(text) => {
-                      item.currency = text.target.value
-                      setClientObj({
-                        ...clientObj,
-                      });
-                    }}
-                    type="text"
-                    className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
-                  />
-                </td>
-                <td className="p-2">
-                  <input
-                    placeholder="Period"
-                    value={item?.period}
-                    onChange={(text) => {
-                      item.period = text.target.value
-                      setClientObj({
-                        ...clientObj,
-                      });
-                    }}
-                    type="text"
-                    className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
-                  />
-                </td>
-                <td className="p-2">
-                  <input
-                    placeholder="List of tasks"
-                    value={item?.tasks}
-                    onChange={(text) => {
-                      item.tasks = text.target.value
-                      setClientObj({
-                        ...clientObj,
-                      });
-                    }}
-                    type="text"
-                    className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
-                  />
-                </td>
-                <td className="p-2">
-                  <select
-                    value={item?.status}
-                    onChange={(text) => {
-                      item.status = text.target.value
-                      setClientObj({
-                        ...clientObj,
-                      });
-                    }}
-                    className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
+            <div className="mt-5">
+              {clientObj.milestones.map((item, index) => (
+                <div className="p-2" key={index}>   <p className="text-white text-lg font-semibold">{index + 1}</p>
 
-                  >
-                    <option value="unpaid">Unpaid</option>
-                    <option value="paid">Paid</option>
-                  </select>
+                  <div className="grid grid-cols-4 gap-2 mb-3">
+                    <div className="p-2">
+                      <input
+                        placeholder="Amount"
+                        value={item?.amount}
+                        onChange={(text) => {
+                          item.amount = text.target.value
+                          setClientObj({
+                            ...clientObj,
+                          });
+                        }}
+                        type="number"
+                        className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
+                      />
+                    </div>
+                    <div className="p-2">
+                      <input
+                        placeholder="Currency"
+                        value={item?.currency}
+                        onChange={(text) => {
+                          item.currency = text.target.value
+                          setClientObj({
+                            ...clientObj,
+                          });
+                        }}
+                        type="text"
+                        className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
+                      />
+                    </div>
+                    <div className="p-2">
+                      <input
+                        placeholder="Period"
+                        value={item?.period}
+                        onChange={(text) => {
+                          item.period = text.target.value
+                          setClientObj({
+                            ...clientObj,
+                          });
+                        }}
+                        type="text"
+                        className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
+                      />
+                    </div>
+                    <div className="p-2">
+                      <input
+                        placeholder="List of tasks"
+                        value={item?.tasks}
+                        onChange={(text) => {
+                          item.tasks = text.target.value
+                          setClientObj({
+                            ...clientObj,
+                          });
+                        }}
+                        type="text"
+                        className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
+                      />
+                    </div>
+                    <div className="p-2">
+                      <select
+                        value={item?.status}
+                        onChange={(text) => {
+                          item.status = text.target.value
+                          setClientObj({
+                            ...clientObj,
+                          });
+                        }}
+                        className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
 
-                </td>
-                <td className="p-2">
-                  <button
-                    className="text-white bg-red-700 rounded-sm  text-md py-2 px-2 h-10"
-                    onClick={() => {
-                      if (index > -1) {
-                        let mltns = clientObj.milestones;
-                        mltns.splice(index, 1)
-                        console.log(mltns)
-                        setClientObj({
-                          ...clientObj,
-                          milestones: mltns
-                        })
-                      }
-                    }}
-                  >
-                    Remove
-                  </button>
-                </td>
-              </tr>))}
-            </table>
+                      >
+                        <option value="unpaid">Unpaid</option>
+                        <option value="paid">Paid</option>
+                      </select>
+
+                    </div>
+
+                    <div className="p-2">
+                      <input
+                        value={item.paid_date}
+                        onChange={(text) => {
+                          item.paid_date = text.target.value
+                          setClientObj({
+                            ...clientObj,
+                          });
+                        }}
+                        type="date"
+                        className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-1 icncolor w-full"
+                      />
+                    </div>
+                    <div className="p-2">
+
+                      <select value={item?.payment_mathod}
+                        onChange={(text) => {
+                          item.payment_mathod = text.target.value
+                          setClientObj({
+                            ...clientObj,
+                          });
+                        }}
+                        className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
+                      >
+                        <option value=''>Slelect Payment Method</option>
+                        <option value='Paypal'>Paypal</option>
+                        <option value='Stripe'>Stripe</option>
+                        <option value='Razorpay'>Razorpay</option>
+                        <option value='Wise'>Wise</option>
+                        <option value='Direct Account'>Direct Account</option>
+                        <option value='Cash'>Cash</option>
+                        <option value='Other'>Other</option>
+                      </select>
+                    </div>
+                    <div className="p-2">
+                      <button
+                        className="text-white bg-red-700 rounded-sm  text-md py-2 px-2 h-10"
+                        onClick={() => {
+                          if (index > -1) {
+                            let mltns = clientObj.milestones;
+                            mltns.splice(index, 1)
+                            console.log(mltns)
+                            setClientObj({
+                              ...clientObj,
+                              milestones: mltns
+                            })
+                          }
+                        }}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:mr-2 rounded-md border-2 border-[var(--red-900)] p-2 mt-5 ">
@@ -703,10 +729,12 @@ const Register = (props) => {
                   />
                 </td>
 
-                <td className="p-2">
+                <td className="p-2 flex gap-1 w-full">
                   {item?.linkurl && <button
                     className="text-white bg-red-700 rounded-sm  text-md py-2 px-2 h-10"
+                    onClick={() => window.open(item?.linkurl, '_blank')}
                   >
+
                     View
                   </button>}
                   <button
@@ -822,6 +850,7 @@ const Register = (props) => {
                 <td className="p-2 flex gap-1 w-full">
                   {item?.docurl && <button
                     className="text-white bg-red-700 rounded-sm  text-md py-2 px-2 h-10"
+                    onClick={() => window.open(item?.docurl, '_blank')}
                   >
                     View
                   </button>}

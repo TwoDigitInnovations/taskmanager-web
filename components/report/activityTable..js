@@ -1,47 +1,69 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable jsx-a11y/alt-text */
 import Table from "@/components/table"; // new
-import React, { useMemo } from "react";
+import React, { useContext, useMemo } from "react";
 import Dialog from "@mui/material/Dialog";
 import { IoCloseCircleOutline, IoEyeSharp } from "react-icons/io5";
+import { userContext } from "@/pages/_app";
 
 const ActivityTable = (props) => {
   const [open, setOpen] = React.useState(false);
   const [image, setImage] = React.useState("");
+  const [user, setUser] = useContext(userContext);
+
+
+  const status = ({ value, row }) => {
+    return (
+      <div>
+        {value === "Resolved" ? (
+          <p className="text-green-500 capitalize">{value}</p>
+        ) : (!value || value === "pending" || value === "") && (
+          <div className="">
+            {user.type === 'ADMIN' && <button
+              className="bg-green-700 text-white p-2 rounded-sm w-20 "
+              onClick={() => {
+                props.updateReport(row.original._id);
+              }}
+            >
+              Resolve
+            </button>}
+            {user.type === 'PROVIDER' && <p className="text-yellow-600 capitalize">{value}</p>}
+          </div>
+        )}
+      </div>
+    );
+  }
   const columns = useMemo(
     () => [
       {
-        Header: "Guard Name",
-        accessor: "name",
+        Header: "Project",
+        accessor: "project.name",
       },
-      // {
-      //   Header: "SIA Batch",
-      //   accessor: "sia",
-      // },
       {
-        Header: "Job ID",
-        accessor: "job",
+        Header: "User",
+        accessor: "posted_by.username",
       },
       {
         Header: "Date & Time",
         accessor: "date",
       },
-      {
-        Header: "Issue",
-        accessor: "title",
-      },
+
       {
         Header: "Details",
         accessor: "details",
         Cell: Details
       },
       {
-        Header: "Image",
-        Cell: images,
+        Header: "Status",
+        accessor: "status",
+        Cell: status
       },
+
     ],
-    [images]
+    []
   );
+
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -57,19 +79,6 @@ const ActivityTable = (props) => {
     );
   }
 
-  function images({ row }) {
-    console.log(row);
-    return (
-      <img
-        onClick={() => {
-          setImage(`${row?.original?.url}/${row?.original?.photos[0]?.key || row?.original?.photos?.key}`);
-          handleClickOpen();
-        }}
-        className="h-10 w-10 rounded-md object-cover"
-        src={`${row?.original?.url}/${row?.original?.photos[0]?.key || row?.original?.photos?.key}`}
-      />
-    );
-  }
 
   return (
     <>
