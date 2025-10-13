@@ -14,6 +14,9 @@ import dynamic from "next/dynamic";
 import Layout from "@/components/layouts";
 import Loader from "@/components/loader";
 import Toaster from "@/components/toaster";
+import Script from "next/script";
+import OneSignal from 'react-onesignal';
+
 
 // const Phaser = dynamic(() => import("@ion-phaser/react"), { ssr: false });
 
@@ -98,28 +101,61 @@ function MyApp({ Component, pageProps }) {
     }
   };
 
-  return (
-    <userContext.Provider value={[user, setUser]}>
-      <Context.Provider value={[initial, setInitial]}>
-        <Loader open={open} />
-        <div className="fixed right-5 top-10 min-w-max z-50">
-          {!!toast.message && (
-            <Toaster type={toast.type} message={toast.message} />
-          )}
-        </div>
-        <Layout loader={setOpen} toaster={setToast}>
-          <Loader open={open} />
+  useEffect(() => {
+    // Ensure this code runs only on the client side
+    if (typeof window !== 'undefined') {
+      OneSignal.init({
+        appId: '816afcdf-9739-4852-9f10-43035ecb17d2',
+        // You can add other initialization options here
+        notifyButton: {
+          enable: true,
+        }
+      });
+    }
+  }, []);
 
-          <Component
-            {...pageProps}
-            loader={setOpen}
-            toaster={setToast}
-            organization={initial}
-            user={user}
-          />
-        </Layout>
-      </Context.Provider>
-    </userContext.Provider>
+  return (
+    <>
+
+
+      {/* <Script
+        async
+        src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"
+      ></Script>
+      <Script
+        id="gtag"
+        dangerouslySetInnerHTML={{
+          __html: `  window.OneSignalDeferred = window.OneSignalDeferred || [];
+            OneSignalDeferred.push(async function(OneSignal) {
+              await OneSignal.init({
+                appId: "816afcdf-9739-4852-9f10-43035ecb17d2",
+              });
+            });`,
+        }}
+      /> */}
+
+      <userContext.Provider value={[user, setUser]}>
+        <Context.Provider value={[initial, setInitial]}>
+          <Loader open={open} />
+          <div className="fixed right-5 top-10 min-w-max z-50">
+            {!!toast.message && (
+              <Toaster type={toast.type} message={toast.message} />
+            )}
+          </div>
+          <Layout loader={setOpen} toaster={setToast}>
+            <Loader open={open} />
+
+            <Component
+              {...pageProps}
+              loader={setOpen}
+              toaster={setToast}
+              organization={initial}
+              user={user}
+            />
+          </Layout>
+        </Context.Provider>
+      </userContext.Provider>
+    </>
   );
 }
 
