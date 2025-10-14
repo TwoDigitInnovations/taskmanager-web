@@ -32,6 +32,7 @@ export default function Home(props) {
   }, [router]);
 
   const submit = () => {
+
     // OneSignal.getUserId().then(id => console.log("OneSignal ID:", id));
     let { anyEmptyInputs } = checkForEmptyKeys(userDetail);
     if (anyEmptyInputs.length > 0) {
@@ -43,6 +44,12 @@ export default function Home(props) {
       username: userDetail.email.toLowerCase(),
       password: userDetail.password,
     };
+    let player_id = OneSignal.User.PushSubscription.id;
+    let device_token = OneSignal.User.PushSubscription.token;
+    if (player_id) {
+      data.player_id = player_id;
+      data.device_token = device_token
+    }
     Api("post", "login", data, router).then(
       (res) => {
         props.loader(false);

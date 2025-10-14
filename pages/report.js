@@ -152,6 +152,7 @@ const Report = (props) => {
             project: '',
             details: ''
           })
+          setSelectClient([])
           getReport()
           props.toaster({ type: "success", message: res?.message });
         } else {
