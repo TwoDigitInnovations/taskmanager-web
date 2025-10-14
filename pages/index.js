@@ -32,7 +32,7 @@ export default function Home(props) {
   }, [router]);
 
   const submit = () => {
-    OneSignal.getUserId().then(id => console.log("OneSignal ID:", id));
+    // OneSignal.getUserId().then(id => console.log("OneSignal ID:", id));
     let { anyEmptyInputs } = checkForEmptyKeys(userDetail);
     if (anyEmptyInputs.length > 0) {
       setSubmitted(true);
