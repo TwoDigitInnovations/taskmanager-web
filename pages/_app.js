@@ -17,6 +17,8 @@ import Toaster from "@/components/toaster";
 import Script from "next/script";
 import OneSignal from 'react-onesignal';
 import { Api } from "@/src/services/service";
+import Link from "next/link";
+import Head from "next/head";
 
 
 // const Phaser = dynamic(() => import("@ion-phaser/react"), { ssr: false });
@@ -107,6 +109,9 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
+      <Head>
+        <link rel="icon" href='https://2digitinnovations.com/icon/2digitinnovations_logo1.png' />
+      </Head>
 
 
       {/* <Script
