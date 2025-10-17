@@ -231,9 +231,9 @@ const Register = (props) => {
   console.log(clientObj)
   console.log(selectClient)
   return (
-    <div className=" bg-black overflow-x-auto">
-      <div className="pt-16 pb-5 ">
-        <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-3 rounded-sm  border-t-4 border-red-700 ">
+    <div className=" bg-[var(--white)] overflow-x-auto">
+      <div className="mt-16 mb-5 bg-[var(--mainLightColor)]">
+        <div className="grid grid-cols-2 bg-[var(--mainColor)] md:px-5 p-3 rounded-sm  border-t-4 border-[var(--customYellow)] ">
           <div>
             <p className="text-white font-bold md:text-3xl text-lg">
               {!!clienID ? "Update Project" : "Register new Project"}
@@ -241,10 +241,10 @@ const Register = (props) => {
           </div>
         </div>
 
-        <div className=" border-2 border-red-700 rounded-sm p-5">
+        <div className=" border-2 border-[var(--mainColor)] rounded-sm p-5">
           <div className="grid md:grid-cols-2 grid-cols-1 items-start">
             <div className="grid grid-cols-1 md:mr-2">
-              <p className="text-white text-lg font-semibold">
+              <p className="text-black text-lg font-semibold">
                 Project name{" "}
               </p>
               <input
@@ -252,14 +252,14 @@ const Register = (props) => {
                 onChange={(text) => {
                   setClientObj({ ...clientObj, name: text.target.value });
                 }}
-                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor"
+                className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor"
               />
               {submitted && clientObj.name === "" && (
-                <p className="text-red-700 mt-1">Project Name is required</p>
+                <p className="text-[var(--mainColor)] mt-1">Project Name is required</p>
               )}
             </div>
             <div className="grid grid-cols-1 ">
-              <p className="text-white text-lg font-semibold">Amount</p>
+              <p className="text-black text-lg font-semibold">Amount</p>
               <input
                 value={clientObj.amount}
                 onChange={(text) => {
@@ -268,30 +268,30 @@ const Register = (props) => {
                     amount: text.target.value,
                   });
                 }}
-                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor"
+                className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor"
               />
               {submitted && clientObj.amount === "" && (
-                <p className="text-red-700 mt-1">Amount is required</p>
+                <p className="text-[var(--mainColor)] mt-1">Amount is required</p>
               )}
             </div>
           </div>
 
           <div className="grid md:grid-cols-2 grid-cols-1 items-start mt-3 ">
             <div className="grid grid-cols-1 md:mr-2">
-              <p className="text-white text-lg font-semibold">Period (Weeks / Months)</p>
+              <p className="text-black text-lg font-semibold">Period (Weeks / Months)</p>
               <input
                 value={clientObj.period}
                 onChange={(text) => {
                   setClientObj({ ...clientObj, period: text.target.value });
                 }}
-                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor"
+                className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor"
               />
               {submitted && clientObj.period === "" && (
-                <p className="text-red-700 mt-1">period is required</p>
+                <p className="text-[var(--mainColor)] mt-1">period is required</p>
               )}
             </div>
             <div className="grid grid-cols-1 md:mr-2">
-              <p className="text-white text-lg font-semibold">Client</p>
+              <p className="text-black text-lg font-semibold">Client</p>
               <MultiSelect
                 options={clientOpt}
                 hasSelectAll={false}
@@ -311,15 +311,15 @@ const Register = (props) => {
 
                 labelledBy="Select Client"
                 ClearSelectedIcon
-                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black  icncolor"
+                className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)]  icncolor"
               />
               {submitted && clientObj.start_dev_date === "" && (
-                <p className="text-red-700 mt-1">Client is required</p>
+                <p className="text-[var(--mainColor)] mt-1">Client is required</p>
               )}
             </div>
 
             <div className="grid grid-cols-1 md:mr-2  mt-3 ">
-              <p className="text-white text-lg font-semibold">Design Start Date</p>
+              <p className="text-black text-lg font-semibold">Design Start Date</p>
               <input
                 value={clientObj.start_figma_date}
                 onChange={(text) => {
@@ -330,12 +330,12 @@ const Register = (props) => {
                   });
                 }}
                 type="date"
-                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor"
+                className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor"
               />
             </div>
 
             <div className="grid grid-cols-1 md:mr-2  mt-3 ">
-              <p className="text-white text-lg font-semibold">Devlopment Start Date</p>
+              <p className="text-black text-lg font-semibold">Devlopment Start Date</p>
               <input
                 value={clientObj.start_dev_date}
                 onChange={(text) => {
@@ -345,12 +345,12 @@ const Register = (props) => {
                   });
                 }}
                 type="date"
-                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor"
+                className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor"
               />
             </div>
 
             <div className="grid grid-cols-1 md:mr-2  mt-3 ">
-              <p className="text-white text-lg font-semibold">Original Proposel</p>
+              <p className="text-black text-lg font-semibold">Original Proposel</p>
               <input
                 // value={clientObj.start_dev_date}
                 onChange={(text) => {
@@ -361,19 +361,19 @@ const Register = (props) => {
                   });
                 }}
                 type="file"
-                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor"
+                className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor"
               />
               {clientObj?.original_propsel_link && <div className="mt-2 cursor-pointer" onClick={() => window.open(clientObj.original_propsel_link, '_blank')}>
                 <FaFilePdf className="text-white text-8xl" />
-                <p className="text-white mt-1">Original-Pdf.js</p>
+                <p className="text-black mt-1">Original-Pdf.js</p>
               </div>}
               {submitted && clientObj.start_dev_date === "" && (
-                <p className="text-red-700 mt-1">Original proposel is required</p>
+                <p className="text-[var(--mainColor)] mt-1">Original proposel is required</p>
               )}
             </div>
 
             <div className="grid grid-cols-1 md:mr-2  mt-3 ">
-              <p className="text-white text-lg font-semibold">Dev Proposel</p>
+              <p className="text-black text-lg font-semibold">Dev Proposel</p>
               <input
                 onChange={(text) => {
                   console.log(text)
@@ -383,23 +383,23 @@ const Register = (props) => {
                   });
                 }}
                 type="file"
-                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor"
+                className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor"
               />
               {clientObj?.dev_propsel_link && <div className="mt-2 cursor-pointer" onClick={() =>
                 openPdf(clientObj.dev_propsel_link)
               }
               >
                 <FaFilePdf className="text-white text-8xl" />
-                <p className="text-white mt-1">Devloper-Pdf.js</p>
+                <p className="text-black mt-1">Devloper-Pdf.js</p>
               </div>}
               {submitted && clientObj.start_dev_date === "" && (
-                <p className="text-red-700 mt-1">Dev proposel is required</p>
+                <p className="text-[var(--mainColor)] mt-1">Dev proposel is required</p>
               )}
             </div>
 
             <div className="grid grid-cols- md:mr-2  mt-3 ">
-              <p className="text-white text-lg font-semibold">Platforms</p>
-              <div className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor"
+              <p className="text-black text-lg font-semibold">Platforms</p>
+              <div className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor"
               >
                 <div className="flex items-center">
                   <input type='checkbox' checked={clientObj?.platforms.includes('Website')} onChange={(event) => {
@@ -415,7 +415,7 @@ const Register = (props) => {
                       platforms: d,
                     });
                   }} />
-                  <p className="text-white text-base font-medium ml-3">Website</p>
+                  <p className="text-black text-base font-medium ml-3">Website</p>
                 </div>
                 <div className="flex items-center">
                   <input type='checkbox' checked={clientObj?.platforms.includes('Android App')} onChange={(event) => {
@@ -431,7 +431,7 @@ const Register = (props) => {
                       platforms: d,
                     });
                   }} />
-                  <p className="text-white text-base font-medium ml-3">Android App</p>
+                  <p className="text-black text-base font-medium ml-3">Android App</p>
                 </div>
                 <div className="flex items-center">
                   <input type='checkbox' checked={clientObj?.platforms.includes('Ios App')} onChange={(event) => {
@@ -447,7 +447,7 @@ const Register = (props) => {
                       platforms: d,
                     });
                   }} />
-                  <p className="text-white text-base font-medium ml-3">Ios App</p>
+                  <p className="text-black text-base font-medium ml-3">Ios App</p>
                 </div>
                 <div className="flex items-center">
                   <input type='checkbox' checked={clientObj?.platforms.includes('Admin Panel')} onChange={(event) => {
@@ -463,13 +463,13 @@ const Register = (props) => {
                       platforms: d,
                     });
                   }} />
-                  <p className="text-white text-base font-medium ml-3">Admin Panel</p>
+                  <p className="text-black text-base font-medium ml-3">Admin Panel</p>
                 </div>
               </div>
 
             </div>
             <div className="grid grid-cols- md:mr-2  mt-3 ">
-              <p className="text-white text-lg font-semibold">Description</p>
+              <p className="text-black text-lg font-semibold">Description</p>
               <textarea
                 value={clientObj?.description}
                 rows={4}
@@ -479,16 +479,16 @@ const Register = (props) => {
                     description: text.target.value,
                   });
                 }}
-                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor"
+                className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor"
               ></textarea>
             </div>
 
           </div>
-          <div className="grid grid-cols-1 md:mr-2 rounded-md border-2 border-[var(--red-900)] p-2 mt-5 ">
+          <div className="grid grid-cols-1 md:mr-2 rounded-md border-2 border-[var(--mainColor)] p-2 mt-5 ">
             <div className="flex justify-between">
-              <p className="text-white text-lg font-semibold">Milestones</p>
+              <p className="text-black text-lg font-semibold">Milestones</p>
               <button
-                className="text-white bg-red-700 rounded-sm  text-md py-2 px-2 h-10"
+                className="text-white bg-[var(--mainColor)] rounded-sm  text-md py-2 px-2 h-10"
                 onClick={() => {
                   let mltns = clientObj.milestones;
                   mltns.push({
@@ -510,7 +510,7 @@ const Register = (props) => {
 
             <div className="mt-5">
               {clientObj.milestones.map((item, index) => (
-                <div className="p-2" key={index}>   <p className="text-white text-lg font-semibold">{index + 1}</p>
+                <div className="p-2" key={index}>   <p className="text-black text-lg font-semibold">{index + 1}</p>
 
                   <div className="grid grid-cols-4 gap-2 mb-3">
                     <div className="p-2">
@@ -524,7 +524,7 @@ const Register = (props) => {
                           });
                         }}
                         type="number"
-                        className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
+                        className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full"
                       />
                     </div>
                     <div className="p-2">
@@ -538,7 +538,7 @@ const Register = (props) => {
                           });
                         }}
                         type="text"
-                        className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
+                        className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full"
                       />
                     </div>
                     <div className="p-2">
@@ -552,7 +552,7 @@ const Register = (props) => {
                           });
                         }}
                         type="text"
-                        className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
+                        className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full"
                       />
                     </div>
                     <div className="p-2">
@@ -566,7 +566,7 @@ const Register = (props) => {
                           });
                         }}
                         type="text"
-                        className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
+                        className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full"
                       />
                     </div>
                     <div className="p-2">
@@ -578,7 +578,7 @@ const Register = (props) => {
                             ...clientObj,
                           });
                         }}
-                        className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
+                        className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full"
 
                       >
                         <option value="unpaid">Unpaid</option>
@@ -597,7 +597,7 @@ const Register = (props) => {
                           });
                         }}
                         type="date"
-                        className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-1 icncolor w-full"
+                        className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-1 icncolor w-full"
                       />
                     </div>
                     <div className="p-2">
@@ -609,7 +609,7 @@ const Register = (props) => {
                             ...clientObj,
                           });
                         }}
-                        className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
+                        className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full"
                       >
                         <option value=''>Slelect Payment Method</option>
                         <option value='Paypal'>Paypal</option>
@@ -623,7 +623,7 @@ const Register = (props) => {
                     </div>
                     <div className="p-2">
                       <button
-                        className="text-white bg-red-700 rounded-sm  text-md py-2 px-2 h-10"
+                        className="text-white bg-[var(--mainColor)] rounded-sm  text-md py-2 px-2 h-10"
                         onClick={() => {
                           if (index > -1) {
                             let mltns = clientObj.milestones;
@@ -646,11 +646,11 @@ const Register = (props) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:mr-2 rounded-md border-2 border-[var(--red-900)] p-2 mt-5 ">
+          <div className="grid grid-cols-1 md:mr-2 rounded-md border-2 border-[var(--mainColor)] p-2 mt-5 ">
             <div className="flex justify-between">
-              <p className="text-white text-lg font-semibold">Links</p>
+              <p className="text-black text-lg font-semibold">Links</p>
               <button
-                className="text-white bg-red-700 rounded-sm  text-md py-2 px-2 h-10"
+                className="text-white bg-[var(--mainColor)] rounded-sm  text-md py-2 px-2 h-10"
                 onClick={() => {
                   let mltns = clientObj.links;
                   mltns.push({
@@ -671,7 +671,7 @@ const Register = (props) => {
 
             <table className="mt-5">
               {clientObj.links.map((item, index) => (<tr key={index}>
-                <td className="p-2">   <p className="text-white text-lg font-semibold">{index + 1}</p></td>
+                <td className="p-2">   <p className="text-black text-lg font-semibold">{index + 1}</p></td>
                 <td className="p-2">
                   <input
                     placeholder="Name"
@@ -683,7 +683,7 @@ const Register = (props) => {
                       });
                     }}
                     type="text"
-                    className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
+                    className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full"
                   />
                 </td>
                 <td className="p-2">
@@ -697,7 +697,7 @@ const Register = (props) => {
                       });
                     }}
                     type="text"
-                    className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
+                    className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full"
                   />
                 </td>
                 <td className="p-2">
@@ -711,7 +711,7 @@ const Register = (props) => {
                       });
                     }}
                     type="text"
-                    className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
+                    className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full"
                   />
                 </td>
                 <td className="p-2">
@@ -725,20 +725,20 @@ const Register = (props) => {
                       });
                     }}
                     type="text"
-                    className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
+                    className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full"
                   />
                 </td>
 
                 <td className="p-2 flex gap-1 w-full">
                   {item?.linkurl && <button
-                    className="text-white bg-red-700 rounded-sm  text-md py-2 px-2 h-10"
+                    className="text-white bg-[var(--mainColor)] rounded-sm  text-md py-2 px-2 h-10"
                     onClick={() => window.open(item?.linkurl, '_blank')}
                   >
 
                     View
                   </button>}
                   <button
-                    className="text-white bg-red-700 rounded-sm  text-md py-2 px-2 h-10"
+                    className="text-white bg-[var(--mainColor)] rounded-sm  text-md py-2 px-2 h-10"
                     onClick={() => {
                       if (index > -1) {
                         let lnk = clientObj.links;
@@ -759,16 +759,16 @@ const Register = (props) => {
             </table>
 
             {submitted && clientObj.start_dev_date === "" && (
-              <p className="text-red-700 mt-1">Phone Number is required</p>
+              <p className="text-[var(--mainColor)] mt-1">Phone Number is required</p>
             )}
           </div>
 
 
-          <div className="grid grid-cols-1 md:mr-2 rounded-md border-2 border-[var(--red-900)] p-2 mt-5 ">
+          <div className="grid grid-cols-1 md:mr-2 rounded-md border-2 border-[var(--mainColor)] p-2 mt-5 ">
             <div className="flex justify-between">
-              <p className="text-white text-lg font-semibold">Required Docs</p>
+              <p className="text-black text-lg font-semibold">Required Docs</p>
               <button
-                className="text-white bg-red-700 rounded-sm  text-md py-2 px-2 h-10"
+                className="text-white bg-[var(--mainColor)] rounded-sm  text-md py-2 px-2 h-10"
                 onClick={() => {
                   let mltns = clientObj.required_items;
                   mltns.push({
@@ -789,7 +789,7 @@ const Register = (props) => {
 
             <table className="mt-5">
               {clientObj.required_items.map((item, index) => (<tr key={index}>
-                <td className="p-2">   <p className="text-white text-lg font-semibold">{index + 1}</p></td>
+                <td className="p-2">   <p className="text-black text-lg font-semibold">{index + 1}</p></td>
                 <td className="p-2">
                   <input
                     placeholder="Doc name"
@@ -801,7 +801,7 @@ const Register = (props) => {
                       });
                     }}
                     type="text"
-                    className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
+                    className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full"
                   />
                 </td>
                 <td className="p-2">
@@ -815,7 +815,7 @@ const Register = (props) => {
                       });
                     }}
                     type="text"
-                    className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
+                    className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full"
                   />
                 </td>
                 <td className="p-2">
@@ -829,7 +829,7 @@ const Register = (props) => {
                       });
                     }}
                     type="text"
-                    className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
+                    className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full"
                   />
                 </td>
                 <td className="p-2">
@@ -843,19 +843,19 @@ const Register = (props) => {
                       });
                     }}
                     type="text"
-                    className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor w-full"
+                    className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full"
                   />
                 </td>
 
                 <td className="p-2 flex gap-1 w-full">
                   {item?.docurl && <button
-                    className="text-white bg-red-700 rounded-sm  text-md py-2 px-2 h-10"
+                    className="text-white bg-[var(--mainColor)] rounded-sm  text-md py-2 px-2 h-10"
                     onClick={() => window.open(item?.docurl, '_blank')}
                   >
                     View
                   </button>}
                   <button
-                    className="text-white bg-red-700 rounded-sm  text-md py-2 px-2 h-10"
+                    className="text-white bg-[var(--mainColor)] rounded-sm  text-md py-2 px-2 h-10"
                     onClick={() => {
                       if (index > -1) {
                         let lnk = clientObj.required_items;
@@ -884,14 +884,14 @@ const Register = (props) => {
 
           <div className="flex justify-between mt-4">
             <button
-              className="text-white bg-red-700 rounded-sm  text-md py-2 w-40 h-10"
+              className="text-white bg-[var(--mainColor)] rounded-sm  text-md py-2 w-40 h-10"
               //   onClick={props.repeat === "Update Task" ? updateJob : submit}
               onClick={!!clienID ? submit : submit}
             >
               {!!clienID ? "Update Project" : "Register New Project"}
             </button>
             <button
-              className="text-white bg-red-700 rounded-sm  text-md py-2 w-36 h-10"
+              className="text-white bg-[var(--mainColor)] rounded-sm  text-md py-2 w-36 h-10"
               onClick={() => {
                 props.setShowForm(false);
                 setClientObj({

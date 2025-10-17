@@ -16,6 +16,7 @@ import Loader from "@/components/loader";
 import Toaster from "@/components/toaster";
 import Script from "next/script";
 import OneSignal from 'react-onesignal';
+import { Api } from "@/src/services/service";
 
 
 // const Phaser = dynamic(() => import("@ion-phaser/react"), { ssr: false });
@@ -61,39 +62,29 @@ function MyApp({ Component, pageProps }) {
     getUserDetail();
   }, []);
 
+
+
   const getUserDetail = () => {
     const user = localStorage.getItem("userDetail");
     if (!!user) {
-      setUser(JSON.parse(user));
+      setOpen(true);
+      Api("get", "me", "", router).then(
+        async (res) => {
+          setOpen(false);
+          if (res?.status) {
+            localStorage.setItem("userDetail", JSON.stringify(res.data));
+            setUser(res.data);
 
-      // if (JSON.parse(user)?.id === "6450e9bef4d2cc08c2ec0431") {
-      //   router.push("/festaevent");
-      // } else {
-      //   if (router.route === "/") {
-      // router.push("/home");
-      //   }
-      // }
-      // if (router.route === "/") {
-      //   if (JSON.parse(user).type === "PROVIDER") {
-      //     // router.push("tasks/task");
-      //     router.push("home");
-      //   } else if (JSON.parse(user).type === "ADMIN") {
-      //     router.push("home");
-      //   } else {
-      //     props.toaster({ type: "error", message: "You have not access this portal" });
-      //   }
-      // } else {
-      //   // if (JSON.parse(user).type === "PROVIDER") {
-      //   //   let paths = ['/tasks/task', '/projects/projectlist', '/home']
-      //   //   if (!paths.includes(router.asPath)) {
-      //   //     router.push("home");
-      //   //     // router.push("tasks/task");
-      //   //   }
-      //   // }
-      // }
-      // if (router.route === "/") {
-      // router.replace("/home");
-      // }
+          } else {
+            setToast({ type: "success", message: res?.message });
+          }
+        },
+        (err) => {
+          setOpen(false);
+          setToast({ type: "error", message: err.message });
+          console.log(err);
+        }
+      );
     } else {
       if (router.route !== "/" && router.route !== "/signup") {
         router.push("/");

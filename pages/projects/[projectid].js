@@ -9,9 +9,9 @@ import AuthGuard from '../AuthGuard';
 
 function StatPill({ label, value }) {
     return (
-        <div className="flex flex-col items-center p-3 bg-white rounded-2xl shadow-sm">
-            <span className="text-xs text-gray-500">{label}</span>
-            <span className="mt-1 text-lg font-semibold text-gray-900">{value}</span>
+        <div className="flex flex-col items-center p-3 bg-[var(--mainColor)] rounded-2xl shadow-sm">
+            <span className="text-xs text-[var(--white)]">{label}</span>
+            <span className="mt-1 text-lg font-semibold text-[var(--white)]">{value}</span>
         </div>
     )
 }
@@ -23,7 +23,7 @@ function UserRow({ user, data }) {
                 <div className="h-9 w-9 rounded-full bg-gray-100 flex items-center justify-center text-sm font-medium text-gray-700">{user.name?.charAt(0)?.toUpperCase()}</div>
                 <div>
                     <div className="text-sm font-medium text-gray-900">{user.name}</div>
-                    <div className="text-xs text-gray-500">{user.total_hrs} hrs</div>
+                    <div className="text-xs text-gray-500">{user.total_hrs?.toFixed(2)} hrs</div>
                 </div>
             </div>
             <div className="w-36">
@@ -44,7 +44,7 @@ function RoleCard({ role, data }) {
             <div className="flex items-center justify-between">
                 <div>
                     <div className="text-sm font-semibold text-gray-800">{role.role}</div>
-                    <div className="text-xs text-gray-500">{role.total_hrs} hrs</div>
+                    <div className="text-xs text-gray-500">{role.total_hrs?.toFixed(2)} hrs</div>
                 </div>
                 <div className="text-xs text-gray-500">Users: {role.users.length}</div>
             </div>
@@ -60,11 +60,11 @@ function RoleCard({ role, data }) {
 
 function TypeCard({ type, data }) {
     return (
-        <div className="bg-gray-50 rounded-3xl p-5 shadow-inner">
+        <div className="bg-[var(--mainLightColor)] rounded-3xl p-5 shadow-inner">
             <div className="flex items-center justify-between mb-4">
                 <div>
                     <div className="text-sm font-semibold text-gray-900">{type.type}</div>
-                    <div className="text-xs text-gray-500">{type.total_hrs} hrs</div>
+                    <div className="text-xs text-gray-500">{type.total_hrs?.toFixed(2)} hrs</div>
                 </div>
                 <div className="text-xs text-gray-500">Roles: {type.work_role.length}</div>
             </div>
@@ -113,27 +113,27 @@ export default function ProjectHistoryUI(props) {
     function convertToCSV(data) {
         let rows = [];
         rows.push(["Project Name", data.project_name]);
-        rows.push(["Total Hours", data.total_hrs]);
+        rows.push(["Total Hours", data.total_hrs.toFixed(2)]);
         rows.push([]);
 
         data.work_type.forEach(t => {
-            rows.push([`Work Type: ${t.type}`, `Total Hours: ${t.total_hrs}`]);
+            rows.push([`Work Type: ${t.type}`, `Total Hours: ${t.total_hrs?.toFixed(2)}`]);
             t.work_role.forEach(r => {
-                rows.push([`  Role: ${r.role}`, `Total Hours: ${r.total_hrs}`]);
+                rows.push([`  Role: ${r.role}`, `Total Hours: ${r.total_hrs?.toFixed(2)}`]);
                 r.users.forEach(u => {
-                    rows.push([`    User: ${u.name}`, u.total_hrs]);
+                    rows.push([`    User: ${u.name}`, u.total_hrs?.toFixed(2)]);
                 });
             });
             rows.push([]);
         });
         rows.push([`Work Miletone Summery`]);
         data.milestone_summary.forEach(t => {
-            rows.push([`${t.status}, ${t.amount}`]);
+            rows.push([`${t.status}, ${t.amount?.toFixed(2)}`]);
         });
         rows.push([]);
         rows.push([`Milestones`]);
         data.milestones.forEach((t, i) => {
-            rows.push([`Milestone-${i + 1}: ${t.status}, ${t.amount}`]);
+            rows.push([`Milestone-${i + 1}: ${t.status}, ${t.amount?.toFixed(2)}`]);
 
         });
         // rows.push([]);
@@ -156,25 +156,25 @@ export default function ProjectHistoryUI(props) {
 
     return (
         <AuthGuard allowedRoles={["ADMIN"]}>
-            <div className="min-h-screen bg-black text-gray-900 p-4 md:p-8">
+            <div className="min-h-screen bg-[var(--white)] text-gray-900 p-4 md:p-8">
                 <div className="max-w-6xl mx-auto">
                     {/* Header */}
                     <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
                         <div>
-                            <h1 className="text-2xl md:text-3xl font-bold text-white">{data?.project_name}</h1>
-                            <p className="text-sm text-white mt-1">Project hours overview</p>
+                            <h1 className="text-2xl md:text-3xl font-bold text-black">{data?.project_name}</h1>
+                            <p className="text-sm text-black mt-1">Project hours overview</p>
                         </div>
 
                         <div className="flex items-center gap-3">
-                            <StatPill label="Total Hours" value={`${data?.total_hrs} hrs`} />
-                            <button className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-medium shadow" onClick={downloadCSV}>Export CSV</button>
+                            <StatPill label="Total Hours" value={`${data?.total_hrs?.toFixed(2)} hrs`} />
+                            <button className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[var(--customYellow)] text-black text-sm font-medium shadow" onClick={downloadCSV}>Export CSV</button>
                         </div>
                     </header>
 
                     {/* Content */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {/* Left: summary / legend */}
-                        <aside className="md:col-span-1 bg-[var(--customGray)] rounded-2xl p-4 shadow-sm">
+                        <aside className="md:col-span-1 bg-[var(--mainColor)] rounded-2xl p-4 shadow-sm">
                             <div className="text-sm font-medium text-white mb-3">Summary</div>
                             <div className="flex flex-col gap-3">
                                 {data?.work_type?.map((t, i) => (
@@ -183,7 +183,7 @@ export default function ProjectHistoryUI(props) {
                                             <div className="text-sm font-semibold">{t?.type}</div>
                                             <div className="text-xs text-gray-500">{t?.work_role?.length} role(s)</div>
                                         </div>
-                                        <div className="text-sm font-semibold">{t?.total_hrs}h</div>
+                                        <div className="text-sm font-semibold">{t?.total_hrs?.toFixed(2)}h</div>
                                     </div>
                                 ))}
                             </div>
@@ -196,7 +196,7 @@ export default function ProjectHistoryUI(props) {
                                             <div className="text-sm font-semibold">{t.status}</div>
                                             {/* <div className="text-xs text-gray-500">{t.work_role.length} role(s)</div> */}
                                         </div>
-                                        <div className="text-sm font-semibold">{t.amount}</div>
+                                        <div className="text-sm font-semibold">{t.amount?.toFixed(2)}</div>
                                     </div>
                                 ))}
                             </div>
@@ -225,8 +225,8 @@ export default function ProjectHistoryUI(props) {
                                 <div key={i} className="">
                                     <div className="flex items-center justify-between mb-3">
                                         <div>
-                                            <h3 className="text-lg font-semibold text-white">{t?.type}</h3>
-                                            <div className="text-xs text-white">{t?.total_hrs} hrs • {t?.work_role.length} role(s)</div>
+                                            <h3 className="text-lg font-semibold text-black">{t?.type}</h3>
+                                            <div className="text-xs text-black">{t?.total_hrs?.toFixed(2)} hrs • {t?.work_role.length} role(s)</div>
                                         </div>
                                     </div>
 
@@ -238,15 +238,15 @@ export default function ProjectHistoryUI(props) {
                                 </div>
                             ))}
 
-                            <div className="pt-4 text-xs text-white">Generated: {moment(new Date()).format('DD/MM/YYYY hh:mm A')}</div>
+                            <div className="pt-4 text-xs text-black">Generated: {moment(new Date()).format('DD/MM/YYYY hh:mm A')}</div>
                         </section>
                     </div>
 
                     {/* Footer - mobile CTA */}
                     <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 md:hidden">
-                        <div className="bg-white p-3 rounded-3xl shadow-lg flex items-center gap-4">
-                            <div className="text-sm">Total: <span className="font-semibold">{data.total_hrs} hrs</span></div>
-                            <button className="ml-2 px-3 py-2 rounded-full bg-blue-600 text-white text-sm" onClick={downloadCSV}>Export</button>
+                        <div className="bg-[var(--mainColor)] p-3 rounded-3xl shadow-lg flex items-center gap-4">
+                            <div className="text-sm text-white">Total: <span className="font-semibold">{data.total_hrs} hrs</span></div>
+                            <button className="ml-2 px-3 py-2 rounded-full bg-[var(--customYellow)] text-black text-sm" onClick={downloadCSV}>Export</button>
                         </div>
                     </div>
                 </div>

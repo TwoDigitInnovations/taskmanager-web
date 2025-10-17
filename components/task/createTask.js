@@ -214,9 +214,9 @@ const CreateTask = (props) => {
   }, [jobInfo]);
 
   return (
-    <div className=" bg-black  overflow-x-auto">
-      <div className=" pb-5">
-        <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-3 rounded-sm  border-t-4 border-red-700 ">
+    <div className=" bg-[var(--mainLightColor)] ">
+      <div className="mb-5 ">
+        <div className="grid grid-cols-2 bg-[var(--mainColor)] md:px-5 p-3   border-t-4 border-[var(--customYellow)] ">
           <div>
             <p className="text-white font-bold md:text-3xl text-lg">
               {props.repeat}
@@ -224,10 +224,10 @@ const CreateTask = (props) => {
           </div>
         </div>
 
-        <div className=" border-2 border-red-700 rounded-sm p-5">
+        <div className=" border-2 border-[var(--mainColor)] rounded-sm p-5">
           <div className="grid md:grid-cols-2 grid-cols-1 items-start">
             <div className="grid grid-cols-1 md:mr-2">
-              <p className="text-white text-lg font-semibold">Task Date</p>
+              <p className="text-black text-lg font-semibold">Task Date</p>
               <input
                 value={moment(jobInfo?.startDate).format('YYYY-MM-DD')}
                 onChange={(text) => {
@@ -258,16 +258,16 @@ const CreateTask = (props) => {
                   setJobInfo({ ...jobInfo, ...ndata });
                 }}
                 type="date"
-                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-3 "
+                className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-3 "
               />
               {submitted && jobInfo.title === "" && (
-                <p className="text-red-700 mt-1">Task Name is required</p>
+                <p className="text-[var(--mainColor)] mt-1">Task Name is required</p>
               )}
             </div>
 
             <div className="grid md:grid-cols-2 grid-cols-1">
               <div className="grid grid-cols-1">
-                <p className="text-white text-lg font-semibold">
+                <p className="text-black text-lg font-semibold">
                   {"Start Time"}
                 </p>
                 <input
@@ -288,12 +288,12 @@ const CreateTask = (props) => {
                     getJobHour(newDate, jobInfo.endTime);
                   }}
                   type="time"
-                  className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-3 "
+                  className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-3 "
                 />
               </div>
 
               <div className="grid grid-cols-1">
-                <p className="text-white text-lg font-semibold">
+                <p className="text-black text-lg font-semibold">
                   {"End Time"}
                 </p>
                 <input
@@ -314,7 +314,7 @@ const CreateTask = (props) => {
                     getJobHour(jobInfo.startTime, newDate);
                   }}
                   type="time"
-                  className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-3 "
+                  className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-3 "
                 />
               </div>
             </div>
@@ -325,7 +325,7 @@ const CreateTask = (props) => {
               } md:grid-cols-2 grid-cols-1 mt-3 items-start`}
           >
             <div className="grid md:grid-cols-1 grid-cols-1 mt-3 items-start md:mr-3">
-              <p className="text-white text-lg font-semibold">
+              <p className="text-black text-lg font-semibold">
                 Select Project
               </p>
               <MultiSelect
@@ -356,7 +356,7 @@ const CreateTask = (props) => {
 
 
                 }}
-                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-1.5 "
+                className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-1.5 "
 
                 labelledBy="Select Client"
                 ClearSelectedIcon
@@ -365,7 +365,7 @@ const CreateTask = (props) => {
             </div>
 
             <div className="grid md:grid-cols-1 grid-cols-1 mt-3 items-start">
-              <p className="text-white text-lg font-semibold">Hours</p>
+              <p className="text-black text-lg font-semibold">Hours</p>
               <input
                 readOnly
                 value={jobInfo?.job_hrs}
@@ -375,7 +375,7 @@ const CreateTask = (props) => {
                 min="0"
                 type="number"
                 placeholder="00"
-                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-3 icncolor"
+                className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-3 icncolor"
               />
             </div>
 
@@ -384,7 +384,7 @@ const CreateTask = (props) => {
           <div className="grid md:grid-cols-2 grid-cols-1 mt-3 items-start">
             <div className="grid grid-cols-1 md:mr-2 ">
               <div className="grid grid-cols-2 mb-1">
-                <p className="text-white text-lg font-semibold ">
+                <p className="text-black text-lg font-semibold ">
                   Work Type
                 </p>
 
@@ -392,7 +392,7 @@ const CreateTask = (props) => {
               <select value={jobInfo?.work_type}
                 onChange={(text) => {
                   setJobInfo({ ...jobInfo, work_type: text.target.value });
-                }} className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-3 "
+                }} className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-3 "
               >
                 <option value=''>Slelect work type</option>
                 <option value='Regular'>Regular</option>
@@ -402,7 +402,7 @@ const CreateTask = (props) => {
 
             <div className="grid grid-cols-1 md:mr-2 ">
               <div className="grid grid-cols-2 mb-1">
-                <p className="text-white text-lg font-semibold ">
+                <p className="text-black text-lg font-semibold ">
                   Work Rele
                 </p>
 
@@ -410,7 +410,7 @@ const CreateTask = (props) => {
               <select value={jobInfo?.work_role}
                 onChange={(text) => {
                   setJobInfo({ ...jobInfo, work_role: text.target.value });
-                }} className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-3 "
+                }} className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-3 "
               >
                 <option value=''>Slelect work type</option>
                 <option value='Designer'>Designer</option>
@@ -423,7 +423,7 @@ const CreateTask = (props) => {
 
 
           <div className="grid md:grid-cols-1 grid-cols-1 mt-3 items-start">
-            <p className="text-white text-lg font-semibold">
+            <p className="text-black text-lg font-semibold">
               Task list
             </p>
             <textarea
@@ -434,10 +434,10 @@ const CreateTask = (props) => {
               min="0"
               type="number"
               rows={5}
-              className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor"
+              className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor"
             />
             {submitted && jobInfo.description === "" && (
-              <p className="text-red-700 mt-1">
+              <p className="text-[var(--mainColor)] mt-1">
                 Job Responsibility is required
               </p>
             )}
@@ -446,7 +446,7 @@ const CreateTask = (props) => {
           <div className="flex justify-between mt-4">
             <div className="flex gap-5">
               <button
-                className={`text-white ${isPast ? "bg-red-800" : "bg-red-600"
+                className={`text-white ${isPast ? "bg-[var(--mainColor)]" : "bg-[var(--mainColor)]"
                   } rounded-sm  text-md w-36 h-10`}
                 onClick={submit}
               >
@@ -456,7 +456,7 @@ const CreateTask = (props) => {
             </div>
 
             <button
-              className="text-white bg-red-700 rounded-sm  text-md  w-36 h-10"
+              className="text-white bg-[var(--mainColor)] rounded-sm  text-md  w-36 h-10"
               onClick={() => {
                 props.setShowForm(false);
                 setJobInfo({

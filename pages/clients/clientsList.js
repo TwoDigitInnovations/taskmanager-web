@@ -123,30 +123,30 @@ const ClientsList = (props) => {
 
   return (
     <AuthGuard allowedRoles={["ADMIN"]}>
-      <div className="min-h-screen  md:pt-3 overflow-x-auto bg-black ">
+      <div className="min-h-screen  md:pt-3 overflow-x-auto bg-[var(--white)] ">
         < div className="px-5 md:mt-0 mt-5">
           <div className="grid md:grid-cols-3 grid-col-1 gap-3">
-            <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4 relative flex justify-center    cursor-pointer" onClick={() => setClientList(mainList)} >
-              <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-16 rounded-md px-5">
+            <div className="border-2    border-t-[var(--customYellow)] border-t-4 relative flex justify-center    cursor-pointer" onClick={() => setClientList(mainList)} >
+              <div className="bg-[var(--mainColor)] w-full flex justify-between items-center h-16 px-5">
                 <p className="font-bold text-lg text-center text-white  px-3">Total Number of Client</p>
-                <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
+                <p className="text-[var(--white)] md:text-3xl text-2xl font-bold text-center">
                   <CountUp end={mainList?.length || 0} />
                 </p>
               </div>
             </div>
-            <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4    relative flex justify-center cursor-pointer" onClick={() => setClientList(clientData?.verified)}>
-              <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-16 rounded-md px-5">
+            <div className="border-2    border-t-[var(--customYellow)] border-t-4    relative flex justify-center cursor-pointer" onClick={() => setClientList(clientData?.verified)}>
+              <div className="bg-[var(--mainColor)] w-full flex justify-between items-center h-16  px-5">
                 <p className="font-bold text-lg text-center text-white  px-3">Verified Client</p>
-                <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
+                <p className="text-[var(--white)] md:text-3xl text-2xl font-bold text-center">
                   <CountUp end={clientData?.verified?.length || 0} />
                 </p>
               </div>
             </div>
 
-            <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4   relative flex justify-center cursor-pointer" onClick={() => setClientList(clientData?.suspended)}>
-              <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-16 rounded-md px-5">
+            <div className="border-2    border-t-[var(--customYellow)] border-t-4   relative flex justify-center cursor-pointer" onClick={() => setClientList(clientData?.suspended)}>
+              <div className="bg-[var(--mainColor)] w-full flex justify-between items-center h-16  px-5">
                 <p className="font-bold text-lg text-center text-white  px-3">Suspended Client</p>
-                <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
+                <p className="text-[var(--white)] md:text-3xl text-2xl font-bold text-center">
                   <CountUp end={clientData?.suspended?.length || 0} />
                 </p>
               </div>
@@ -168,7 +168,7 @@ const ClientsList = (props) => {
           {!showForm && (
             <button
               // disabled={props?.organization?._id === undefined ? true : false}
-              className="bg-red-700 text-white p-2 md:ml-0 ml-2 rounded-sm mt-3"
+              className="bg-[var(--mainColor)] text-white p-2 md:ml-0 ml-2 rounded-sm mt-3"
               onClick={() => {
                 // if (
                 //   props?.organization?._id === undefined &&
@@ -192,7 +192,7 @@ const ClientsList = (props) => {
           )}
         </div>
         <div className="px-5 overflow-visible mt-3">
-          <div className="grid md:grid-cols-2 grid-cols-1 bg-stone-900 p-3  border-t-4 border-red-700 ">
+          <div className="grid md:grid-cols-2 grid-cols-1 bg-[var(--mainColor)] p-3  border-t-4 border-[var(--customYellow)] ">
             <div>
               <p className="text-white font-bold md:text-3xl text-lg">
                 Clients List
@@ -201,13 +201,13 @@ const ClientsList = (props) => {
             <div className="flex items-center justify-end md:mt-0 mt-2 ">
 
               <input
-                className="  rounded-md border-2 border-[var(--red-900)] outline-none ml-2 text-white bg-black w-72 p-1.5 "
+                className="  rounded-md border-2 border-[var(--customYellow)] outline-none ml-2 text-black bg-[var(--white)] w-72 p-1.5 "
                 onChange={(text) => {
                   searchList(text.target.value);
                 }}
               />
-              <div className="h-10 w-10 bg-red-700 rounded-md ml-3 flex justify-center items-center">
-                <IoSearch className="text-white text-xl" />
+              <div className="h-10 w-10 bg-[var(--customYellow)] rounded-md ml-3 flex justify-center items-center">
+                <IoSearch className="text-whblackite text-xl" />
               </div>
             </div>
           </div>

@@ -43,9 +43,9 @@ export function CalendarTable(props) {
     // }
     let ownProperty = item?.posted_by?._id === user?.id || user.type === 'ADMIN';
     if (ownProperty) {
-      return 'rgb(21 128 61)'
+      return 'rgb(108 85 249)'
     } else {
-      return 'rgb(0 0 0)'
+      return 'rgb(252 189 12)'
     }
 
   }

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { Api } from "../src/services/service";
 import { useRouter } from "next/router";
 import moment from "moment";
@@ -10,11 +10,15 @@ import BillingTable from "@/components/billing/billingTable";
 import { Table } from "@mui/material";
 import { indexID } from "@/components/table";
 import AuthGuard from "./AuthGuard";
+import EmployeeDashboard from "./dashboard";
+import { userContext } from "./_app";
 
 const Index = (props) => {
-  const { user, organization } = props;
+  // const { user, organization } = props;
   // console.log(user)
   const router = useRouter();
+  const [user, setUser] = useContext(userContext);
+
   const [userName, setUserName] = useState("");
   const [guardList, setGuardList] = useState([]);
   const [userIncome, setUserIncome] = useState({});
@@ -54,16 +58,16 @@ const Index = (props) => {
   );
 
   const getusername = () => {
-    if (user.type !== "ADMIN") {
-      setUserName(user.username);
-    } else if (user.type === "ADMIN") {
-      if (!!organization) {
-        setUserName(organization.username);
-      }
-    }
-    if (user.type === "ADMIN" && organization.username === undefined) {
-      setUserName("ADMIN");
-    }
+    // if (user.type !== "ADMIN") {
+    setUserName(user.username);
+    // } else if (user.type === "ADMIN") {
+    // if (!!organization) {
+    //   setUserName(organization.username);
+    // }
+    // }
+    // if (user.type === "ADMIN" && organization.username === undefined) {
+    //   setUserName("ADMIN");
+    // }
   };
 
   const getGuardList = () => {
@@ -91,7 +95,7 @@ const Index = (props) => {
     const d = moment(new Date()).format('DD/MM/YYYY');
     const dd = moment(d, 'DD/MM/YYYY').format();
     console.log(dd)
-    Api("get", `admin/dashboard/stats?date=${encodeURIComponent(dd)}&org_id:${organization._id}`, "", router).then(
+    Api("get", `admin/dashboard/stats?date=${encodeURIComponent(dd)}&org_id:${user._id}`, "", router).then(
       async (res) => {
         props.loader(false);
         if (res?.status) {
@@ -171,47 +175,48 @@ const Index = (props) => {
 
   return (
     <AuthGuard allowedRoles={["ADMIN", "PROVIDER"]}>
-      <div className="min-h-screen bg-black ">
+      <div className="min-h-screen bg-[var(--white)] ">
         <div className="p-5 ">
-          {/* <div className="border-2 border-red-700 rounded-xl p-5">
+          {/* <div className="border-2 border-[var(--customYellow)] rounded-xl p-5">
           <h1 className="text-white md:text-3xl text-xl font-bold">
             {moment(new Date()).format("ddd, DD MMM yyyy")}
           </h1>
           <h1 className="text-white md:text-3xl text-xl font-bold md:mt-5 mt-2">
-            Hello <span className="text-red-700 uppercase">{userName}</span>{" "}
+            Hello <span className="text-[var(--customYellow)] uppercase">{userName}</span>{" "}
           </h1>
         </div> */}
 
           <div className="grid md:grid-cols-3 grid-col-1 ">
 
-            <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4 relative flex justify-center   md:mr-3 mt-2 cursor-pointer" onClick={() => router.push('/tasks/task?type=today')}>
-              <p className="font-bold text-lg text-center text-white absolute -top-4 bg-black px-3">Total Task</p>
-              <div className="bg-[var(--customGray)] w-full flex justify-center items-center h-24 rounded-md">
+            <div className="border-2  border-[var(--mainColor)]  border-t-[var(--customYellow)] border-t-4 relative flex justify-center   md:mr-3 mt-2 cursor-pointer" onClick={() => router.push('/tasks/task?type=today')}>
+              <p className="font-bold text-lg text-center text-[var(--mainColor)] absolute -top-4 bg-[var(--customYellow)] px-3">Total Task</p>
+              <div className="bg-[var(--mainColor)] w-full flex justify-center items-center h-24">
                 <Tooltip title={<p className="text-xl text-center">{`Total Number of Tasks / Number of Tasks Covered`}</p>} arrow>
-                  <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
+                  <p className="text-[var(--customYellow)] md:text-3xl text-2xl font-bold text-center">
                     <CountUp end={userIncome?.totalJobs} />
                   </p>
                 </Tooltip>
               </div>
             </div>
-            <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4    relative flex justify-center   md:mr-3 mt-2 cursor-pointer" onClick={() => router.push('/billing')}>
-              <p className="font-bold text-lg text-center text-white absolute -top-4 bg-black px-3">
+
+            <div className="border-2  border-[var(--mainColor)]  border-t-[var(--customYellow)] border-t-4    relative flex justify-center   md:mr-3 mt-2 cursor-pointer" onClick={() => router.push('/billing')}>
+              <p className="font-bold text-lg text-center text-[var(--mainColor)] absolute -top-4 bg-[var(--customYellow)] px-3">
                 Total Devlopers
               </p>
-              <div className="bg-[var(--customGray)] w-full flex justify-center items-center h-24 rounded-md">
+              <div className="bg-[var(--mainColor)] w-full flex justify-center items-center h-24 ">
                 <Tooltip title={<p className="text-xl text-center">{`Total Amount of Pending Invoices / Total Number of Pending Invoices`}</p>} arrow>
-                  <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
+                  <p className="text-[var(--customYellow)] md:text-3xl text-2xl font-bold text-center">
                     <CountUp end={pendingAmount} duration={1} />
                   </p>
                 </Tooltip>
               </div>
             </div>
 
-            <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4   relative flex justify-center   md:mr-3 mt-2 cursor-pointer" onClick={() => router.push('/guardList')}>
-              <p className="font-bold text-lg text-center text-white absolute -top-4 bg-black px-3">Total Projects</p>
-              <div className="bg-[var(--customGray)] w-full flex justify-center items-center h-24 rounded-md">
+            <div className="border-2  border-[var(--mainColor)]  border-t-[var(--customYellow)] border-t-4   relative flex justify-center   md:mr-3 mt-2 cursor-pointer" onClick={() => router.push('/guardList')}>
+              <p className="font-bold text-lg text-center text-[var(--mainColor)] absolute -top-4 bg-[var(--customYellow)] px-3">Total Projects</p>
+              <div className="bg-[var(--mainColor)] w-full flex justify-center items-center h-24 ">
                 <Tooltip title={<p className="text-xl text-center">{`Total Number of Guard / Number of Guards Verified`}</p>} arrow>
-                  <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
+                  <p className="text-[var(--customYellow)] md:text-3xl text-2xl font-bold text-center">
                     <CountUp end={guardList.length} />
                   </p>
                 </Tooltip>
@@ -219,72 +224,59 @@ const Index = (props) => {
             </div>
           </div>
         </div>
-        {/* <div className="grid md:grid-cols-2 grid-cols-1">
-        <div className="w-full grid-cols-1">
-          <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-3 py-5 border-t-4 border-red-700 md:mx-5 m mx-3">
-            <div>
-              <p className="text-white font-bold md:text-3xl text-lg">
-                Guard List
-              </p>
-            </div>
-            <div className="flex items-center justify-end ">
-              <div className=" flex items-center">
-                <button
-                  className="bg-red-700 text-white   text-base px-5 h-8 mr-2"
-                  onClick={() => router.push("/guardList")}
-                >
-                  View All
-                </button>
+        {user.type === 'ADMIN' && <div className="grid md:grid-cols-2 grid-cols-1">
+          <div className="w-full grid-cols-1">
+            <div className="grid grid-cols-2 bg-[var(--mainColor)] md:px-5 p-3 py-5 border-t-4 border-[var(--customYellow)] md:mx-5 m mx-3">
+              <div>
+                <p className="text-white font-bold md:text-3xl text-lg">
+                  Employee Status
+                </p>
+              </div>
+              <div className="flex items-center justify-end ">
+                <div className=" flex items-center">
+                  <p className="text-white font-bold md:text-3xl text-lg">
+                    {moment().format('DD-MM-YYYY')}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="md:mx-5 mx-3">
-            <Table
-              columns={columns}
-              data={guardList.slice(0, 5)}
-              from={"dashboard"}
-            />
-          </div>
-        </div>
-        <div className="w-full grid-cols-1 md:mt-0 mt-5">
-          <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-3 py-5 border-t-4 border-red-700 md:mx-5 m mx-3">
-            <div className="flex flex-col justify-between">
-              <p className="text-white font-bold md:text-3xl text-lg">
-                Unpaid Invoices
-              </p>
+            <div className="md:mx-5 mx-3">
+              <EmployeeDashboard {...props} />
             </div>
+          </div>
+          {/* <div className="w-full grid-cols-1 md:mt-0 mt-5">
+            <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-3 py-5 border-t-4 border-[var(--customYellow)] md:mx-5 m mx-3">
+              <div className="flex flex-col justify-between">
+                <p className="text-white font-bold md:text-3xl text-lg">
+                  Unpaid Invoices
+                </p>
+              </div>
 
-            <div className="w-full flex justify-end items-center  ">
+              <div className="w-full flex justify-end items-center  ">
               <div className=" flex items-center">
                 <ExcelDownloder
                   filename={"client"}
                   type={Type.Button} // or type={'button'}
                 >
-                  <button className="bg-red-700 text-white   text-basexs px-5 h-8 mr-2">
+                  <button className="bg-[var(--customYellow)] text-white   text-basexs px-5 h-8 mr-2">
                     Excel
                   </button>
                 </ExcelDownloder>
               </div>
               <div className=" flex items-center">
                 <button
-                  className="bg-red-700 text-white  text-base px-5 h-8 mr-2"
+                  className="bg-[var(--customYellow)] text-white  text-base px-5 h-8 mr-2"
                   onClick={() => router.push("/billing")}
                 >
                   View All
                 </button>
               </div>
             </div>
-          </div>
+            </div>
 
-          <div className="md:mx-5 mx-3 ">
-            <BillingTable
-              data={billList.slice(0, 5)}
-              setBillId={setBillId}
-              from="dashboard"
-            />
-          </div>
-        </div>
-      </div> */}
+
+          </div> */}
+        </div>}
       </div>
     </AuthGuard>
   );

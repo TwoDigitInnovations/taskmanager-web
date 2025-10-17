@@ -58,7 +58,7 @@ function ProjectTable(props) {
     function verifyCol({ value }) {
         return (
             <div className="flex justify-start items-center ">
-                <p className={`${value === 'Verified' ? 'text-green-700' : 'text-red-700'}`}>{value}</p>
+                <p className={`${value === 'Verified' ? 'text-green-700' : 'text-[var(--customYellow)]'}`}>{value}</p>
             </div>
         );
     };
@@ -67,39 +67,39 @@ function ProjectTable(props) {
         return (
             <div className="flex ">
                 {user.type === 'ADMIN' && <div
-                    className="h-7 w-9 bg-red-700 rounded-sm ml-2 flex justify-center items-center cursor-pointer"
+                    className="h-7 w-9 bg-[var(--customYellow)] rounded-sm ml-2 flex justify-center items-center cursor-pointer"
                     onClick={() => {
                         router.push(`/projects/${row.original._id}`)
                     }}
                 >
-                    <SlGraph className="text-white h-4 w-4 " />
+                    <SlGraph className="text-black h-4 w-4 " />
                 </div>}
                 {user.type === 'ADMIN' && <div
-                    className="h-7 w-9 bg-red-700 rounded-sm ml-2 flex justify-center items-center cursor-pointer"
+                    className="h-7 w-9 bg-[var(--customYellow)] rounded-sm ml-2 flex justify-center items-center cursor-pointer"
                     onClick={() => {
                         props.setClientID(row.original._id);
                         props.setShowForm(true);
                         props.goToTop();
                     }}
                 >
-                    <MdModeEditOutline className="text-white h-4 w-4 " />
+                    <MdModeEditOutline className="text-black h-4 w-4 " />
                 </div>}
                 {user.type === 'ADMIN' && <div
-                    className="h-7 w-9 bg-red-700 rounded-sm ml-2 flex justify-center items-center cursor-pointer"
+                    className="h-7 w-9 bg-[var(--customYellow)] rounded-sm ml-2 flex justify-center items-center cursor-pointer"
                     onClick={() => {
                         props.deleteClient(row.original._id);
                     }}
                 >
-                    <RiDeleteBinFill className="text-white h-4 w-4 " />
+                    <RiDeleteBinFill className="text-black h-4 w-4 " />
                 </div>}
                 <div
-                    className="h-7 w-9 bg-red-700 rounded-sm ml-2 flex justify-center items-center cursor-pointer"
+                    className="h-7 w-9 bg-[var(--customYellow)] rounded-sm ml-2 flex justify-center items-center cursor-pointer"
                     onClick={() => {
                         setClient(row.original)
                         setShowModal(true)
                     }}
                 >
-                    <IoEyeSharp className="text-white h-4 w-4 " />
+                    <IoEyeSharp className="text-black h-4 w-4 " />
                 </div>
 
             </div>
@@ -115,6 +115,7 @@ function ProjectTable(props) {
             <Table columns={columns} data={props.data} />
             {showModal && (
                 <ProjectViewModal
+                    {...props}
                     project={client}
                     onClose={() => setShowModal(false)}
                 />

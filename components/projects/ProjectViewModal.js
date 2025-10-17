@@ -1,8 +1,15 @@
 import { userContext } from "@/pages/_app";
 import moment from "moment";
 import { useContext, useState } from "react";
+import ReactClipboard from 'react-clipboardjs-copy';
+import { IoCopy } from "react-icons/io5";
+import { FaExternalLinkSquareAlt } from "react-icons/fa";
 
-export default function ProjectViewModal({ project, onClose }) {
+
+
+
+
+export default function ProjectViewModal({ project, onClose, toaster }) {
     const [user, setUser] = useContext(userContext)
     if (!project) return null;
 
@@ -101,26 +108,47 @@ export default function ProjectViewModal({ project, onClose }) {
                     <ul className="space-y-2">
                         {project.links?.map((l, i) => (
                             <li key={i} className="p-2 border rounded-lg bg-gray-50">
-                                <p>
+                                {l?.linkname && <p>
                                     <span className="font-semibold">Name:</span> {l.linkname}
-                                </p>
-                                <p>
+                                </p>}
+                                {l?.linkurl && <p className="flex justify-start items-center">
                                     <span className="font-semibold">URL:</span>{" "}
-                                    <a
-                                        href={l.linkurl}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="text-blue-600 underline"
+                                    {l.linkurl}
+                                    <button
+                                        className="ml-5 cursor-pointer"
+                                        onClick={() => {
+                                            window.open(l.linkurl, '_blank')
+                                        }}
                                     >
-                                        {l.linkurl}
-                                    </a>
-                                </p>
-                                <p>
+                                        <FaExternalLinkSquareAlt className=" text-red-700 text-xl" />
+                                    </button>
+                                </p>}
+                                {l?.linkusername && <p className="flex justify-start items-center">
                                     <span className="font-semibold">Username:</span> {l.linkusername}
-                                </p>
-                                <p>
+                                    <ReactClipboard text={l.linkusername} onSuccess={() => { }} onError={() => { }}>
+                                        <button
+                                            className="ml-5 cursor-pointer"
+                                            onClick={() => {
+                                                toaster({ type: "success", message: 'Copied' })
+                                            }}
+                                        >
+                                            <IoCopy className=" text-red-700 text-xl" />
+                                        </button>
+                                    </ReactClipboard>
+                                </p>}
+                                {l?.linkpassword && <p className="flex justify-start items-center">
                                     <span className="font-semibold">Password:</span> {l.linkpassword}
-                                </p>
+                                    <ReactClipboard text={l.linkpassword} onSuccess={() => { }} onError={() => { }}>
+                                        <button
+                                            className="ml-5 cursor-pointer"
+                                            onClick={() => {
+                                                toaster({ type: "success", message: 'Copied' })
+                                            }}
+                                        >
+                                            <IoCopy className=" text-red-700 text-xl" />
+                                        </button>
+                                    </ReactClipboard>
+                                </p>}
                             </li>
                         ))}
                     </ul>
@@ -132,26 +160,50 @@ export default function ProjectViewModal({ project, onClose }) {
                     <ul className="space-y-2">
                         {project.required_items?.map((d, i) => (
                             <li key={i} className="p-2 border rounded-lg bg-gray-50">
-                                <p>
+                                {d?.docname && <p>
                                     <span className="font-semibold">Doc Name:</span> {d.docname}
-                                </p>
-                                <p>
+                                </p>}
+                                {d?.docurl && <p className="flex justify-start items-center">
                                     <span className="font-semibold">URL:</span>{" "}
-                                    <a
-                                        href={d.docurl}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="text-blue-600 underline"
+
+                                    {d.docurl}
+                                    <button
+                                        className="ml-5 cursor-pointer"
+                                        onClick={() => {
+                                            window.open(d.docurl, '_blank')
+                                        }}
                                     >
-                                        {d.docurl}
-                                    </a>
-                                </p>
-                                <p>
+                                        <FaExternalLinkSquareAlt className=" text-red-700 text-xl" />
+                                    </button>
+                                </p>}
+                                {d?.docusername && <p className="flex justify-start items-center">
                                     <span className="font-semibold">Username:</span> {d?.docusername}
-                                </p>
-                                <p>
+                                    <ReactClipboard text={d?.docusername} onSuccess={() => {
+
+                                    }} onError={() => { }}>
+                                        <button
+                                            className="ml-5 cursor-pointer"
+                                            onClick={() => {
+                                                toaster({ type: "success", message: 'Copied' })
+                                            }}
+                                        >
+                                            <IoCopy className=" text-red-700 text-xl" />
+                                        </button>
+                                    </ReactClipboard>
+                                </p>}
+                                {d?.docpassword && <p className="flex justify-start items-center">
                                     <span className="font-semibold">Password:</span> {d?.docpassword}
-                                </p>
+                                    <ReactClipboard text={d?.docpassword} onSuccess={() => { }} onError={() => { }}>
+                                        <button
+                                            className="ml-5 cursor-pointer"
+                                            onClick={() => {
+                                                toaster({ type: "success", message: 'Copied' })
+                                            }}
+                                        >
+                                            <IoCopy className=" text-red-700 text-xl" />
+                                        </button>
+                                    </ReactClipboard>
+                                </p>}
                             </li>
                         ))}
                     </ul>

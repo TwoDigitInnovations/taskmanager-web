@@ -414,7 +414,7 @@ const Task = (props) => {
           Update
         </button>
         <button
-          className="bg-red-700 w-20 rounded-sm py-1 text-white text-sm"
+          className="bg-[var(--mainColor)] w-20 rounded-sm py-1 text-white text-sm"
           onClick={() => {
             deleteTask(row.original._id, row.getRowProps.index);
           }}
@@ -449,30 +449,30 @@ const Task = (props) => {
 
   return (
     <AuthGuard allowedRoles={["ADMIN", "PROVIDER"]}>
-      <div className="overflow-auto  h-full bg-black ">
+      <div className="overflow-auto  h-full bg-[var(--white)] ">
         {/* < div className="px-5 pt-2">
         <div className="grid md:grid-cols-3 grid-col-1 gap-3">
-          <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4 relative flex justify-center    cursor-pointer" >
+          <div className="border-2  border-[var(--customGray)]  border-t-[var(--mainColor)] border-t-4 relative flex justify-center    cursor-pointer" >
             <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-16 rounded-md px-5">
               <p className="font-bold text-lg text-center text-white  px-3">Total Task</p>
-              <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
+              <p className="text-[var(--mainColor)] md:text-3xl text-2xl font-bold text-center">
                 <CountUp end={dashStatus?.totalJobs || 0} />
               </p>
             </div>
           </div>
-          <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4    relative flex justify-center   cursor-pointer" >
+          <div className="border-2  border-[var(--customGray)]  border-t-[var(--mainColor)] border-t-4    relative flex justify-center   cursor-pointer" >
             <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-16 rounded-md px-5">
               <p className="font-bold text-lg text-center text-white  px-3">Open Task</p>
-              <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
+              <p className="text-[var(--mainColor)] md:text-3xl text-2xl font-bold text-center">
                 <CountUp end={dashStatus?.pendingJob || 0} />
               </p>
             </div>
           </div>
 
-          <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4   relative flex justify-center    cursor-pointer" >
+          <div className="border-2  border-[var(--customGray)]  border-t-[var(--mainColor)] border-t-4   relative flex justify-center    cursor-pointer" >
             <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-16 rounded-md px-5">
               <p className="font-bold text-lg text-center text-white  px-3">Close Task</p>
-              <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
+              <p className="text-[var(--mainColor)] md:text-3xl text-2xl font-bold text-center">
                 <CountUp end={(dashStatus?.totalJobs - dashStatus?.pendingJob) || 0} />
               </p>
             </div>
@@ -487,7 +487,7 @@ const Task = (props) => {
             <div className="">
               <button
                 // disabled={props?.organization?._id === undefined ? true : false}
-                className="bg-red-700 text-white p-2 rounded-sm w-40 "
+                className="bg-[var(--mainColor)] text-white p-2 rounded-sm w-40 "
                 onClick={() => {
                   // if (
                   //   props?.organization?._id === undefined &&
@@ -516,7 +516,7 @@ const Task = (props) => {
           <div className="flex justify-end ">
             <button
               // disabled={props?.organization?._id === undefined ? true : false}
-              className={`bg-red-700 text-white p-2 rounded-sm w-20 `}
+              className={`bg-[var(--mainColor)] text-white p-2 rounded-sm w-20 `}
               onClick={() => {
                 getAllJobs(dateObj?.startDate, dateObj?.endDate);
               }}
@@ -662,7 +662,7 @@ const Task = (props) => {
                       Assign
                     </button>
                     <button
-                      className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      className="text-[var(--mainColor)] background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
                       onClick={() => {
                         setOpenDialog(false);
@@ -689,7 +689,7 @@ const Task = (props) => {
         >
           <div className=" bg-black">
             <div className="">
-              <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-3 rounded-sm  border-t-4 border-red-700 ">
+              <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-3 rounded-sm  border-t-4 border-[var(--mainColor)] ">
                 <div>
                   <p className="text-white font-bold md:text-3xl text-lg">
                     Repeat Task
@@ -697,7 +697,7 @@ const Task = (props) => {
                 </div>
               </div>
             </div>
-            <div className=" border-2 border-red-700 rounded-sm p-5">
+            <div className=" border-2 border-[var(--mainColor)] rounded-sm p-5">
               <div className="grid grid-cols-1  ">
                 <div className="grid grid-cols-2 mb-1">
                   <p className="text-white text-lg font-semibold ">
@@ -728,10 +728,10 @@ const Task = (props) => {
                     : "text-neutral-500"
                     }  bg-black p-2`}
                 >
-                  <option className="text-red-700" value={"Daily"}>
+                  <option className="text-[var(--mainColor)]" value={"Daily"}>
                     Daily
                   </option>
-                  <option className="text-red-700" value={"Weekly"}>
+                  <option className="text-[var(--mainColor)]" value={"Weekly"}>
                     Weekly
                   </option>
                 </select>
@@ -762,7 +762,7 @@ const Task = (props) => {
                 {submitted &&
                   jobInfo?.repeatType === "Weekly" &&
                   selectedLenght === 0 && (
-                    <p className="text-red-700 mt-1">
+                    <p className="text-[var(--mainColor)] mt-1">
                       Please Select the day(s) from week
                     </p>
                   )}
@@ -854,7 +854,7 @@ const Task = (props) => {
                   className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-1.5 icncolor"
                 />
                 {submitted && jobInfo.startDate === "" && (
-                  <p className="text-red-700 mt-1">StartDate is required</p>
+                  <p className="text-[var(--mainColor)] mt-1">StartDate is required</p>
                 )}
               </div>
               <div className="grid md:grid-cols-1 grid-cols-1 mt-3 items-start">
@@ -869,20 +869,20 @@ const Task = (props) => {
                   className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-1.5 icncolor"
                 />
                 {submitted && jobInfo.endDate === "" && (
-                  <p className="text-red-700 mt-1">EndDate is required</p>
+                  <p className="text-[var(--mainColor)] mt-1">EndDate is required</p>
                 )}
               </div>
 
               <div className="flex justify-between mt-4">
                 <button
-                  className="text-white bg-red-700 rounded-sm  text-md py-21 w-36 h-10"
+                  className="text-white bg-[var(--mainColor)] rounded-sm  text-md py-21 w-36 h-10"
                   onClick={() => repeatJob()}
                 >
                   {/* {!props.repeat ? "Update" : "Create"} */}
                   Repeat
                 </button>
                 <button
-                  className="text-white bg-red-700 rounded-sm  text-md py-21 w-36 h-10"
+                  className="text-white bg-[var(--mainColor)] rounded-sm  text-md py-21 w-36 h-10"
                   onClick={() => {
                     setIsOpen(false);
                     setJobInfo({
@@ -948,7 +948,7 @@ const Task = (props) => {
                   {/*footer*/}
                   <div className="flex items-center justify-end p-3  bg-black rounded-b">
                     <button
-                      className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      className="text-[var(--mainColor)] background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
                       onClick={() => {
                         setShowStatus(false);

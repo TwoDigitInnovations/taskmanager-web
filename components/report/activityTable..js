@@ -75,7 +75,7 @@ const ActivityTable = (props) => {
 
   function Details({ value }) {
     return (
-      <p className=" w-80 text-balance flex-nowrap whitespace-normal text-white">{value}</p>
+      <p className=" w-80 text-balance flex-nowrap whitespace-normal text-black">{value}</p>
     );
   }
 

@@ -322,7 +322,7 @@ const WeekDayTable = (props) => {
               console.log(ownProperty)
               return (
                 <div
-                  className={`${ownProperty ? 'bg-green-700' : 'bg-black'}  p-2 m-1 rounded-sm w-full`}
+                  className={`${ownProperty ? 'bg-[var(--mainColor)]' : 'bg-black'}  p-2 m-1 rounded-sm w-full`}
                   key={index}
                 >
                   <p className="text-white f11">Name :  {item?.posted_by?.username}</p>
@@ -380,16 +380,16 @@ const WeekDayTable = (props) => {
 
   return (
     <div className="md:mx-5 mx-3 flex flex-col  overflow-hidden" style={{ height: "calc(100vh - 175px)" }}>
-      <div className=" bg-stone-900  rounded-sm border-t-4 border-red-700  relative">
-        <div className="grid md:grid-cols-3 grid-cols-3 items-center bg-stone-900 md:px-5 p-3 rounded-sm   relative">
+      <div className=" bg-[var(--mainColor)]  rounded-sm border-t-4 border-[var(--customYellow)]  relative">
+        <div className="grid md:grid-cols-3 grid-cols-3 items-center bg-[var(--mainColor)] md:px-5 p-3 rounded-sm   relative">
           <div className="col-span-1">
             <div
-              className="md:h-10 h-7 md:w-12 w-8 rounded-md border-2 border-red-700 flex items-center justify-center cursor-pointer bg-black"
+              className="md:h-10 h-7 md:w-12 w-8 rounded-md border-2 border-[var(--customYellow)] hover:bg-[var(--customYellow)] flex items-center justify-center cursor-pointer bg-[var(--white)]"
               onClick={() => {
                 backWeek();
               }}
             >
-              <IoChevronBack className="text-white md:text-xl text-xs" />
+              <IoChevronBack className="text-black md:text-xl text-xs" />
             </div>
           </div>
           <div className=" md:block hidden">
@@ -402,20 +402,20 @@ const WeekDayTable = (props) => {
             </p>
           </div>
           <div className="flex items-center justify-end w-full md:col-span-1 col-span-2">
-            <div className="flex md:h-10 h-7 border-2 border-red-700 rounded-sm items-center justify-center md:mr-5 mr-1 bg-black">
+            <div className="flex md:h-10 h-7 border-2 border-[var(--mainColor)] rounded-sm items-center justify-center md:mr-5 mr-1 bg-[var(--white)]">
               <button
-                className="text-white px-3 md:h-10 h-7 hover:bg-red-700 md:text-md f10"
+                className="text-black px-3 md:h-10 h-7 hover:bg-[var(--customYellow)] md:text-md f10"
                 onClick={() => {
                   props?.setShowCal("month");
                 }}
               >
                 Month
               </button>
-              <button className="text-white px-3 md:h-10 h-7 bg-red-700 border-red-700 rounded-sm md:text-md f10">
+              <button className="text-black px-3 md:h-10 h-7 bg-[var(--customYellow)] border-[var(--mainColor)] rounded-sm md:text-md f10">
                 Week
               </button>
               <button
-                className="text-white px-3 md:h-10 h-7 hover:bg-red-700 md:text-md f10"
+                className="text-black px-3 md:h-10 h-7 hover:bg-[var(--customYellow)] md:text-md f10"
                 onClick={() => {
                   props?.setShowCal("today");
                 }}
@@ -424,10 +424,10 @@ const WeekDayTable = (props) => {
               </button>
             </div>
             <div
-              className="md:h-10 h-7 md:w-12 w-8 rounded-md border-2 border-red-700 flex items-center justify-center cursor-pointer bg-black"
+              className="md:h-10 h-7 md:w-12 w-8 rounded-md border-2 border-[var(--customYellow)] hover:bg-[var(--customYellow)] flex items-center justify-center cursor-pointer bg-[var(--white)]"
               onClick={nextWeek}
             >
-              <IoChevronForward className="text-white md:text-xl text-xs" />
+              <IoChevronForward className="text-black md:text-xl text-xs" />
             </div>
           </div>
         </div>

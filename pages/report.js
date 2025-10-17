@@ -21,7 +21,7 @@ const customStyles = {
     bottom: "auto",
     width: "50%",
     transform: "translate(-50%, -50%)",
-    background: "black",
+    background: "white",
     borderRadius: "10px",
     // padding: "0px",
   },
@@ -297,7 +297,7 @@ const Report = (props) => {
 
   return (
     <AuthGuard allowedRoles={["ADMIN", "PROVIDER"]}>
-      <div className="min-h-screen bg-black md:-mt-16 overflow-x-auto  pt-20">
+      <div className="min-h-screen bg-[var(--white)] md:-mt-16 overflow-x-auto  pt-20">
         {/* < div className="px-5 md:pt-[89px] pt-5">
           <div className="grid md:grid-cols-3 grid-col-1 gap-3">
             <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4 relative flex justify-center cursor-pointer" >
@@ -324,7 +324,7 @@ const Report = (props) => {
         <div className="w-full flex justify-end pr-5">
           <button
             // disabled={props?.organization?._id === undefined ? true : false}
-            className="bg-red-700 text-white p-2 rounded-sm w-40 "
+            className="bg-[var(--mainColor)] text-white p-2 rounded-sm w-40 "
             onClick={() => {
               setShowForm(true)
             }}
@@ -418,7 +418,7 @@ const Report = (props) => {
           </div>
         </div>}
         {title === 'Incident' && <div className="pt-5 " id="incident">
-          <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-4  border-t-8 border-red-700 md:mx-5 m mx-3">
+          <div className="grid grid-cols-2 bg-[var(--mainColor)] md:px-5 p-4  border-t-8 border-[var(--customYellow)] md:mx-5 m mx-3">
             <div>
               <p className="text-white font-bold md:text-3xl text-lg">
                 Reports
@@ -452,9 +452,9 @@ const Report = (props) => {
         style={customStyles}
         contentLabel="Example Modal"
       >
-        <div className=" bg-black">
+        <div className=" bg-[var(--mainLightColor)]">
           <div className="">
-            <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-3 rounded-sm  border-t-4 border-red-700 ">
+            <div className="grid grid-cols-2 bg-[var(--mainColor)] md:px-5 p-3 rounded-sm  border-t-4 border-[var(--customYellow)] ">
               <div>
                 <p className="text-white font-bold md:text-3xl text-lg">
                   Create Report
@@ -482,7 +482,7 @@ const Report = (props) => {
             </div> */}
 
             <div className="grid md:grid-cols-1 grid-cols-1 mt-3 items-start md:mr-3">
-              <p className="text-white text-lg font-semibold">
+              <p className="text-black text-lg font-semibold">
                 Select Project
               </p>
               <MultiSelect
@@ -510,11 +510,8 @@ const Report = (props) => {
                       location: '',
                     });
                   }
-
-
                 }}
-                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-1.5 "
-
+                className="rounded-md mt-1 outline-none text-neutral-500 bg-[var(--white)]"
                 labelledBy="Select Client"
                 ClearSelectedIcon
               />
@@ -522,7 +519,7 @@ const Report = (props) => {
             </div>
 
             <div className="grid md:grid-cols-1 grid-cols-1 mt-3 items-start">
-              <p className="text-white text-lg font-semibold">
+              <p className="text-black text-lg font-semibold">
                 Description
               </p>
               <textarea
@@ -533,7 +530,7 @@ const Report = (props) => {
                 min="0"
                 type="number"
                 rows={5}
-                className="rounded-md border-2 border-[var(--red-900)] mt-1 outline-none text-neutral-500 bg-black p-2 icncolor"
+                className="rounded-md  mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor"
               />
               {submitted && jobInfo.description === "" && (
                 <p className="text-red-700 mt-1">
@@ -545,7 +542,7 @@ const Report = (props) => {
 
             <div className="flex justify-between mt-4">
               <button
-                className="text-white bg-red-700 rounded-sm  text-md  w-36 h-10"
+                className="text-white bg-[var(--mainColor)] rounded-sm  text-md  w-36 h-10"
                 onClick={() => {
                   addReport()
                 }}
@@ -553,7 +550,7 @@ const Report = (props) => {
                 Report
               </button>
               <button
-                className="text-white bg-red-700 rounded-sm  text-md  w-36 h-10"
+                className="text-white bg-[var(--mainColor)] rounded-sm  text-md  w-36 h-10"
                 onClick={() => {
                   setShowForm(false);
 

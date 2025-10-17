@@ -4,7 +4,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState, useRef, createRef, useEffect, useContext } from "react";
 import { IoList, IoChevronBack, IoCloseCircleOutline } from "react-icons/io5";
-import dynamic from "next/dynamic";
+import { FaAngleRight } from "react-icons/fa6";
+
 
 import { IoLogOut } from "react-icons/io5";
 
@@ -92,6 +93,14 @@ const menuItems = [
   {
     href: "/report",
     title: "Reports",
+    icon: "/privacy.png",
+    activeIcon: "/privacy1.png",
+    access: ["ADMIN", "PROVIDER"],
+    sub: false,
+  },
+  {
+    href: "/holidays",
+    title: "Holidays",
     icon: "/privacy.png",
     activeIcon: "/privacy1.png",
     access: ["ADMIN", "PROVIDER"],
@@ -284,7 +293,7 @@ const Layout = ({ children, loader, toaster }) => {
     <div className="md:min-h-screen flex sm:flex-1 flex-col">
       {router.route !== "/" && router.route !== "/signup" && (
         <header
-          className={`bg-black fixed top-0 w-full h-16 flex  font-semibold uppercase border-b-2 border-stone-800 z-30 ${toggleDrawer && user?.id !== "6450e9bef4d2cc08c2ec0431"
+          className={`bg-[var(--white)] fixed top-0 w-full h-16 flex  font-semibold uppercase border-b-2 border-stone-800 z-30 ${toggleDrawer && user?.id !== "6450e9bef4d2cc08c2ec0431"
             ? "ml-60"
             : "ml-0"
             }`}
@@ -292,7 +301,7 @@ const Layout = ({ children, loader, toaster }) => {
           <div className="flex justify-center items-center  ">
             {/* {mobile && ( */}
             <IoList
-              className="text-red-700 h-8 w-8 mx-5"
+              className="text-[var(--mainColor)] h-8 w-8 mx-5"
               onClick={() => {
                 setToggleDrawer(!toggleDrawer);
               }}
@@ -311,19 +320,19 @@ const Layout = ({ children, loader, toaster }) => {
                   className="rounded-full"
                 ></Image>
               </div>
-              <h2 className="md:text-base text-sm text-red-700 font-semibold ml-2 uppercase ">
+              <h2 className="md:text-base text-sm text-[var(--mainColor)] font-semibold ml-2 uppercase ">
                 {userName}
 
               </h2>
               {!!user && user.type === "ADMIN" && (
                 <div
-                  className="ml-5 h-7 w-7 flex justify-center items-center bg-red-700 rounded-md"
+                  className="ml-5 h-7 w-7 flex justify-center items-center bg-[var(--mainColor)] rounded-md"
                   onClick={() => {
                     setOrganizationOpen(true);
                     getOrg();
                   }}
                 >
-                  <RiOrganizationChart className="text-white text-xl" />
+                  <RiOrganizationChart className="text-[var(--white)] text-xl" />
                 </div>
               )}
             </div>
@@ -333,25 +342,15 @@ const Layout = ({ children, loader, toaster }) => {
                 }`}
             >
               <div className="flex items-center">
-                {/* <div className="mr-2">
-                  <Toggle props={{ loader, toaster }} />
-                </div> */}
                 <button
-                  className=" flex  justify-between items-center cursor-pointer border-2 border-[var(--red-900)] px-2 rounded-sm"
+                  className=" flex  justify-between items-center cursor-pointer border-2 border-[var(--mainColor)] px-2 rounded-sm"
                   onClick={handleClickOpen}
                 >
-                  <p className="md:text-base text-sm text-white font-semibold mt-0.5 capitalize py-2">
+                  <p className="md:text-base text-sm text-black font-semibold mt-0.5 capitalize py-2">
                     Signout
                   </p>
-                  <div className="mx-2    flex items-center justify-center item-center border-[var(--red-900)]">
-                    {/* <Image
-                      src="/signout.png"
-                      width="20"
-                      height="20"
-                      alt="icon"
-                      layout="auto"
-                    ></Image> */}
-                    <IoLogOut className="md:h-8 md:w-8 text-[var(--red-900)]" />
+                  <div className="mx-2    flex items-center justify-center item-center border-[var(--mainColor)]">
+                    <IoLogOut className="md:h-8 md:w-8 text-[var(--mainColor)]" />
 
                   </div>
 
@@ -367,16 +366,16 @@ const Layout = ({ children, loader, toaster }) => {
         user?.id !== "6450e9bef4d2cc08c2ec0431" && (
           /*bg-stone-800*/
           <aside
-            className={`bg-black w-60 fixed  min-h-screen z-40 border-r-2 border-stone-800`}
+            className={`bg-[var(--white)] w-60 fixed  min-h-screen z-40 border-r-2 border-[var(--mainColor)]`}
           >
-            <div className="py-3 w-full justify-center text-center border-b-4 border-[var(--red-900)]">
+            <div className=" w-full justify-center text-center border-b-4 border-[var(--mainColor)]">
               <Image
-                src="/logo.png"
+                src="/2digit/04.png"
                 width="180"
                 height="180"
                 alt="icon"
                 layout="fixed"
-                className="my-2"
+                className=" w-fit h-fit"
               ></Image>
             </div>
 
@@ -410,7 +409,7 @@ const Layout = ({ children, loader, toaster }) => {
                       className={`flex ml-2 font-bold hover:text-white cursor-pointer text-sm ${
                         router.asPath === "/organization/organization"
                           ? "text-white"
-                          : "text-[var(--red-900)]"
+                          : "text-[var(--mainColor)]"
                       }`}
                     >
                       Organization
@@ -432,60 +431,34 @@ const Layout = ({ children, loader, toaster }) => {
                 </li>
               )} */}
                 {menulist.map((item) => (
-                  <div key={item.title} className={`${router.asPath === item.href && 'bg-[var(--customGray)]  '}`} >
+                  <div key={item.title} className={`${router.asPath === item.href && 'bg-[var(--customYellow)] hover:bg-[var(--customYellow)] '}`} >
 
-                    {!item.sub && <div >
+                    {!item.sub && <div className="hover:bg-[var(--customYellow)]" >
                       {item?.access?.includes(user?.type) && (
                         <li
-                          className="py-4  flex  px-5 border-b-2 border-stone-800 align-middle "
+                          className="py-4  flex  px-5 border-b-2 border-[var(--mainColor)] align-middle group"
                           onClick={() => {
                             router.push(item.href);
-
-                            // const newItem = menulist.find(f => f.title === 'Financials')
-                            // newItem.active = false;
                             setMenulist([...menulist])
                             if (mobile) {
                               setToggleDrawer(!toggleDrawer);
                             }
                           }}
                         >
-                          {/* {item.icon && <div className="justify-center align-middle ">
-                            <Image
-                              src={
-                                router.asPath === item.href
-                                  ? item.activeIcon
-                                  : item.icon
-                              }
-                              width="15"
-                              height="15"
-                              alt="icon"
-                              layout="fixed"
-                            ></Image>
-                          </div>} */}
-
-                          {Constants[item?.title?.replace(' ', '')](router.asPath === item.href ? '#FB1913' : '#ffffff', 18)}
                           <Link href={item.href}>
                             <p
-                              className={`flex ml-2 font-bold hover:text-white cursor-pointer text-md ${router.asPath === item.href
-                                ? "text-[var(--red-900)]"
-                                : "text-white"
+                              className={`flex ml-2 font-bold group-hover:text-[var(--mainColor)] cursor-pointer text-md ${router.asPath === item.href
+                                ? "text-[var(--mainColor)]"
+                                : "text-black"
                                 }`}
                             >
                               {item.title}
                             </p>
                           </Link>
                           <div className=" flex-1 flex justify-end">
-                            <Image
-                              src={
-                                router.asPath === item.href
-                                  ? "/fwd-red.png"
-                                  : "/fwd-white.png"
-                              }
-                              width="8"
-                              height="15"
-                              alt="icon"
-                              layout="fixed"
-                            ></Image>
+                            <FaAngleRight className={`text-xl  group-hover:text-[var(--mainColor)] ${router.asPath === item.href
+                              ? "text-[var(--mainColor)]"
+                              : "text-black"}`} />
                           </div>
                         </li>
                       )}
@@ -504,24 +477,12 @@ const Layout = ({ children, loader, toaster }) => {
                             setMenulist([...menulist])
                           }}
                         >
-                          {/* {item.icon && <div className="justify-center align-middle ">
-                            <Image
-                              src={
-                                item.active
-                                  ? item.activeIcon
-                                  : item.icon
-                              }
-                              width="15"
-                              height="15"
-                              alt="icon"
-                              layout="fixed"
-                            ></Image>
-                          </div>} */}
-                          {Constants[item?.title.replace(' ', '')](item.active ? '#FB1913' : '#ffffff', 18)}
+
+                          {/* {Constants[item?.title.replace(' ', '')](item.active ? '#FB1913' : '#ffffff', 18)} */}
                           <div>
                             <a
                               className={`flex ml-2 font-bold hover:text-white cursor-pointer text-md ${item.active
-                                ? "text-[var(--red-900)]"
+                                ? "text-[var(--mainColor)]"
                                 : "text-white"
                                 }`}
                             >
@@ -529,18 +490,9 @@ const Layout = ({ children, loader, toaster }) => {
                             </a>
                           </div>
                           <div className="text-right flex-1 ">
-                            <Image
-                              className={`${item.active && 'rotate-90'}`}
-                              src={
-                                item.active
-                                  ? "/fwd-red.png"
-                                  : "/fwd-white.png"
-                              }
-                              width={"8"}
-                              height="15"
-                              alt="icon"
-                              layout="fixed"
-                            ></Image>
+                            <FaAngleRight className={`text-xl  group-hover:text-[var(--mainColor)] ${router.asPath === item.href
+                              ? "text-[var(--mainColor)]"
+                              : "text-black"}`} />
                           </div>
                         </li>
                       )}
@@ -571,7 +523,7 @@ const Layout = ({ children, loader, toaster }) => {
                             <Link href={submenu.href}>
                               <p
                                 className={`flex ml-2 font-bold hover:text-white cursor-pointer text-sm ${router.asPath === submenu.href
-                                  ? "text-[var(--red-900)]"
+                                  ? "text-[var(--mainColor)]"
                                   : "text-white"
                                   }`}
                               >
@@ -617,7 +569,7 @@ const Layout = ({ children, loader, toaster }) => {
                         layout="fixed"
                       ></Image>
                     </div>
-                    <p className="text-xs text-red-700 font-semibold mt-0.5 capitalize">
+                    <p className="text-xs text-[var(--mainColor)] font-semibold mt-0.5 capitalize">
                       Sign out
                     </p>
                   </div>
@@ -625,7 +577,7 @@ const Layout = ({ children, loader, toaster }) => {
                 {/* <li className="py-2  flex  px-5 border-b-2 border-stone-800 align-middle ">
                   <div>
                     <a
-                      className={`flex ml-2 font-bold hover:text-white cursor-pointer text-sm text-[var(--red-900)] `}
+                      className={`flex ml-2 font-bold hover:text-white cursor-pointer text-sm text-[var(--mainColor)] `}
                     >
                       Version 27.1
                     </a>
@@ -681,14 +633,14 @@ const Layout = ({ children, loader, toaster }) => {
       </Dialog>
 
       <Dialog open={organizationOpen} onClose={handleClose}>
-        <div className="px-5 pt-20 pb-5 border-2  border-[var(--red-900)] bg-black relative overflow-hidden w-80">
+        <div className="px-5 pt-20 pb-5 border-2  border-[var(--mainColor)] bg-black relative overflow-hidden w-80">
           <IoCloseCircleOutline
-            className="text-red-700 h-8 w-8 absolute right-2 top-2"
+            className="text-[var(--mainColor)] h-8 w-8 absolute right-2 top-2"
             onClick={handleClose}
           />
           <p className="text-white text-lg font-semibold">Devlopers</p>
           <select
-            className="w-full bg-black text-white border-2 border-red-700 rounded-md p-2 mt-2 outline-none"
+            className="w-full bg-black text-white border-2 border-[var(--mainColor)] rounded-md p-2 mt-2 outline-none"
             value={JSON.stringify(initial)}
             onChange={(text) => {
               setInitial(JSON.parse(text.target.value));

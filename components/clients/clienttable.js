@@ -74,7 +74,7 @@ function ClientTable(props) {
   function verifyCol({ value }) {
     return (
       <div className="flex justify-start items-center ">
-        <p className={`${value === 'Verified' ? 'text-green-700' : 'text-red-700'}`}>{value}</p>
+        <p className={`${value === 'Verified' ? 'text-green-700' : 'text-[var(--customYellow)]'}`}>{value}</p>
       </div>
     );
   };
@@ -83,25 +83,25 @@ function ClientTable(props) {
     return (
       <div className="flex ">
         <div
-          className="h-7 w-9 bg-red-700 rounded-sm ml-2 flex justify-center items-center cursor-pointer"
+          className="h-7 w-9 bg-[var(--customYellow)] rounded-sm ml-2 flex justify-center items-center cursor-pointer"
           onClick={() => {
             props.setClientID(row.original._id);
             props.setShowForm(true);
             props.goToTop();
           }}
         >
-          <MdModeEditOutline className="text-white h-4 w-4 " />
+          <MdModeEditOutline className="text-black h-4 w-4 " />
         </div>
         <div
-          className="h-7 w-9 bg-red-700 rounded-sm ml-2 flex justify-center items-center cursor-pointer"
+          className="h-7 w-9 bg-[var(--customYellow)] rounded-sm ml-2 flex justify-center items-center cursor-pointer"
           onClick={() => {
             props.deleteClient(row.original._id);
           }}
         >
-          <RiDeleteBinFill className="text-white h-4 w-4 " />
+          <RiDeleteBinFill className="text-black h-4 w-4 " />
         </div>
         {row.original.status === 'Verified' && <div
-          className="h-7 w-20 px-2 bg-red-700 rounded-sm ml-2 flex justify-center items-center cursor-pointer"
+          className="h-7 w-20 px-2 bg-[var(--customYellow)] rounded-sm ml-2 flex justify-center items-center cursor-pointer"
           onClick={() => {
             setOpen(true)
             setClient(row.original)
@@ -158,7 +158,7 @@ function ClientTable(props) {
               Close
             </button>
             <button
-              className={` w-24 py-2  rounded-lg text-white ${type === 'Suspended' ? 'bg-red-700' : 'bg-green-700'}`}
+              className={` w-24 py-2  rounded-lg text-white ${type === 'Suspended' ? 'bg-[var(--customYellow)]' : 'bg-green-700'}`}
               onClick={() => {
                 setOpen(false)
                 onVerify()

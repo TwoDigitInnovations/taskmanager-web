@@ -274,7 +274,7 @@ const GuardList = (props) => {
           ) : row?.original?.verified === "true" ? (
             <p className="text-green-700">Verified</p>
           ) : (
-            <p className="text-red-700">Suspended</p>
+            <p className="text-[var(--customYellow)]">Suspended</p>
           )}
         </div>
         {/* ))} */}
@@ -297,8 +297,8 @@ const GuardList = (props) => {
           handleClickOpen();
         }}
       >
-        <div className="h-7 w-9 bg-white rounded-sm ml-2 flex justify-center items-center">
-          <IoEyeSharp className="text-red-700 h-4 w-4 " />
+        <div className="h-7 w-9 bg-[var(--customYellow)] rounded-sm ml-2 flex justify-center items-center">
+          <IoEyeSharp className="text-black h-4 w-4 " />
         </div>
       </div>
     );
@@ -318,7 +318,7 @@ const GuardList = (props) => {
           {row?.original?.payroll?.verified ? (
             <p className="text-white cursor-pointer">{value}</p>
           ) : (
-            <p className="text-red-700 cursor-pointer">{value}</p>
+            <p className="text-[var(--customYellow)] cursor-pointer">{value}</p>
           )}
         </div>}
         {/* {!row?.original?.payroll && <div >
@@ -331,7 +331,7 @@ const GuardList = (props) => {
 
   const elipsis = ({ value }) => {
     return (
-      <p className="text-white truncate w-32">{value}</p>
+      <p className="text-black truncate w-32">{value}</p>
     )
   }
   const columns = useMemo(
@@ -377,30 +377,30 @@ const GuardList = (props) => {
 
   return (
     <AuthGuard allowedRoles={["ADMIN"]}>
-      <div className="min-h-screen bg-black  overflow-x-auto">
+      <div className="min-h-screen bg-[var(--white)]  overflow-x-auto">
         < div className="px-5 pt-7">
           <div className="grid md:grid-cols-3 grid-col-1 gap-3">
-            <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4 relative flex justify-center    cursor-pointer" onClick={() => setGuardList(statusData?.siaExp)}>
-              <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-24 rounded-md px-5">
+            <div className="border-2  border-[var(--mainColor)]  border-t-[var(--customYellow)] border-t-4 relative flex justify-center    cursor-pointer" onClick={() => setGuardList(statusData?.siaExp)}>
+              <div className="bg-[var(--mainColor)] w-full flex justify-between items-center h-24 px-5">
                 <p className="font-bold text-lg text-center text-white  px-3">SIA Badge Sataus / Expired</p>
-                <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
+                <p className="text-[var(--customYellow)] md:text-3xl text-2xl font-bold text-center">
                   <CountUp end={statusData?.sia || 0} /> / <CountUp end={statusData?.siaExp?.length || 0} />
                 </p>
               </div>
             </div>
-            <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4    relative flex justify-center   cursor-pointer" onClick={() => setGuardList(mainList)} >
-              <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-24 rounded-md px-5">
+            <div className="border-2  border-[var(--mainColor)]  border-t-[var(--customYellow)] border-t-4    relative flex justify-center   cursor-pointer" onClick={() => setGuardList(mainList)} >
+              <div className="bg-[var(--mainColor)] w-full flex justify-between items-center h-24 px-5">
                 <p className="font-bold text-lg text-center text-white  px-3">Total number of guards</p>
-                <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
+                <p className="text-[var(--customYellow)] md:text-3xl text-2xl font-bold text-center">
                   <CountUp end={statusData?.guards || 0} />
                 </p>
               </div>
             </div>
 
-            <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4   relative flex justify-center    cursor-pointer" onClick={() => setGuardList(statusData?.suspended)}>
-              <div className="bg-[var(--customGray)] w-full flex justify-between items-center h-24 rounded-md px-5">
+            <div className="border-2  border-[var(--mainColor)]  border-t-[var(--customYellow)] border-t-4   relative flex justify-center    cursor-pointer" onClick={() => setGuardList(statusData?.suspended)}>
+              <div className="bg-[var(--mainColor)] w-full flex justify-between items-center h-24 px-5">
                 <p className="font-bold text-lg text-center text-white  px-3">Suspended</p>
-                <p className="text-red-700 md:text-3xl text-2xl font-bold text-center">
+                <p className="text-[var(--customYellow)] md:text-3xl text-2xl font-bold text-center">
                   <CountUp end={statusData?.suspended?.length || 0} />
                 </p>
               </div>
@@ -409,7 +409,7 @@ const GuardList = (props) => {
         </div>
         <SignUp {...props} getDevlopers={getGuardList} />
         <div className="mt-5">
-          <div className="grid grid-cols-2 bg-stone-900 md:px-5 p-3  border-t-4 border-red-700 md:mx-5 m mx-3">
+          <div className="grid grid-cols-2 bg-[var(--mainColor)] md:px-5 p-3  border-t-4 border-[var(--customYellow)] md:mx-5 m mx-3">
             <div>
               <p className="text-white font-bold md:text-3xl text-lg">
                 Member List
@@ -418,14 +418,14 @@ const GuardList = (props) => {
             <div className="flex items-center justify-end ">
 
               <input
-                className="  rounded-md border-2 border-[var(--red-900)] outline-none ml-2 text-white bg-black w-72 p-1.5 "
+                className="  rounded-md border-2 border-[var(--customYellow)] outline-none ml-2 text-black bg-[var(--white)] w-72 p-1.5 "
                 onChange={(text) => {
                   searchList(text.target.value);
                 }}
               />
 
-              <div className="h-10 w-10 bg-red-700 rounded-md ml-3 flex justify-center items-center">
-                <IoSearch className="text-white text-xl" />
+              <div className="h-10 w-10 bg-[var(--customYellow)] rounded-md ml-3 flex justify-center items-center">
+                <IoSearch className="text-black text-xl" />
               </div>
             </div>
           </div>
@@ -433,9 +433,9 @@ const GuardList = (props) => {
             <Table columns={columns} data={guardList} />
           </div>
           <Dialog open={open} onClose={handleClose} maxWidth='md'>
-            <div className="p-5 border-t-4  border-t-[var(--red-900)] bg-[var(--customGray)] relative overflow-hidden">
+            <div className="p-5 border-t-4  border-t-[var(--red-900)] bg-[var(--mainColor)] relative overflow-hidden">
               <IoCloseCircleOutline
-                className="text-red-700 h-8 w-8 absolute right-2 top-2"
+                className="text-[var(--customYellow)] h-8 w-8 absolute right-2 top-2"
                 onClick={handleClose}
               />
               <div className="md:flex justify-between border-b-2 border-b-gray-300 py-2">
@@ -448,7 +448,7 @@ const GuardList = (props) => {
                       sx={{ width: 60, height: 60 }}
                     />
                     <div className="ml-3">
-                      <p className="text-red-700 md:text-xl font-bold text-xs md:mt-0 mt-2">
+                      <p className="text-[var(--customYellow)] md:text-xl font-bold text-xs md:mt-0 mt-2">
                         Guard Details
                       </p>
                       <p className="text-white md:text-lg text-xs">
@@ -462,7 +462,7 @@ const GuardList = (props) => {
                       </p>
                       {/* {<div className="md:hidden flex justify-start items-center min-w-[400px] md:border-l-2 md:border-l-gray-300 ">
                       <div className="">
-                        <p className="text-red-700 md:text-xl font-bold text-xs md:mt-0 mt-2">
+                        <p className="text-[var(--customYellow)] md:text-xl font-bold text-xs md:mt-0 mt-2">
                           Bank Details
                         </p>
                         <p className="text-white md:text-lg text-xs">
@@ -486,7 +486,7 @@ const GuardList = (props) => {
 
                 {<div className="flex  justify-start items-center min-w-[400px] md:border-l-2 md:border-l-gray-300 ">
                   <div className="md:ml-3">
-                    <p className="text-red-700 md:text-xl font-bold text-xs md:mt-0 mt-2">
+                    <p className="text-[var(--customYellow)] md:text-xl font-bold text-xs md:mt-0 mt-2">
                       Bank Details
                     </p>
                     <p className="text-white md:text-lg text-xs">
@@ -504,7 +504,7 @@ const GuardList = (props) => {
                   </div>
                 </div>}
               </div>
-              <p className="text-red-700 md:text-xl font-bold text-xs pt-2">
+              <p className="text-[var(--customYellow)] md:text-xl font-bold text-xs pt-2">
                 Identity
               </p>
               {!singleData.identity || singleData?.identity?.length === 0 && <div className="md:w-[880px] md:h-80 w-68  h-60  flex justify-center items-center ">
@@ -544,9 +544,9 @@ const GuardList = (props) => {
                               readOnly
                               title="Passport"
                             />
-                            <p className={`font-bold ml-3 md:text-base text-xs ${currentIndex === i ? 'text-white' : 'text-red-700'}`}>SIA Batch </p>
+                            <p className={`font-bold ml-3 md:text-base text-xs ${currentIndex === i ? 'text-white' : 'text-[var(--customYellow)]'}`}>SIA Batch </p>
                           </div>
-                          {/* <p className="mt-3 text-red-700 font-bold">
+                          {/* <p className="mt-3 text-[var(--customYellow)] font-bold">
                           Ex. Date :-{" "}
                           <span className="text-white">
                             {moment(item.expire).format("DD MMM, YYYY")}
@@ -562,7 +562,7 @@ const GuardList = (props) => {
                             readOnly
                             title="Passport"
                           />
-                          <p className={`font-bold ml-3 md:text-base text-xs ${currentIndex === i ? 'text-white' : 'text-red-700'}`}>Passport</p>
+                          <p className={`font-bold ml-3 md:text-base text-xs ${currentIndex === i ? 'text-white' : 'text-[var(--customYellow)]'}`}>Passport</p>
                         </div>
                       )}
 
@@ -574,7 +574,7 @@ const GuardList = (props) => {
                             readOnly
                             title="Passport"
                           />
-                          <p className={`font-bold ml-3 md:text-base text-xs ${currentIndex === i ? 'text-white' : 'text-red-700'}`}>
+                          <p className={`font-bold ml-3 md:text-base text-xs ${currentIndex === i ? 'text-white' : 'text-[var(--customYellow)]'}`}>
                             Driving Licence
                           </p>
                         </div>
@@ -594,7 +594,7 @@ const GuardList = (props) => {
                     Verify
                   </button>
                   <button
-                    className="bg-red-700 text-white rounded-md w-28 p-2"
+                    className="bg-[var(--customYellow)] text-white rounded-md w-28 p-2"
                     onClick={() => {
                       verifyDoc(singleData.email, false);
                     }}
@@ -610,7 +610,7 @@ const GuardList = (props) => {
           <Dialog open={showPayrollPopup} onClose={() => setShowPayrollPopup(false)}>
             <div className="p-5 border-2  border-[var(--red-900)] bg-black relative overflow-hidden">
               <IoCloseCircleOutline
-                className="text-red-700 h-8 w-8 absolute right-2 top-2"
+                className="text-[var(--customYellow)] h-8 w-8 absolute right-2 top-2"
                 onClick={() => setShowPayrollPopup(false)}
               />
               <div className="flex justify-start items-center">
@@ -678,7 +678,7 @@ const GuardList = (props) => {
                   Verify
                 </button>
                 <button
-                  className="bg-red-700 text-white rounded-md w-28 p-2"
+                  className="bg-[var(--customYellow)] text-white rounded-md w-28 p-2"
                   onClick={() => {
                     verifypayroll('suspend', 'Suspended successfully');
                   }}

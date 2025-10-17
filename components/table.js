@@ -171,7 +171,7 @@ function Table({ columns, data, refs, from }) {
         )}
       </div> */}
       {/* table */}
-      <div className="flex flex-col  border-red-700 border-2">
+      <div className="flex flex-col  border-[var(--customYellow)] border-2">
         <div className="-my-2 overflow-x-auto ">
           <div className="py-2 align-middle inline-block min-w-full ">
             <div className="shadow overflow-hidden  sm:rounded-lg">
@@ -180,7 +180,7 @@ function Table({ columns, data, refs, from }) {
                 className="min-w-full "
                 ref={refs}
               >
-                <thead className="bg-black  border-b-2 border-red-700  pb-1">
+                <thead className="bg-[var(--customYellow)]  border-b-2 border-[var(--customYellow)]  pb-1">
                   {headerGroups.map((headerGroup, index) => (
                     <tr {...headerGroup.getHeaderGroupProps()} key={index} className="">
                       {headerGroup.headers.map((column, index) => (
@@ -189,7 +189,7 @@ function Table({ columns, data, refs, from }) {
                         <th
                           key={index}
                           scope="col"
-                          className="group pl-2 py-3  text-md font-medium text-white text-left tracking-wider "
+                          className="group pl-2 py-3  text-md font-medium text-black text-left tracking-wider "
                           {...column.getHeaderProps(
                             column.getSortByToggleProps()
                           )}
@@ -216,7 +216,7 @@ function Table({ columns, data, refs, from }) {
                 </thead>
                 <tbody
                   {...getTableBodyProps()}
-                  className="bg-black divide-y divide-[var(--red-900)] "
+                  className="bg-[var(--white)] divide-y divide-[var(--red-900)] "
                 >
                   {page.map((row, i) => {
                     // new
@@ -228,16 +228,16 @@ function Table({ columns, data, refs, from }) {
                             <td
                               key={index}
                               {...cell.getCellProps()}
-                              className="pl-2 py-4 whitespace-nowrap text-white text-left"
+                              className="pl-2 py-4 whitespace-nowrap !text-black text-left"
                               role="cell"
                             >
                               {
                                 cell.column.Cell.name === "defaultRenderer" ? (
-                                  <div className="text-sm text-white ">
+                                  <div className="text-sm text-black ">
                                     {cell.render("Cell")}
                                   </div>
                                 ) : (
-                                  <div className="text-sm text-white ">
+                                  <div className="text-sm text-black ">
                                     {cell.render("Cell")}
                                   </div>
                                 )
@@ -278,14 +278,14 @@ function Table({ columns, data, refs, from }) {
 
         <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
           <div className="flex gap-x-2 items-baseline">
-            <span className="text-sm text-white">
+            <span className="text-sm text-black">
               Page <span className="font-medium">{state.pageIndex + 1}</span>{" "}
               of <span className="font-medium">{pageOptions.length}</span>
             </span>
             <label>
               <span className="sr-only">Items Per Page</span>
               <select
-                className="mt-1 block w-full bg-red-700 p-1 rounded-sm text-black border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                className="mt-1 block w-full bg-[var(--customYellow)] p-1 rounded-sm text-black border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 value={state.pageSize}
                 onChange={(e) => {
                   setPageSize(Number(e.target.value));
@@ -295,7 +295,7 @@ function Table({ columns, data, refs, from }) {
                   <option
                     key={pageSize}
                     value={pageSize}
-                    className="text-red-700"
+                    className="text-[var(--customYellow)]"
                   >
                     Show {pageSize}
                   </option>
