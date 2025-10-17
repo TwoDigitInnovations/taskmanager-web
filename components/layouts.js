@@ -633,14 +633,14 @@ const Layout = ({ children, loader, toaster }) => {
       </Dialog>
 
       <Dialog open={organizationOpen} onClose={handleClose}>
-        <div className="px-5 pt-20 pb-5 border-2  border-[var(--mainColor)] bg-black relative overflow-hidden w-80">
+        <div className="px-5 pt-20 pb-5 border-2  border-[var(--mainColor)] bg-[var(--mainColor)] relative overflow-hidden w-80">
           <IoCloseCircleOutline
             className="text-[var(--mainColor)] h-8 w-8 absolute right-2 top-2"
             onClick={handleClose}
           />
           <p className="text-white text-lg font-semibold">Devlopers</p>
           <select
-            className="w-full bg-black text-white border-2 border-[var(--mainColor)] rounded-md p-2 mt-2 outline-none"
+            className="w-full bg-white text-black border-2 border-[var(--mainColor)] rounded-md p-2 mt-2 outline-none"
             value={JSON.stringify(initial)}
             onChange={(text) => {
               setInitial(JSON.parse(text.target.value));

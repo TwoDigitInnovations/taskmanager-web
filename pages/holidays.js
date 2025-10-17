@@ -2,8 +2,9 @@
 import { Api } from "@/src/services/service";
 import { useRouter } from "next/router";
 import { useState, useEffect, useContext } from "react";
-import { userContext } from "./_app";
+import { Context, userContext } from "./_app";
 import AuthGuard from "./AuthGuard";
+
 
 const months = [
     "January", "February", "March", "April",
@@ -12,6 +13,7 @@ const months = [
 ];
 
 export default function HolidayCalendar(props) {
+    const [initial, setInitial] = useContext(Context);
     const router = useRouter();
     const [user, setUser] = useContext(userContext);
     const currentYear = new Date().getFullYear();
@@ -22,7 +24,7 @@ export default function HolidayCalendar(props) {
     // Load from localStorage and merge with auto holidays
     useEffect(() => {
         getAllHolidays();
-    }, []);
+    }, [initial]);
 
 
 
@@ -44,7 +46,7 @@ export default function HolidayCalendar(props) {
                         });
                         console.log(dates)
 
-                        if (user.type === 'PROVIDER') {
+                        if (initial.username !== 'ADMIN') {
                             getAllHolidaysByUser(dates)
                         } else {
                             setHolidays(dates);
@@ -64,7 +66,7 @@ export default function HolidayCalendar(props) {
 
     const getAllHolidaysByUser = (d) => {
         props.loader(true);
-        Api("get", `holiday/getAllHolidaysByUser?year=${currentYear}`, "", router).then(
+        Api("get", `holiday/getAllHolidaysByUser?year=${currentYear}&userid=${initial?._id || ''}`, "", router).then(
             async (res) => {
                 props.loader(false);
                 if (res?.status) {
