@@ -175,7 +175,7 @@ const Index = (props) => {
 
   return (
     <AuthGuard allowedRoles={["ADMIN", "PROVIDER"]}>
-      <div className="min-h-screen bg-[var(--white)] ">
+      <div className="min-h-screen bg-[var(--mainLightColor)] ">
         <div className="p-5 ">
           {/* <div className="border-2 border-[var(--customYellow)] rounded-xl p-5">
           <h1 className="text-white md:text-3xl text-xl font-bold">

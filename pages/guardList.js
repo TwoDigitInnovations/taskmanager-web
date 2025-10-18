@@ -377,7 +377,7 @@ const GuardList = (props) => {
 
   return (
     <AuthGuard allowedRoles={["ADMIN"]}>
-      <div className="min-h-screen bg-[var(--white)]  overflow-x-auto">
+      <div className="min-h-screen bg-[var(--mainLightColor)]  overflow-x-auto">
         < div className="px-5 pt-7">
           <div className="grid md:grid-cols-3 grid-col-1 gap-3">
             <div className="border-2  border-[var(--mainColor)]  border-t-[var(--customYellow)] border-t-4 relative flex justify-center    cursor-pointer" onClick={() => setGuardList(statusData?.siaExp)}>

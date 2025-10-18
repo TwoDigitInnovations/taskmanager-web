@@ -297,7 +297,7 @@ const Report = (props) => {
 
   return (
     <AuthGuard allowedRoles={["ADMIN", "PROVIDER"]}>
-      <div className="min-h-screen bg-[var(--white)] md:-mt-16 overflow-x-auto  pt-20">
+      <div className="min-h-screen bg-[var(--mainLightColor)] md:-mt-16 overflow-x-auto  pt-20">
         {/* < div className="px-5 md:pt-[89px] pt-5">
           <div className="grid md:grid-cols-3 grid-col-1 gap-3">
             <div className="border-2  border-[var(--customGray)]  border-t-red-700 border-t-4 relative flex justify-center cursor-pointer" >
@@ -462,7 +462,7 @@ const Report = (props) => {
               </div>
             </div>
           </div>
-          <div className=" border-2 border-red-700 rounded-sm p-5">
+          <div className=" rounded-sm p-5">
             {/* <div className="grid grid-cols-1  ">
               <div className="grid grid-cols-2 mb-1">
                 <p className="text-white text-lg font-semibold ">

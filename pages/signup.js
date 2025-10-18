@@ -87,7 +87,7 @@ const SignUp = (props) => {
   };
 
   return (
-    <div className="flex  bg-[var(--white)] justify-center items-center mt-10">
+    <div className="flex  bg-transparent justify-center items-center mt-10">
       <div className="border-2 rounded-3xl border-[var(--mainColor)] bg-[var(--mainColor)] md:p-7 p-5 sm:w-1.5 md:w-1/3  ">
 
         <div className="flex bg-[var(--white)] py-2 my-4 rounded-md  md:h-14 sm:h-10 w-64 md:min-w-full ">

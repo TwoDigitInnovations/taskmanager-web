@@ -19,6 +19,7 @@ import OneSignal from 'react-onesignal';
 import { Api } from "@/src/services/service";
 import Link from "next/link";
 import Head from "next/head";
+import { ConfirmProvider } from "@/components/confirmationModal";
 
 
 // const Phaser = dynamic(() => import("@ion-phaser/react"), { ssr: false });
@@ -132,23 +133,26 @@ function MyApp({ Component, pageProps }) {
 
       <userContext.Provider value={[user, setUser]}>
         <Context.Provider value={[initial, setInitial]}>
+
           <Loader open={open} />
           <div className="fixed right-5 top-10 min-w-max z-50">
             {!!toast.message && (
               <Toaster type={toast.type} message={toast.message} />
             )}
           </div>
-          <Layout loader={setOpen} toaster={setToast}>
-            <Loader open={open} />
+          <ConfirmProvider>
+            <Layout loader={setOpen} toaster={setToast}>
+              <Loader open={open} />
 
-            <Component
-              {...pageProps}
-              loader={setOpen}
-              toaster={setToast}
-              organization={initial}
-              user={user}
-            />
-          </Layout>
+              <Component
+                {...pageProps}
+                loader={setOpen}
+                toaster={setToast}
+                organization={initial}
+                user={user}
+              />
+            </Layout>
+          </ConfirmProvider>
         </Context.Provider>
       </userContext.Provider>
     </>

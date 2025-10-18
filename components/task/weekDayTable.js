@@ -10,9 +10,11 @@ import Tooltip from "@mui/material/Tooltip";
 import { Api } from "@/src/services/service";
 import Stickytables from "./stickytables";
 import { userContext } from "@/pages/_app";
+import { useConfirm } from "../confirmationModal";
 // import TaskDetailModal from "./TaskView";
 
 const WeekDayTable = (props) => {
+  const { confirm } = useConfirm();
   const [week, setWeek] = useState();
   const [dateArray, setDateArray] = useState([]);
   const [cols, setCols] = useState([]);
@@ -23,7 +25,7 @@ const WeekDayTable = (props) => {
   const [user, setUser] = useContext(userContext)
 
 
-  console.log(week)
+  // console.log(week)
 
   useEffect(() => {
     setData([]);
@@ -32,7 +34,7 @@ const WeekDayTable = (props) => {
     if (!!props.data) {
       setDataTable();
     }
-    console.log(props.date)
+    // console.log(props.date)
     // setDateObj(props.date);
   }, [props.data]);
 
@@ -282,24 +284,28 @@ const WeekDayTable = (props) => {
     setCols(col);
   };
 
-  const deleteTask = (id, task) => {
-    console.log(task)
-    props.loader(true);
-    Api("delete", `jobs/${id}`, "", props.router).then(
-      async (res) => {
-        props.loader(false);
-        if (res.status) {
-          props.getAllJobs(moment(task.sd).format(), moment(task.ed).format());
-        } else {
-          props.toaster({ type: "success", message: res.message });
+  const deleteTask = async (id, task) => {
+    const result = await confirm("Delete Task", "Are you sure you want to delete this?", { id });
+    console.log('result-------------------->', result)
+    if (result.confirm) {
+      console.log(task)
+      props.loader(true);
+      Api("delete", `jobs/${id}`, "", props.router).then(
+        async (res) => {
+          props.loader(false);
+          if (res.status) {
+            props.getAllJobs(moment(task.sd).format(), moment(task.ed).format());
+          } else {
+            props.toaster({ type: "success", message: res.message });
+          }
+        },
+        (err) => {
+          props.loader(false);
+          props.toaster({ type: "error", message: err.message });
+          console.log(err);
         }
-      },
-      (err) => {
-        props.loader(false);
-        props.toaster({ type: "error", message: err.message });
-        console.log(err);
-      }
-    );
+      );
+    }
   };
 
   function clientsName({ value, row }) {
@@ -317,9 +323,9 @@ const WeekDayTable = (props) => {
         {!!value ? (
           <div className="w-full">
             {value?.map((item, index) => {
-              console.log('iiiiiiiii>>>>>>', item)
+              // console.log('iiiiiiiii>>>>>>', item)
               let ownProperty = item?.posted_by?._id === user?.id || user.type === 'ADMIN';
-              console.log(ownProperty)
+              // console.log(ownProperty)
               return (
                 <div
                   className={`${ownProperty ? 'bg-[var(--mainColor)]' : 'bg-black'}  p-2 m-1 rounded-sm w-full`}

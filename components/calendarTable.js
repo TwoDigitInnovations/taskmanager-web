@@ -159,6 +159,7 @@ export function CalendarTable(props) {
     <div className="md:mx-5 mx-3 bg-white text-black">
       <FullCalendar
         datesSet={(arg) => {
+          console.log(arg)
           setDateObj({ startDate: arg.start, endDate: arg.end });
           props.getAllJobs(
             moment(arg.start).format(),

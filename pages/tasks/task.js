@@ -16,10 +16,13 @@ import moment from "moment";
 import CountUp from "react-countup";
 import { indexID } from "@/components/table";
 import AuthGuard from "../AuthGuard";
+import { useConfirm } from "@/components/confirmationModal";
+import CustomCalendar from "@/components/task/yearTable";
 
 
 const Task = (props) => {
   const router = useRouter();
+  const { confirm } = useConfirm();
   const [initial, setInitial] = useContext(Context);
   const [dashStatus, setDashStatus] = useState({})
   const [user, setUser] = useContext(userContext);
@@ -370,29 +373,35 @@ const Task = (props) => {
     );
   };
 
-  const deleteTask = (id, date) => {
-    props.loader(true);
-    Api("delete", `jobs/${id}`, "", router).then(
-      async (res) => {
-        props.loader(false);
-        if (res.status) {
-          adminjobList.splice(
-            adminjobList.findIndex((a) => a._id === id),
-            1
-          );
+  const deleteTask = async (id, date) => {
+    console.log(id)
+    return
+    const result = await confirm("Delete Task", "Are you sure you want to delete this?", { id });
+    console.log('result-------------------->', result)
+    if (result.confirm) {
+      props.loader(true);
+      Api("delete", `jobs/${result.data.id}`, "", router).then(
+        async (res) => {
+          props.loader(false);
+          if (res.status) {
+            adminjobList.splice(
+              adminjobList.findIndex((a) => a._id === id),
+              1
+            );
 
-          props.toaster({ type: "success", message: res.data.message });
-          setAdminjobList(adminjobList);
-        } else {
-          props.toaster({ type: "success", message: res.message });
+            props.toaster({ type: "success", message: res.data.message });
+            setAdminjobList(adminjobList);
+          } else {
+            props.toaster({ type: "success", message: res.message });
+          }
+        },
+        (err) => {
+          props.loader(false);
+          props.toaster({ type: "error", message: err.message });
+          console.log(err);
         }
-      },
-      (err) => {
-        props.loader(false);
-        props.toaster({ type: "error", message: err.message });
-        console.log(err);
-      }
-    );
+      );
+    }
   };
 
   const assignedUser = (item) => {
@@ -449,7 +458,7 @@ const Task = (props) => {
 
   return (
     <AuthGuard allowedRoles={["ADMIN", "PROVIDER"]}>
-      <div className="overflow-auto  h-full bg-[var(--white)] ">
+      <div className="overflow-auto  h-full bg-[var(--mainLightColor)] ">
         {/* < div className="px-5 pt-2">
         <div className="grid md:grid-cols-3 grid-col-1 gap-3">
           <div className="border-2  border-[var(--customGray)]  border-t-[var(--mainColor)] border-t-4 relative flex justify-center    cursor-pointer" >
@@ -544,7 +553,7 @@ const Task = (props) => {
         {adminjobList && <div>
           <div>
             {showCal === "month" && (
-              <CalendarTable
+              <CustomCalendar
                 setShowCal={setShowCal}
                 getAllJobs={getAllJobs}
                 data={adminjobList}
@@ -562,6 +571,24 @@ const Task = (props) => {
                 router={router}
                 setIsOpen={setIsOpen}
               />
+              // <CalendarTable
+              //   setShowCal={setShowCal}
+              //   getAllJobs={getAllJobs}
+              //   data={adminjobList}
+              //   setShowForm={setShowForm}
+              //   setJobID={setJobID}
+              //   deleteTask={deleteTask}
+              //   setRepeat={setRepeat}
+              //   {...props}
+              //   goToTop={goToTop}
+              //   setOpenDialog={setOpenDialog}
+              //   date={dateObj}
+              //   getGuardList={getGuardList}
+              //   setAssignedUser={setAssignedUser}
+              //   setShowStatus={setShowStatus}
+              //   router={router}
+              //   setIsOpen={setIsOpen}
+              // />
             )}
           </div>
 
@@ -613,8 +640,25 @@ const Task = (props) => {
           </div>
         </div>}
         {/* <div className="px-5 overflow-visible">
-        <Table columns={columns} data={jobList} />
-      </div> */}
+          <CustomCalendar
+            setShowCal={setShowCal}
+            getAllJobs={getAllJobs}
+            data={adminjobList}
+            setShowForm={setShowForm}
+            setJobID={setJobID}
+            deleteTask={deleteTask}
+            setRepeat={setRepeat}
+            {...props}
+            goToTop={goToTop}
+            setOpenDialog={setOpenDialog}
+            date={dateObj}
+            getGuardList={getGuardList}
+            setAssignedUser={setAssignedUser}
+            setShowStatus={setShowStatus}
+            router={router}
+            setIsOpen={setIsOpen}
+          />
+        </div> */}
 
         {openDialog ? (
           <>

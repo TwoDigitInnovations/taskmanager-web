@@ -10,8 +10,10 @@ import ClientTable from "@/components/clients/clienttable";
 import { IoSearch, IoCalendar } from "react-icons/io5";
 import CountUp from "react-countup";
 import AuthGuard from "../AuthGuard";
+import { useConfirm } from "@/components/confirmationModal";
 
 const ClientsList = (props) => {
+  const { confirm } = useConfirm();
   const router = useRouter();
   const [showForm, setShowForm] = useState(false);
   const [jobID, setJobID] = useState("");
@@ -91,27 +93,30 @@ const ClientsList = (props) => {
     }
   };
 
-  const deleteClient = (id) => {
-    props.loader(true);
-    Api("delete", `provider/client/${id}`, "", router).then(
-      async (res) => {
-        props.loader(false);
-        if (res?.status) {
-          props.toaster({
-            type: "success",
-            message: "Client deleted successfully",
-          });
-          getClientList();
-        } else {
-          props.toaster({ type: "success", message: res?.message });
+  const deleteClient = async (id) => {
+    const result = await confirm("Delete Client", "Are you sure you want to delete this client?", { id });
+    if (result.confirm) {
+      props.loader(true);
+      Api("delete", `provider/client/${id}`, "", router).then(
+        async (res) => {
+          props.loader(false);
+          if (res?.status) {
+            props.toaster({
+              type: "success",
+              message: "Client deleted successfully",
+            });
+            getClientList();
+          } else {
+            props.toaster({ type: "success", message: res?.message });
+          }
+        },
+        (err) => {
+          props.loader(false);
+          props.toaster({ type: "error", message: err.message });
+          console.log(err);
         }
-      },
-      (err) => {
-        props.loader(false);
-        props.toaster({ type: "error", message: err.message });
-        console.log(err);
-      }
-    );
+      );
+    }
   };
 
   const goToTop = () => {
@@ -123,10 +128,10 @@ const ClientsList = (props) => {
 
   return (
     <AuthGuard allowedRoles={["ADMIN"]}>
-      <div className="min-h-screen  md:pt-3 overflow-x-auto bg-[var(--white)] ">
+      <div className="min-h-screen  md:pt-3 overflow-x-auto bg-[var(--mainLightColor)] ">
         < div className="px-5 md:mt-0 mt-5">
           <div className="grid md:grid-cols-3 grid-col-1 gap-3">
-            <div className="border-2    border-t-[var(--customYellow)] border-t-4 relative flex justify-center    cursor-pointer" onClick={() => setClientList(mainList)} >
+            <div className="border-2 border-t-[var(--customYellow)] border-t-4 relative flex justify-center cursor-pointer" onClick={() => setClientList(mainList)} >
               <div className="bg-[var(--mainColor)] w-full flex justify-between items-center h-16 px-5">
                 <p className="font-bold text-lg text-center text-white  px-3">Total Number of Client</p>
                 <p className="text-[var(--white)] md:text-3xl text-2xl font-bold text-center">
@@ -134,7 +139,7 @@ const ClientsList = (props) => {
                 </p>
               </div>
             </div>
-            <div className="border-2    border-t-[var(--customYellow)] border-t-4    relative flex justify-center cursor-pointer" onClick={() => setClientList(clientData?.verified)}>
+            <div className="border-2 border-t-[var(--customYellow)] border-t-4    relative flex justify-center cursor-pointer" onClick={() => setClientList(clientData?.verified)}>
               <div className="bg-[var(--mainColor)] w-full flex justify-between items-center h-16  px-5">
                 <p className="font-bold text-lg text-center text-white  px-3">Verified Client</p>
                 <p className="text-[var(--white)] md:text-3xl text-2xl font-bold text-center">
@@ -143,7 +148,7 @@ const ClientsList = (props) => {
               </div>
             </div>
 
-            <div className="border-2    border-t-[var(--customYellow)] border-t-4   relative flex justify-center cursor-pointer" onClick={() => setClientList(clientData?.suspended)}>
+            <div className="border-2 border-t-[var(--customYellow)] border-t-4   relative flex justify-center cursor-pointer" onClick={() => setClientList(clientData?.suspended)}>
               <div className="bg-[var(--mainColor)] w-full flex justify-between items-center h-16  px-5">
                 <p className="font-bold text-lg text-center text-white  px-3">Suspended Client</p>
                 <p className="text-[var(--white)] md:text-3xl text-2xl font-bold text-center">

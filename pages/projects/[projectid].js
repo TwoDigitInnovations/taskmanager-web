@@ -156,7 +156,7 @@ export default function ProjectHistoryUI(props) {
 
     return (
         <AuthGuard allowedRoles={["ADMIN"]}>
-            <div className="min-h-screen bg-[var(--white)] text-gray-900 p-4 md:p-8">
+            <div className="min-h-screen bg-[var(--mainLightColor)] text-gray-900 p-4 md:p-8">
                 <div className="max-w-6xl mx-auto">
                     {/* Header */}
                     <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">

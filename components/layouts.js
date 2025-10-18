@@ -32,6 +32,7 @@ import * as rdd from "react-device-detect";
 import { Context, userContext } from "@/pages/_app";
 import { Api } from "@/src/services/service";
 import Constants from "@/src/services/constant";
+import { ConfirmProvider, useConfirm } from "./confirmationModal";
 
 const menuItems = [
   {
@@ -194,12 +195,21 @@ const Layout = ({ children, loader, toaster }) => {
   const [userName, setUserName] = useState("ADMIN");
   const [menulist, setMenulist] = useState(menuItems)
   const router = useRouter();
+  const { confirm } = useConfirm();
 
   const [open, setOpen] = useState(false);
   const [organizationOpen, setOrganizationOpen] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClickOpen = async () => {
+    const result = await confirm("Logout", "Do you really want to logout?", {});
+    if (result.confirm) {
+      router.push("/");
+      localStorage.clear();
+      setUser({});
+      setToggleDrawer(true)
+      setInitial({});
+    }
+    // setOpen(true);
   };
   // console.log(toggleDrawer)
   // console.log(mobile)
@@ -293,7 +303,7 @@ const Layout = ({ children, loader, toaster }) => {
     <div className="md:min-h-screen flex sm:flex-1 flex-col">
       {router.route !== "/" && router.route !== "/signup" && (
         <header
-          className={`bg-[var(--white)] fixed top-0 w-full h-16 flex  font-semibold uppercase border-b-2 border-stone-800 z-30 ${toggleDrawer && user?.id !== "6450e9bef4d2cc08c2ec0431"
+          className={`bg-[var(--mainColor)] fixed top-0 w-full h-16 flex  font-semibold uppercase  z-30 ${toggleDrawer && user?.id !== "6450e9bef4d2cc08c2ec0431"
             ? "ml-60"
             : "ml-0"
             }`}
@@ -301,7 +311,7 @@ const Layout = ({ children, loader, toaster }) => {
           <div className="flex justify-center items-center  ">
             {/* {mobile && ( */}
             <IoList
-              className="text-[var(--mainColor)] h-8 w-8 mx-5"
+              className="text-[var(--white)] h-8 w-8 mx-5"
               onClick={() => {
                 setToggleDrawer(!toggleDrawer);
               }}
@@ -320,19 +330,19 @@ const Layout = ({ children, loader, toaster }) => {
                   className="rounded-full"
                 ></Image>
               </div>
-              <h2 className="md:text-base text-sm text-[var(--mainColor)] font-semibold ml-2 uppercase ">
+              <h2 className="md:text-base text-sm text-[var(--white)] font-semibold ml-2 uppercase ">
                 {userName}
 
               </h2>
               {!!user && user.type === "ADMIN" && (
                 <div
-                  className="ml-5 h-7 w-7 flex justify-center items-center bg-[var(--mainColor)] rounded-md"
+                  className="ml-5 h-7 w-7 flex justify-center items-center bg-[var(--white)] rounded-md"
                   onClick={() => {
                     setOrganizationOpen(true);
                     getOrg();
                   }}
                 >
-                  <RiOrganizationChart className="text-[var(--white)] text-xl" />
+                  <RiOrganizationChart className="text-[var(--mainColor)] text-xl" />
                 </div>
               )}
             </div>
@@ -343,14 +353,14 @@ const Layout = ({ children, loader, toaster }) => {
             >
               <div className="flex items-center">
                 <button
-                  className=" flex  justify-between items-center cursor-pointer border-2 border-[var(--mainColor)] px-2 rounded-sm"
+                  className=" flex  justify-between items-center cursor-pointer border-2 border-[var(--white)] px-2 rounded-sm"
                   onClick={handleClickOpen}
                 >
-                  <p className="md:text-base text-sm text-black font-semibold mt-0.5 capitalize py-2">
+                  <p className="md:text-base text-sm text-white font-semibold mt-0.5 capitalize py-2">
                     Signout
                   </p>
-                  <div className="mx-2    flex items-center justify-center item-center border-[var(--mainColor)]">
-                    <IoLogOut className="md:h-8 md:w-8 text-[var(--mainColor)]" />
+                  <div className="mx-2    flex items-center justify-center item-center border-[var(--white)]">
+                    <IoLogOut className="md:h-8 md:w-8 text-[var(--white)]" />
 
                   </div>
 
@@ -366,7 +376,7 @@ const Layout = ({ children, loader, toaster }) => {
         user?.id !== "6450e9bef4d2cc08c2ec0431" && (
           /*bg-stone-800*/
           <aside
-            className={`bg-[var(--white)] w-60 fixed  min-h-screen z-40 border-r-2 border-[var(--mainColor)]`}
+            className={`bg-[var(--mainColor)] w-60 fixed  min-h-screen z-40 border-r-2 border-[var(--mainColor)]`}
           >
             <div className=" w-full justify-center text-center border-b-4 border-[var(--mainColor)]">
               <Image
@@ -436,7 +446,7 @@ const Layout = ({ children, loader, toaster }) => {
                     {!item.sub && <div className="hover:bg-[var(--customYellow)]" >
                       {item?.access?.includes(user?.type) && (
                         <li
-                          className="py-4  flex  px-5 border-b-2 border-[var(--mainColor)] align-middle group"
+                          className="py-4  flex  px-5 border-b-2 border-[var(--white)] align-middle group"
                           onClick={() => {
                             router.push(item.href);
                             setMenulist([...menulist])
@@ -449,7 +459,7 @@ const Layout = ({ children, loader, toaster }) => {
                             <p
                               className={`flex ml-2 font-bold group-hover:text-[var(--mainColor)] cursor-pointer text-md ${router.asPath === item.href
                                 ? "text-[var(--mainColor)]"
-                                : "text-black"
+                                : "text-white"
                                 }`}
                             >
                               {item.title}
@@ -458,7 +468,7 @@ const Layout = ({ children, loader, toaster }) => {
                           <div className=" flex-1 flex justify-end">
                             <FaAngleRight className={`text-xl  group-hover:text-[var(--mainColor)] ${router.asPath === item.href
                               ? "text-[var(--mainColor)]"
-                              : "text-black"}`} />
+                              : "text-white"}`} />
                           </div>
                         </li>
                       )}
@@ -600,6 +610,7 @@ const Layout = ({ children, loader, toaster }) => {
         >
           {/* {pageShow ? children : loader(true)} */}
           {children}
+          {/* <ConfirmProvider>{children}</ConfirmProvider> */}
         </main>
       </div>
       <Dialog

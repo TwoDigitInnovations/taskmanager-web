@@ -11,8 +11,10 @@ import CountUp from "react-countup";
 import ProjectTable from "@/components/projects/projecttable";
 import { userContext } from "../_app";
 import AuthGuard from "../AuthGuard";
+import { useConfirm } from "@/components/confirmationModal";
 
 const ProjectsList = (props) => {
+  const { confirm } = useConfirm();
   const router = useRouter();
   const [showForm, setShowForm] = useState(false);
   const [jobID, setJobID] = useState("");
@@ -69,27 +71,31 @@ const ProjectsList = (props) => {
     }
   };
 
-  const deleteClient = (id) => {
-    props.loader(true);
-    Api("delete", `provider/client/${id}`, "", router).then(
-      async (res) => {
-        props.loader(false);
-        if (res?.status) {
-          props.toaster({
-            type: "success",
-            message: "Client deleted successfully",
-          });
-          getClientList();
-        } else {
-          props.toaster({ type: "success", message: res?.message });
+  const deleteClient = async (id) => {
+    const result = await confirm("Delete Item", "Are you sure you want to delete this?", { id });
+    if (result.confirm) {
+      props.loader(true);
+      Api("get", `softDeleteProjectById/${result.data.id}`, "", router).then(
+        async (res) => {
+          props.loader(false);
+          if (res?.status) {
+            props.toaster({
+              type: "success",
+              message: "Client deleted successfully",
+            });
+            getClientList();
+          } else {
+            props.toaster({ type: "success", message: res?.message });
+          }
+        },
+        (err) => {
+          props.loader(false);
+          props.toaster({ type: "error", message: err.message });
+          console.log(err);
         }
-      },
-      (err) => {
-        props.loader(false);
-        props.toaster({ type: "error", message: err.message });
-        console.log(err);
-      }
-    );
+      );
+    }
+
   };
 
   const goToTop = () => {
@@ -101,7 +107,7 @@ const ProjectsList = (props) => {
 
   return (
     <AuthGuard allowedRoles={["ADMIN", "PROVIDER"]}>
-      <div className="min-h-screen  md:pt-3 overflow-x-auto bg-[var(--white)] ">
+      <div className="min-h-screen  md:pt-3 overflow-x-auto bg-[var(--mainLightColor)] ">
         {user.type === "ADMIN" && < div className="px-5 md:mt-0 mt-5">
           <div className="grid md:grid-cols-3 grid-col-1 gap-3">
             <div className="border-2  border-[var(--mainColor)]  border-t-[var(--customYellow)] border-t-4 relative flex justify-center    cursor-pointer" onClick={() => setClientList(mainList)} >
@@ -254,6 +260,7 @@ const ProjectsList = (props) => {
             <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
           </>
         ) : null}
+
       </div>
     </AuthGuard>
   );

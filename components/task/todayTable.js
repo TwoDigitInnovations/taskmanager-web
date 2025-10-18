@@ -10,10 +10,12 @@ import Tooltip from "@mui/material/Tooltip";
 import { Api } from "@/src/services/service";
 import Stickytables from "./stickytables";
 import { userContext } from "@/pages/_app";
+import { useConfirm } from "../confirmationModal";
 
 
 
 const TodayTable = (props) => {
+  const { confirm } = useConfirm();
   const [curruntDate, setCurrentDate] = useState(new Date());
   const [data, setData] = useState([]);
   const [dateObj, setDateObj] = useState(props.date);
@@ -183,23 +185,27 @@ const TodayTable = (props) => {
     // );
   };
 
-  const deleteTask = (id, task) => {
-    props.loader(true);
-    Api("delete", `jobs/${id}`, "", props.router).then(
-      async (res) => {
-        props.loader(false);
-        if (res.status) {
-          props.getAllJobs(moment(task.sd).format(), moment(task.ed).format());
-        } else {
-          props.toaster({ type: "success", message: res.message });
+  const deleteTask = async (id, task) => {
+    const result = await confirm("Delete Task", "Are you sure you want to delete this?", { id });
+    console.log('result-------------------->', result)
+    if (result.confirm) {
+      props.loader(true);
+      Api("delete", `jobs/${id}`, "", props.router).then(
+        async (res) => {
+          props.loader(false);
+          if (res.status) {
+            props.getAllJobs(moment(task.sd).format(), moment(task.ed).format());
+          } else {
+            props.toaster({ type: "success", message: res.message });
+          }
+        },
+        (err) => {
+          props.loader(false);
+          props.toaster({ type: "error", message: err.message });
+          console.log(err);
         }
-      },
-      (err) => {
-        props.loader(false);
-        props.toaster({ type: "error", message: err.message });
-        console.log(err);
-      }
-    );
+      );
+    }
   };
 
   function eventCell({ value, row }) {

@@ -90,7 +90,7 @@ export default function HolidayRequests(props) {
 
     return (
         <AuthGuard allowedRoles={["ADMIN", "PROVIDER"]}>
-            <div className="min-h-screen bg-gray-50 text-gray-800 p-6">
+            <div className="min-h-screen bg-[var(--mainLightColor)] text-gray-800 p-6">
                 <div className=" mx-auto space-y-8">
                     <h1 className="text-3xl font-bold text-center">Employee Holiday Requests</h1>
 

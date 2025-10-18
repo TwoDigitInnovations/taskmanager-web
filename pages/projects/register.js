@@ -231,8 +231,8 @@ const Register = (props) => {
   console.log(clientObj)
   console.log(selectClient)
   return (
-    <div className=" bg-[var(--white)] overflow-x-auto">
-      <div className="mt-16 mb-5 bg-[var(--mainLightColor)]">
+    <div className=" bg-[var(--white)] overflow-x-auto mt-16 mb-5">
+      <div className=" bg-[var(--mainLightColor)]">
         <div className="grid grid-cols-2 bg-[var(--mainColor)] md:px-5 p-3 rounded-sm  border-t-4 border-[var(--customYellow)] ">
           <div>
             <p className="text-white font-bold md:text-3xl text-lg">

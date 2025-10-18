@@ -236,7 +236,7 @@ export default function HolidayCalendar(props) {
 
     return (
         <AuthGuard allowedRoles={["ADMIN", "PROVIDER"]}>
-            <div className="min-h-screen bg-white text-gray-800 p-6">
+            <div className="min-h-screen bg-[var(--mainLightColor)] text-gray-800 p-6">
                 <div className="flex w-full justify-between items-center">
 
 
