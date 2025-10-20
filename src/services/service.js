@@ -1,6 +1,7 @@
 import axios from "axios";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
+import { getAuthToken } from "./lib/storage";
 
 // set fonts
 // pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -11,11 +12,11 @@ const ConstantsUrl = "https://taskmanagerapi.2digitinnovations.com/v1/api/";
 
 
 function Api(method, url, data, router) {
-  return new Promise(function (resolve, reject) {
+  return new Promise(async function (resolve, reject) {
     let token = "";
 
     if (typeof window !== "undefined") {
-      token = localStorage?.getItem("token") || "";
+      token = await getAuthToken() || "";
     }
     axios({
       method,

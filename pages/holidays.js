@@ -34,17 +34,14 @@ export default function HolidayCalendar(props) {
             async (res) => {
                 props.loader(false);
                 if (res?.status) {
-                    console.log(res)
                     if (res.data.length === 0) {
                         const auto = getAutoHolidays(currentYear);
-                        console.log(auto)
                         setHolidays(auto);
                     } else {
                         let dates = {}
                         res.data.forEach(datess => {
                             dates[datess.date_string] = datess.title
                         });
-                        console.log(dates)
 
                         if (initial.username !== 'ADMIN') {
                             getAllHolidaysByUser(dates)
@@ -70,7 +67,6 @@ export default function HolidayCalendar(props) {
             async (res) => {
                 props.loader(false);
                 if (res?.status) {
-                    console.log(res)
                     let dates = {}
                     res.data.forEach(datess => {
                         dates[datess.date_string] = datess.title

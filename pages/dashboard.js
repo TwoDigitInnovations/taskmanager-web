@@ -29,10 +29,7 @@ export default function EmployeeDashboard(props) {
             async (res) => {
                 props.loader(false);
                 if (res?.status) {
-                    console.log(res)
                     setEmployees(res.data)
-                    // setRequests(res.data);
-
                 } else {
                     props.toaster({ type: "success", message: res?.message });
                 }

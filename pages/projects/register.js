@@ -41,8 +41,6 @@ const Register = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log(clientOpt)
-    console.log(typeof clientOpt)
     if (clientObj?.client && clientOpt && clientOpt.length > 0) {
       let currentClient = clientOpt.find(f => f.value === clientObj.client);
       setSelectClient([currentClient])
@@ -175,7 +173,6 @@ const Register = (props) => {
       projectObj.append('dev_propsel', clientObj.dev_propsel)
     }
 
-    console.log(projectObj)
     // return
     let Url = 'project/create'
     if (clienID) {
@@ -212,7 +209,6 @@ const Register = (props) => {
     Api("post", 'project/openpdf', { pdfurl }, props.router).then(
       async (res) => {
         props.loader(false);
-        console.log()
         if (res?.url) {
           window.open(res?.url, '_blank')
 
@@ -228,8 +224,6 @@ const Register = (props) => {
     );
   };
 
-  console.log(clientObj)
-  console.log(selectClient)
   return (
     <div className=" bg-[var(--white)] overflow-x-auto mt-16 mb-5">
       <div className=" bg-[var(--mainLightColor)]">
@@ -297,7 +291,6 @@ const Register = (props) => {
                 hasSelectAll={false}
                 value={selectClient}
                 onChange={(text) => {
-                  console.log(text);
                   if (text.length > 1) {
                     setSelectClient([text[1]]);
 
@@ -354,7 +347,6 @@ const Register = (props) => {
               <input
                 // value={clientObj.start_dev_date}
                 onChange={(text) => {
-                  console.log(text)
                   setClientObj({
                     ...clientObj,
                     original_propsel: text.target.files[0],
@@ -376,7 +368,6 @@ const Register = (props) => {
               <p className="text-black text-lg font-semibold">Dev Proposel</p>
               <input
                 onChange={(text) => {
-                  console.log(text)
                   setClientObj({
                     ...clientObj,
                     dev_propsel: text.target.files[0],
@@ -403,7 +394,6 @@ const Register = (props) => {
               >
                 <div className="flex items-center">
                   <input type='checkbox' checked={clientObj?.platforms.includes('Website')} onChange={(event) => {
-                    console.log(event)
                     let d = clientObj?.platforms || []
                     if (event.target.checked) {
                       d.push('Website')
@@ -419,7 +409,6 @@ const Register = (props) => {
                 </div>
                 <div className="flex items-center">
                   <input type='checkbox' checked={clientObj?.platforms.includes('Android App')} onChange={(event) => {
-                    console.log(event)
                     let d = clientObj?.platforms || []
                     if (event.target.checked) {
                       d.push('Android App')
@@ -435,7 +424,6 @@ const Register = (props) => {
                 </div>
                 <div className="flex items-center">
                   <input type='checkbox' checked={clientObj?.platforms.includes('Ios App')} onChange={(event) => {
-                    console.log(event)
                     let d = clientObj?.platforms || []
                     if (event.target.checked) {
                       d.push('Ios App')
@@ -451,7 +439,6 @@ const Register = (props) => {
                 </div>
                 <div className="flex items-center">
                   <input type='checkbox' checked={clientObj?.platforms.includes('Admin Panel')} onChange={(event) => {
-                    console.log(event)
                     let d = clientObj?.platforms || []
                     if (event.target.checked) {
                       d.push('Admin Panel')
@@ -628,7 +615,6 @@ const Register = (props) => {
                           if (index > -1) {
                             let mltns = clientObj.milestones;
                             mltns.splice(index, 1)
-                            console.log(mltns)
                             setClientObj({
                               ...clientObj,
                               milestones: mltns
@@ -743,7 +729,6 @@ const Register = (props) => {
                       if (index > -1) {
                         let lnk = clientObj.links;
                         lnk.splice(index, 1)
-                        console.log(lnk)
                         setClientObj({
                           ...clientObj,
                           links: lnk
@@ -860,7 +845,6 @@ const Register = (props) => {
                       if (index > -1) {
                         let lnk = clientObj.required_items;
                         lnk.splice(index, 1)
-                        console.log(lnk)
                         setClientObj({
                           ...clientObj,
                           required_items: lnk

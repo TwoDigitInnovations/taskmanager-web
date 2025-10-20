@@ -27,9 +27,7 @@ export default function HolidayRequests(props) {
             async (res) => {
                 props.loader(false);
                 if (res?.status) {
-                    console.log(res)
                     setRequests(res.data);
-
                 } else {
                     props.toaster({ type: "success", message: res?.message });
                 }
@@ -48,7 +46,6 @@ export default function HolidayRequests(props) {
             async (res) => {
                 props.loader(false);
                 if (res?.status) {
-                    console.log(res)
                     getRequest()
 
                 } else {
@@ -70,7 +67,6 @@ export default function HolidayRequests(props) {
             async (res) => {
                 props.loader(false);
                 if (res?.status) {
-                    console.log(res)
                     setRequests((prev) => [...prev, res.data]);
                     setFormData({ startDate: "", endDate: "", reason: "" });
 

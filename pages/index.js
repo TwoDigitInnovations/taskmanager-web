@@ -5,13 +5,14 @@ import {
   checkForEmptyKeys,
 } from "../src/services/InputsNullChecker";
 import { userContext } from "./_app";
-import { Api } from "@/src/services/service";
 import OneSignal from "react-onesignal";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { IoEyeSharp } from "react-icons/io5";
 import { IoEyeOffSharp } from "react-icons/io5";
 import { FaCircleRight } from "react-icons/fa6";
+import api, { setApiToken } from "@/src/services/lib/api";
+import { setAuthToken, setData } from "@/src/services/lib/storage";
 
 
 export default function Home(props) {
@@ -19,8 +20,8 @@ export default function Home(props) {
   const [showPass, setShowPass] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [userDetail, setUserDetail] = useState({
-    email: "",
-    password: "",
+    email: "Chetan",
+    password: "Chetan@1990",
   });
   const [user, setUser] = useContext(userContext);
 
@@ -31,7 +32,7 @@ export default function Home(props) {
     }
   }, [router]);
 
-  const submit = () => {
+  const submit = async () => {
 
     // OneSignal.getUserId().then(id => console.log("OneSignal ID:", id));
     let { anyEmptyInputs } = checkForEmptyKeys(userDetail);
@@ -40,7 +41,7 @@ export default function Home(props) {
       return;
     }
     props.loader(true);
-    const data = {
+    let data = {
       username: userDetail.email.toLowerCase(),
       password: userDetail.password,
     };
@@ -50,37 +51,48 @@ export default function Home(props) {
       data.player_id = player_id;
       data.device_token = device_token
     }
-    Api("post", "login", data, router).then(
-      (res) => {
-        props.loader(false);
-
-        if (res?.status) {
-          localStorage.setItem("userDetail", JSON.stringify(res.data));
-          localStorage.setItem("token", res.data.token);
-          setUser(res.data);
-          setUserDetail({
-            email: "",
-            password: "",
-          });
-          if (res.data.type === "PROVIDER") {
-            // router.push("tasks/task");
-            router.push("home");
-          } else if (res.data.type === "ADMIN") {
-            router.push("home");
-          } else {
-            props.toaster({ type: "error", message: "You have not access this portal" });
-          }
+    try {
+      const res = await api.post('login', data);
+      props.loader(false)
+      console.log(res)
+      if (res?.status) {
+        setApiToken(res.data.token);
+        setAuthToken(res.data.token)
+        setData('userdetail', res.data)
+        setUser(res.data);
+        setUserDetail({
+          email: "",
+          password: "",
+        });
+        if (res.data.type === "PROVIDER") {
+          // router.push("tasks/task");
+          router.push("home");
+        } else if (res.data.type === "ADMIN") {
+          router.push("home");
         } else {
-          props.toaster({ type: "error", message: res?.data?.message });
+          props.toaster({ type: "error", message: "You have not access this portal" });
         }
-      },
-      (err) => {
-        props.loader(false);
-        console.log(err);
-        props.toaster({ type: "error", message: err?.data?.message });
-        props.toaster({ type: "error", message: err?.message });
+      } else {
+        props.toaster({ type: "error", message: res?.data?.message });
       }
-    );
+    } catch (err) {
+      props.loader(false);
+      console.log(err);
+      props.toaster({ type: "error", message: err?.data?.message });
+      props.toaster({ type: "error", message: err?.message });
+    }
+
+
+    // Api("post", "login", data, router).then(
+    //   (res) => {
+    //     props.loader(false);
+
+
+    //   },
+    //   (err) => {
+
+    //   }
+    // );
   };
 
   return (

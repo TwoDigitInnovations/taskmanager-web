@@ -187,7 +187,6 @@ const TodayTable = (props) => {
 
   const deleteTask = async (id, task) => {
     const result = await confirm("Delete Task", "Are you sure you want to delete this?", { id });
-    console.log('result-------------------->', result)
     if (result.confirm) {
       props.loader(true);
       Api("delete", `jobs/${id}`, "", props.router).then(
@@ -209,7 +208,6 @@ const TodayTable = (props) => {
   };
 
   function eventCell({ value, row }) {
-    console.log(row)
     // let d = value?.invites?.filter(
     //   (f) =>
     //     f.job_status === "ACTIVE" &&
@@ -309,7 +307,6 @@ const TodayTable = (props) => {
 
 
   function clientsName({ value, row }) {
-    console.log(row)
     return (
       <div>
         <p >{row.index + 1}. {value}</p>

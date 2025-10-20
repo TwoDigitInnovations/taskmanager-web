@@ -37,8 +37,6 @@ const GuardList = (props) => {
   const [currentIndex, setCuurentIndex] = useState(0)
   const swiper = useSwiper()
 
-  console.log(swiper)
-
   useEffect(() => {
     getGuardList();
   }, []);

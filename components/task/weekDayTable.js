@@ -24,18 +24,12 @@ const WeekDayTable = (props) => {
   const [t, setT] = useState();
   const [user, setUser] = useContext(userContext)
 
-
-  // console.log(week)
-
   useEffect(() => {
     setData([]);
-
 
     if (!!props.data) {
       setDataTable();
     }
-    // console.log(props.date)
-    // setDateObj(props.date);
   }, [props.data]);
 
   const setDataTable = () => {
@@ -58,10 +52,6 @@ const WeekDayTable = (props) => {
 
       ele?.jobs?.forEach((el, i) => {
         dateArray.forEach(function (e, i) {
-          // console.log(
-          //   moment(e).format("yyyy-MM-DD"),
-          //   moment(el.startDate).format("yyyy-MM-DD")
-          // );
           if (
             moment(e).format("yyyy-MM-DD") ===
             moment(el.startDate).format("yyyy-MM-DD")
@@ -107,86 +97,56 @@ const WeekDayTable = (props) => {
     });
   }
 
-  useMemo(() => {
-    var col = [];
-    // var currentDate = new Date();
-    // var startDate = new Date(currentDate.getFullYear(), 0, 1);
-    // var days = Math.floor((currentDate - startDate) / (24 * 60 * 60 * 1000));
-    // var year = moment(currentDate).format("yyyy");
-    // var Number = Math.ceil(days / 7);
-    // setWeek(Math.ceil(days / 7));
-    // const weekNumber = `${Number} ${year}`;
-    // const weekYearArr = weekNumber.split(" ").map((n) => parseInt(n));
-    // const weekOut = getISOWeek(...weekYearArr);
-    setWeek(moment().week())
-    const firstDay = moment().startOf("isoweek").toDate()
-    const weekOut = [
-      new Date(firstDay),
-      new Date(firstDay).setDate(firstDay.getDate() + 1),
-      new Date(firstDay).setDate(firstDay.getDate() + 2),
-      new Date(firstDay).setDate(firstDay.getDate() + 3),
-      new Date(firstDay).setDate(firstDay.getDate() + 4),
-      new Date(firstDay).setDate(firstDay.getDate() + 5),
-      new Date(firstDay).setDate(firstDay.getDate() + 6),
-      // new Date(firstDay).setDate(firstDay.getDate() + 7),
-    ]
-    // setWo(weekOut);
-    setDateArray(weekOut);
-    // const t = new Date(weekOut[weekOut.length - 1]);
-    // // t.setDate(t.getDate() + 1);
-    // setT(t);
+  useEffect(() => {
+    setWeek(moment().week());
 
+    const firstDay = moment().startOf("isoWeek").toDate();
+
+    const weekOut = Array.from({ length: 7 }, (_, i) =>
+      new Date(firstDay).setDate(firstDay.getDate() + i)
+    );
+
+    setDateArray(weekOut);
+
+    const endT = new Date(weekOut[6]);
+    setDateObj({
+      startDate: moment(weekOut[0]).format("yyyy/MM/DD"),
+      endDate: moment(endT).format("yyyy/MM/DD"),
+    });
+
+    // Fetch jobs for this week
     props.getAllJobs(
       moment(weekOut[0]).format(),
       moment(weekOut[6]).format()
-      // moment(t).format()
     );
-    // props.getAllJobs(
-    //   moment(
-    //     new Date(
-    //       new Date(weekOut[0]).setDate(new Date(weekOut[0]).getDate() - 3)
-    //     )
-    //   ).format(),
-    //   moment(t).format()
-    // );
-    col.push({
-      Header: "Projects",
-      accessor: "name",
-      sticky: "left",
-      Cell: clientsName
-    });
+
+    // Build columns
+    const col = [
+      {
+        Header: "Projects",
+        accessor: "name",
+        sticky: "left",
+        Cell: clientsName,
+      },
+    ];
+
     weekOut.forEach((element, index) => {
       col.push({
-        // Header: `${moment(new Date(element)).format("ddd")}-${moment(
-        //   new Date(element)
-        // ).format("yyyy/MM/DD")}`,
         Header: `${moment(new Date(element)).format("ddd-yyyy/MM/DD")}`,
         accessor: `event${index + 1}`,
         Cell: eventCell,
       });
     });
-    setCols(col);
-    setDateObj({
-      startDate: moment(weekOut[0]).format("yyyy/MM/DD"),
-      endDate: moment(t).format("yyyy/MM/DD"),
-    });
 
-    // return col;
-  }, []);
+    setCols(col);
+
+  }, []); // Run only once on mount
+
 
   const backWeek = () => {
     const tomorrow = new Date(dateArray[0]);
     tomorrow.setDate(tomorrow.getDate() - 2);
     var col = [];
-    // var currentDate = tomorrow;
-    // var startDate = new Date(currentDate.getFullYear(), 0, 1);
-    // var days = Math.floor((currentDate - startDate) / (24 * 60 * 60 * 1000));
-    // var year = moment(currentDate).format("yyyy");
-    // var Number = Math.ceil(days / 7);
-    // setWeek(Math.ceil(days / 7));
-    // const weekNumber = `${Number} ${year}`;
-    // const weekYearArr = weekNumber.split(" ").map((n) => parseInt(n));
-    // const weekOut = getISOWeek(...weekYearArr);
     setWeek(week - 1)
     const firstDay = moment(tomorrow).startOf("isoweek").toDate()
     const weekOut = [
@@ -199,11 +159,8 @@ const WeekDayTable = (props) => {
       new Date(firstDay).setDate(firstDay.getDate() + 6),
       // new Date(firstDay).setDate(firstDay.getDate() + 7),
     ]
-    // setWo(weekOut);
     setDateArray(weekOut);
-    // const t = new Date(weekOut[weekOut.length - 1]);
-    // // t.setDate(t.getDate() + 1);
-    // setT(t);
+
     setDateObj({
       startDate: moment(weekOut[0]).format(),
       endDate: moment(weekOut[6]).format(),
@@ -217,9 +174,6 @@ const WeekDayTable = (props) => {
     });
     weekOut.forEach((element, index) => {
       col.push({
-        // Header: `${moment(new Date(element)).format("ddd")}-${moment(
-        //   new Date(element)
-        // ).format("yyyy/MM/DD")}`,
         Header: `${moment(new Date(element)).format("ddd-yyyy/MM/DD")}`,
         accessor: `event${index + 1}`,
         Cell: eventCell,
@@ -232,15 +186,6 @@ const WeekDayTable = (props) => {
     const tomorrow = new Date(dateArray[dateArray.length - 1]);
     tomorrow.setDate(tomorrow.getDate() + 3);
     var col = [];
-    // var currentDate = tomorrow;
-    // var startDate = new Date(currentDate.getFullYear(), 0, 1);
-    // var days = Math.floor((currentDate - startDate) / (24 * 60 * 60 * 1000));
-    // var year = moment(currentDate).format("yyyy");
-    // var Number = Math.ceil(days / 7);
-    // setWeek(Math.ceil(days / 7));
-    // const weekNumber = `${Number} ${year}`;
-    // const weekYearArr = weekNumber.split(" ").map((n) => parseInt(n));
-    // const weekOut = getISOWeek(...weekYearArr);
     setWeek(week + 1)
     const firstDay = moment(tomorrow).startOf("isoweek").toDate()
     const weekOut = [
@@ -262,7 +207,6 @@ const WeekDayTable = (props) => {
       startDate: moment(weekOut[0]).format(),
       endDate: moment(t).format(),
     });
-    console.log(weekOut);
     props.getAllJobs(moment(weekOut[0]).format(), moment(t).format());
     col.push({
       Header: "Projects",
@@ -273,9 +217,6 @@ const WeekDayTable = (props) => {
 
     weekOut.forEach((element, index) => {
       col.push({
-        // Header: `${moment(new Date(element)).format("ddd")}-${moment(
-        //   new Date(element)
-        // ).format("yyyy/MM/DD")}`,
         Header: `${moment(new Date(element)).format("ddd-yyyy/MM/DD")}`,
         accessor: `event${index + 1}`,
         Cell: eventCell,
@@ -286,9 +227,7 @@ const WeekDayTable = (props) => {
 
   const deleteTask = async (id, task) => {
     const result = await confirm("Delete Task", "Are you sure you want to delete this?", { id });
-    console.log('result-------------------->', result)
     if (result.confirm) {
-      console.log(task)
       props.loader(true);
       Api("delete", `jobs/${id}`, "", props.router).then(
         async (res) => {
@@ -309,7 +248,6 @@ const WeekDayTable = (props) => {
   };
 
   function clientsName({ value, row }) {
-    // console.log(row)
     return (
       <div>
         <p >{row.index + 1}. {value}</p>
@@ -323,9 +261,8 @@ const WeekDayTable = (props) => {
         {!!value ? (
           <div className="w-full">
             {value?.map((item, index) => {
-              // console.log('iiiiiiiii>>>>>>', item)
-              let ownProperty = item?.posted_by?._id === user?.id || user.type === 'ADMIN';
-              // console.log(ownProperty)
+              // let ownProperty = item?.posted_by?._id === user?.id || user.type === 'ADMIN';
+              let ownProperty = true;
               return (
                 <div
                   className={`${ownProperty ? 'bg-[var(--mainColor)]' : 'bg-black'}  p-2 m-1 rounded-sm w-full`}

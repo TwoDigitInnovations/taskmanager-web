@@ -39,8 +39,6 @@ export default function CustomCalendar(props) {
         day = day.add(1, "day");
     }
 
-    console.log(days)
-
     const prevMonth = () => {
         setCurrentDate(currentDate.subtract(1, "month"));
     };
@@ -51,7 +49,6 @@ export default function CustomCalendar(props) {
         events.filter((e) => dayjs(e.date).isSame(date, "day"));
 
     useEffect(() => {
-        console.log(startOfMonth, endOfMonth)
         setDateObj({ startDate: new Date(startOfMonth), endDate: new Date(endOfMonth) });
         props.getAllJobs(
             moment(new Date(startOfMonth)).format(),
@@ -82,7 +79,6 @@ export default function CustomCalendar(props) {
                 e.push({ ...el, name: ele.name });
                 if (props?.data.length === index + 1) {
                     setEvents(d);
-                    console.log(d)
                     // setMainData(e);
                 }
             });
@@ -159,7 +155,9 @@ export default function CustomCalendar(props) {
                             >
                                 Week
                             </button>
-                            <button className="text-black px-3 md:h-10 h-7 hover:bg-[var(--customYellow)] md:text-md f10">
+                            <button className="text-black px-3 md:h-10 h-7 hover:bg-[var(--customYellow)] md:text-md f10" onClick={() => {
+                                props?.setShowCal("today");
+                            }}>
                                 Today
                             </button>
                         </div>
@@ -211,7 +209,6 @@ export default function CustomCalendar(props) {
 
                                             className="w-5 h-3 rounded-full bg-indigo-600 cursor-pointer"
                                             onMouseEnter={(event) =>
-                                                // console.log(e);
                                                 setHoveredEvent(e)
                                             }
                                         // onMouseLeave={() => setHoveredEvent(null)}
@@ -230,7 +227,7 @@ export default function CustomCalendar(props) {
                                                 <div>Start Time:  {moment(new Date(e?.startTime)).format("hh:mm A")}</div>
                                                 <div>End Time:  {moment(new Date(e?.endTime)).format("hh:mm A")}</div>
                                                 <div>Hours: {e?.job_hrs}</div>
-                                                {e?.posted_by?._id === user?.id || user.type === 'ADMIN' && <div className="flex justify-start items-end mt-1">
+                                                {<div className="flex justify-start items-end mt-1">
 
                                                     <Tooltip title={<p>Edit</p>} arrow>
                                                         <div

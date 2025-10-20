@@ -293,7 +293,6 @@ const Report = (props) => {
     // setActiVityType('')
   }
 
-  console.log(showForm)
 
   return (
     <AuthGuard allowedRoles={["ADMIN", "PROVIDER"]}>
