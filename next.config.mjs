@@ -15,9 +15,7 @@ const nextConfig = {
       },
     ],
   },
-  experimental: {
-    turbo: false, // disable Turbopack
-  },
+  // experimental: {},
 };
 
 export default withTM([

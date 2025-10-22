@@ -20,8 +20,8 @@ export default function Home(props) {
   const [showPass, setShowPass] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [userDetail, setUserDetail] = useState({
-    email: "Chetan",
-    password: "Chetan@1990",
+    email: "",
+    password: "",
   });
   const [user, setUser] = useContext(userContext);
 
