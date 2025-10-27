@@ -46,10 +46,11 @@ function Api(method, url, data, router) {
 }
 
 function ApiFormData(method, url, data, router) {
-  return new Promise(function (resolve, reject) {
+  return new Promise(async function (resolve, reject) {
     let token = "";
     if (typeof window !== "undefined") {
-      token = localStorage?.getItem("token") || "";
+      token = await getAuthToken() || "";
+      // token = localStorage?.getItem("token") || "";
     }
     axios({
       method,

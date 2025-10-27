@@ -4,6 +4,8 @@ import axios from "axios";
 import { deleteAuthToken } from "./storage";
 const ConstantsUrl = "https://taskmanagerapi.2digitinnovations.com/v1/api/";
 
+
+
 const api = axios.create({
     baseURL: ConstantsUrl,
     headers: {
@@ -41,7 +43,6 @@ api.interceptors.response.use(
             if (error.response.status === 401) {
                 removeApiToken();
                 deleteAuthToken()
-                router.push("/");
             }
             message = error.response.data?.message || error?.message;
         } else {
@@ -50,6 +51,8 @@ api.interceptors.response.use(
         return Promise.reject(message);
     },
 );
+
+
 
 // ✅ Response Interceptor — handle 401 globally
 // export const setupAxiosInterceptors = (router) => {
