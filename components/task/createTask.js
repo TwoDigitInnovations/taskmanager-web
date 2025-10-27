@@ -151,10 +151,11 @@ const CreateTask = (props) => {
   // function isEmptyObjectRobust(obj) {
   //   return obj && Object.keys(obj).length === 0;
   // }
-  const submit = (type) => {
-    const user = localStorage.getItem("userDetail");
+  const submit = async (type) => {
+    // const user = ;
     let { anyEmptyInputs } = checkForEmptyKeys(jobInfo);
     if (anyEmptyInputs && anyEmptyInputs.length > 0) {
+      console.log(anyEmptyInputs)
       props.toaster({ type: "error", message: 'Please fill all details' });
       return
     }
@@ -163,35 +164,35 @@ const CreateTask = (props) => {
       url = `jobs/${props?.jobId}`
     }
 
-    if (!!user) {
+    // if (!!user) {
 
-      Api(
-        "post",
-        url,
-        jobInfo,
-        props.router
-      ).then((res) => {
-        props.loader(false);
-        if (res.status) {
-          props.setShowForm(false);
-          props.getJobs();
-          props.updateTask();
-          setIsPast(false);
-          setJobInfo({
-            startDate: moment(new Date()).format().slice(0, 16),
-            startTime: "",
-            endTime: "",
-            job_hrs: "",
-            description: "",
-            work_type: "",
-            work_role: "",
-            project: "",
-          });
-        } else {
-          props.toaster({ type: "error", message: res.message });
-        }
-      });
-    }
+    Api(
+      "post",
+      url,
+      jobInfo,
+      props.router
+    ).then((res) => {
+      props.loader(false);
+      if (res.status) {
+        props.setShowForm(false);
+        props.getJobs();
+        props.updateTask();
+        setIsPast(false);
+        setJobInfo({
+          startDate: moment(new Date()).format().slice(0, 16),
+          startTime: "",
+          endTime: "",
+          job_hrs: "",
+          description: "",
+          work_type: "",
+          work_role: "",
+          project: "",
+        });
+      } else {
+        props.toaster({ type: "error", message: res.message });
+      }
+    });
+    // }
   };
 
 
