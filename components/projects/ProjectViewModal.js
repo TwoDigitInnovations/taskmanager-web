@@ -13,6 +13,21 @@ export default function ProjectViewModal({ project, onClose, toaster }) {
     const [user, setUser] = useContext(userContext)
     if (!project) return null;
 
+    const CopyText = ({ text }) => {
+        return (
+            <ReactClipboard action='copy' text={text} onSuccess={(e) => { console.log(e) }} onError={() => { }}>
+                <button
+                    className="ml-5 cursor-pointer"
+                    onClick={() => {
+                        toaster({ type: "success", message: 'Copied' })
+                    }}
+                >
+                    <IoCopy className=" text-red-700 text-xl" />
+                </button>
+            </ReactClipboard>
+        )
+    }
+
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
             <div className="bg-white rounded-2xl shadow-xl w-11/12 max-w-4xl p-6 overflow-y-auto max-h-[90vh] pt-10">
@@ -125,29 +140,11 @@ export default function ProjectViewModal({ project, onClose, toaster }) {
                                 </p>}
                                 {l?.linkusername && <p className="flex justify-start items-center">
                                     <span className="font-semibold">Username:</span> {l.linkusername}
-                                    <ReactClipboard text={l.linkusername} onSuccess={() => { }} onError={() => { }}>
-                                        <button
-                                            className="ml-5 cursor-pointer"
-                                            onClick={() => {
-                                                toaster({ type: "success", message: 'Copied' })
-                                            }}
-                                        >
-                                            <IoCopy className=" text-red-700 text-xl" />
-                                        </button>
-                                    </ReactClipboard>
+                                    <CopyText text={l.linkusername} />
                                 </p>}
                                 {l?.linkpassword && <p className="flex justify-start items-center">
                                     <span className="font-semibold">Password:</span> {l.linkpassword}
-                                    <ReactClipboard text={l.linkpassword} onSuccess={() => { }} onError={() => { }}>
-                                        <button
-                                            className="ml-5 cursor-pointer"
-                                            onClick={() => {
-                                                toaster({ type: "success", message: 'Copied' })
-                                            }}
-                                        >
-                                            <IoCopy className=" text-red-700 text-xl" />
-                                        </button>
-                                    </ReactClipboard>
+                                    <CopyText text={l.linkpassword} />
                                 </p>}
                             </li>
                         ))}
@@ -178,31 +175,11 @@ export default function ProjectViewModal({ project, onClose, toaster }) {
                                 </p>}
                                 {d?.docusername && <p className="flex justify-start items-center">
                                     <span className="font-semibold">Username:</span> {d?.docusername}
-                                    <ReactClipboard text={d?.docusername} onSuccess={() => {
-
-                                    }} onError={() => { }}>
-                                        <button
-                                            className="ml-5 cursor-pointer"
-                                            onClick={() => {
-                                                toaster({ type: "success", message: 'Copied' })
-                                            }}
-                                        >
-                                            <IoCopy className=" text-red-700 text-xl" />
-                                        </button>
-                                    </ReactClipboard>
+                                    <CopyText text={d?.docusername} />
                                 </p>}
                                 {d?.docpassword && <p className="flex justify-start items-center">
                                     <span className="font-semibold">Password:</span> {d?.docpassword}
-                                    <ReactClipboard text={d?.docpassword} onSuccess={() => { }} onError={() => { }}>
-                                        <button
-                                            className="ml-5 cursor-pointer"
-                                            onClick={() => {
-                                                toaster({ type: "success", message: 'Copied' })
-                                            }}
-                                        >
-                                            <IoCopy className=" text-red-700 text-xl" />
-                                        </button>
-                                    </ReactClipboard>
+                                    <CopyText text={d?.docpassword} />
                                 </p>}
                             </li>
                         ))}

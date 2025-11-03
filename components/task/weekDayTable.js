@@ -345,7 +345,7 @@ const WeekDayTable = (props) => {
             </p>
           </div>
           <div className="flex items-center justify-end w-full md:col-span-1 col-span-2">
-            <div className="flex md:h-10 h-7 border-2 border-[var(--mainColor)] rounded-sm items-center justify-center md:mr-5 mr-1 bg-[var(--white)]">
+            <div className="flex md:h-10 h-7 border-2 border-[var(--customYellow)] rounded-sm items-center justify-center md:mr-5 mr-1 bg-[var(--white)]">
               <button
                 className="text-black px-3 md:h-10 h-7 hover:bg-[var(--customYellow)] md:text-md f10"
                 onClick={() => {
@@ -354,7 +354,7 @@ const WeekDayTable = (props) => {
               >
                 Month
               </button>
-              <button className="text-black px-3 md:h-10 h-7 bg-[var(--customYellow)] border-[var(--mainColor)] rounded-sm md:text-md f10">
+              <button className="text-black px-3 md:h-10 h-7 bg-[var(--customYellow)] border-[var(--mainColor)]  md:text-md f10">
                 Week
               </button>
               <button
