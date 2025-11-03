@@ -634,7 +634,7 @@ const Register = (props) => {
 
           <div className="grid grid-cols-1 md:mr-2 rounded-md border-2 border-[var(--mainColor)] p-2 mt-5 ">
             <div className="flex justify-between">
-              <p className="text-black text-lg font-semibold">Links</p>
+              <p className="text-black text-lg font-semibold">Links (Public Links)</p>
               <button
                 className="text-white bg-[var(--mainColor)] rounded-sm  text-md py-2 px-2 h-10"
                 onClick={() => {
@@ -751,7 +751,7 @@ const Register = (props) => {
 
           <div className="grid grid-cols-1 md:mr-2 rounded-md border-2 border-[var(--mainColor)] p-2 mt-5 ">
             <div className="flex justify-between">
-              <p className="text-black text-lg font-semibold">Required Docs</p>
+              <p className="text-black text-lg font-semibold">Required Docs (Only For ADMIN)</p>
               <button
                 className="text-white bg-[var(--mainColor)] rounded-sm  text-md py-2 px-2 h-10"
                 onClick={() => {
