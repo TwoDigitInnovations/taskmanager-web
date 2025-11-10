@@ -397,6 +397,7 @@ const CreateTask = (props) => {
                 <option value='Designer'>Designer</option>
                 <option value='Development'>Developer</option>
                 <option value='Tester'>Tester</option>
+                <option value='SEO'>SEO</option>
               </select>
             </div>
           </div>
