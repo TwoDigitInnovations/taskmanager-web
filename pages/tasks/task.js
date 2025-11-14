@@ -374,8 +374,7 @@ const Task = (props) => {
   };
 
   const deleteTask = async (id, date) => {
-    console.log(id)
-    return
+  
     const result = await confirm("Delete Task", "Are you sure you want to delete this?", { id });
     console.log('result-------------------->', result)
     if (result.confirm) {

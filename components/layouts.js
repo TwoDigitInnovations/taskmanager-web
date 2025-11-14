@@ -81,6 +81,14 @@ const menuItems = [
     sub: false,
   },
   {
+    href: "/note",
+    title: "My Notes",
+    icon: "/privacy.png",
+    activeIcon: "/privacy1.png",
+    access: ["PROVIDER", "ADMIN"],
+    sub: false,
+  },
+  {
     href: "/guardList",
     title: "Developers",
     icon: "/security.png",
@@ -111,14 +119,7 @@ const menuItems = [
     access: ["ADMIN", "PROVIDER"],
     sub: false,
   },
-  // {
-  //   href: "/statistics",
-  //   title: "Statistics",
-  //   icon: "/privacy.png",
-  //   activeIcon: "/privacy1.png",
-  //   access: ["ORG", "ADMIN"],
-  //   sub: false,
-  // },
+
   // {
   //   href: "/billing",
   //   title: "Billing",
@@ -252,8 +253,8 @@ const Layout = ({ children, loader, toaster, organization }) => {
           setIsuAth(false);
         }, 5000);
         if (res.status) {
-          // setApiToken(res.data.token);
-          // setAuthToken(res.data.token);
+          setApiToken(res.data.token);
+          setAuthToken(res.data.token);
           setUser(res.data);
           setUserDetail(res.data)
           if (router.route === "/") {
