@@ -114,8 +114,8 @@ export default function NotesApp(props) {
             const res = await api.post('note/createNote', newNote);
             console.log(res)
             if (res?.status) {
-                setNotes([newNote, ...notes]);
-                setSelectedNote(newNote);
+                setNotes([res.data, ...notes]);
+                setSelectedNote(res.data);
             } else {
                 props.toaster({ type: "error", message: res?.data?.message });
             }
