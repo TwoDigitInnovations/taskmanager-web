@@ -53,6 +53,48 @@ function ProjectTable(props) {
         []
     );
 
+    const admincolumns = useMemo(
+        () => [
+            {
+                Header: "ID",
+                Cell: indexID,
+                // accessor: "indexID",
+            },
+            {
+                Header: "Name",
+                accessor: "name",
+                Cell: statusSection
+            },
+            {
+                Header: "Cuurency",
+                accessor: "currency",
+            },
+            {
+                Header: "Unpaid",
+                accessor: "unpaidTotal",
+            },
+            {
+                Header: "Period",
+                accessor: "period",
+            },
+            {
+                Header: "Closed Date",
+                accessor: "createdAt",
+            },
+            // {
+            //   Header: "Status",
+            //   accessor: "status",
+            //   Cell: verifyCol,
+
+            // },
+            {
+                Header: "Action",
+                Cell: ActionSection,
+            },
+        ],
+        []
+    );
+
 
 
     function verifyCol({ value }) {
@@ -107,12 +149,12 @@ function ProjectTable(props) {
     }
 
     function statusSection({ value }) {
-        return <p className={`${"text-green-700"} text-semibold`}>Done</p>;
+        return <div className={`${"text-black"} text-semibold w-60 whitespace-normal break-words`}>{value}</div>;
     }
 
     return (
         <>
-            <Table columns={columns} data={props.data} />
+            <Table columns={user?.type === 'ADMIN' ? admincolumns : columns} data={props.data} />
             {showModal && (
                 <ProjectViewModal
                     {...props}

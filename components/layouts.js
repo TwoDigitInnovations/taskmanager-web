@@ -35,7 +35,7 @@ import { ConfirmProvider, useConfirm } from "./confirmationModal";
 import LoadingScreen from "./LodingScreen";
 import api, { setApiToken } from "@/src/services/lib/api";
 import Cookies from "js-cookie";
-import { getAuthToken, getData, setAuthToken } from "@/src/services/lib/storage";
+import { getAuthToken, getData, setAuthToken, setData } from "@/src/services/lib/storage";
 import { Api } from "@/src/services/service";
 
 const menuItems = [
@@ -257,6 +257,8 @@ const Layout = ({ children, loader, toaster, organization }) => {
           setAuthToken(res.data.token);
           setUser(res.data);
           setUserDetail(res.data)
+          await setData('userdetail', res.data);
+
           if (router.route === "/") {
             router.push("/home");
           }
@@ -349,7 +351,7 @@ const Layout = ({ children, loader, toaster, organization }) => {
     <>
       <LoadingScreen isLoading={isAuth} />
 
-      <div className={`md:min-h-screen flex sm:flex-1 flex-col ${isAuth ? "opacity-0" : "opacity-100 transition-opacity duration-500"}`}>
+      {!isAuth && <div className={`md:min-h-screen flex sm:flex-1 flex-col ${isAuth ? "opacity-0" : "opacity-100 transition-opacity duration-500"}`}>
 
         {router.route !== "/" && router.route !== "/signup" && (
           <header
@@ -561,39 +563,6 @@ const Layout = ({ children, loader, toaster, organization }) => {
                     </div>
 
                   ))}
-                  {/* <li className="flex  px-5 border-b-2 border-stone-800 align-middle ">
-                  <div className="flex items-center w-full">
-                    <Toggle props={{ loader, toaster, user }} />
-                  </div>
-                </li>
-                <li className="py-2  flex  px-4 border-b-2 border-stone-800 align-middle ">
-                  <div
-                    className="flex-1 flex h-full items-center cursor-pointer"
-                    onClick={handleClickOpen}
-                  >
-                    <div className="mx-2 flex justify-start item-center  ">
-                      <Image
-                        src="/signout.png"
-                        width="15"
-                        height="15"
-                        alt="icon"
-                        layout="fixed"
-                      ></Image>
-                    </div>
-                    <p className="text-xs text-[var(--mainColor)] font-semibold mt-0.5 capitalize">
-                      Sign out
-                    </p>
-                  </div>
-                </li> */}
-                  {/* <li className="py-2  flex  px-5 border-b-2 border-stone-800 align-middle ">
-                  <div>
-                    <a
-                      className={`flex ml-2 font-bold hover:text-white cursor-pointer text-sm text-[var(--mainColor)] `}
-                    >
-                      Version 27.1
-                    </a>
-                  </div>
-                </li> */}
                 </ul>
               </nav>
             </aside>
@@ -668,7 +637,7 @@ const Layout = ({ children, loader, toaster, organization }) => {
             </select>
           </div>
         </Dialog>
-      </div>
+      </div>}
     </>
 
   );

@@ -25,7 +25,6 @@ export default function AuthGuard({ children, allowedRoles = [] }) {
             setApiToken(user.token)
             role = user.type
         }
-
         if (!token) {
             router.push("/");
         } else if (allowedRoles.length > 0 && !allowedRoles.includes(role)) {
