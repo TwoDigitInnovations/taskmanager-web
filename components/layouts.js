@@ -255,6 +255,7 @@ const Layout = ({ children, loader, toaster, organization }) => {
         if (res.status) {
           setApiToken(res.data.token);
           setAuthToken(res.data.token);
+          res.data.id = res.data._id
           setUser(res.data);
           setUserDetail(res.data)
           await setData('userdetail', res.data);

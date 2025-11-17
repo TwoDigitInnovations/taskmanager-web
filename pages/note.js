@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import AuthGuard from "./AuthGuard";
 import { userContext } from "./_app";
 import { useConfirm } from "@/components/confirmationModal";
+import moment from "moment";
 
 export default function NotesApp(props) {
     const [notes, setNotes] = useState([]);
@@ -107,7 +108,7 @@ export default function NotesApp(props) {
             id: Date.now(),
             title: "New Note",
             content: "",
-            date: new Date().toLocaleString(),
+            date: new Date(),
             created_by: user.id
         };
         try {
@@ -253,7 +254,7 @@ export default function NotesApp(props) {
                                         }`}
                                 >
                                     <h3 className="font-medium text-gray-800 truncate">{note.title}</h3>
-                                    <p className="text-xs text-gray-500">{note.date}</p>
+                                    <p className="text-xs text-gray-500">{moment(new Date(note.date)).format('DD-MM-YYYY, hh:mm A')}</p>
 
                                     {note.project && (
                                         <p className="text-xs mt-1 text-blue-600">
