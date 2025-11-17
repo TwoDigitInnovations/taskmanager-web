@@ -89,7 +89,7 @@ export default function EmployeeDashboard(props) {
                                 >
                                     {emp.status}
                                 </td>
-                                <td className="p-3 font-medium text-center">{emp.totalLeavesThisMonth}</td>
+                                <td className="p-3 font-medium text-center"><span className="text-red-600">{emp.totalLeavesThisMonth}</span><span className="text-green-600">/{emp.totalCompensateThisMonth}</span></td>
                             </tr>
                         ))}
                     </tbody>

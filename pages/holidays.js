@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useState, useEffect, useContext } from "react";
 import { Context, userContext } from "./_app";
 import AuthGuard from "./AuthGuard";
+import moment from "moment";
 
 
 const months = [
@@ -20,13 +21,14 @@ export default function HolidayCalendar(props) {
     const [holidays, setHolidays] = useState({});
     const [selectedDate, setSelectedDate] = useState(null);
     const [holidayName, setHolidayName] = useState("");
-
+    const [selectedData, setSelectedData] = useState({})
+    const [allHolidays, setAllHolidays] = useState([])
     // Load from localStorage and merge with auto holidays
     useEffect(() => {
         getAllHolidays();
     }, [initial]);
 
-
+    console.log(allHolidays)
 
     const getAllHolidays = () => {
         props.loader(true);
@@ -39,6 +41,7 @@ export default function HolidayCalendar(props) {
                         setHolidays(auto);
                     } else {
                         let dates = {}
+                        setAllHolidays(res.data)
                         res.data.forEach(datess => {
                             dates[datess.date_string] = datess.title
                         });
@@ -47,6 +50,7 @@ export default function HolidayCalendar(props) {
                             getAllHolidaysByUser(dates)
                         } else {
                             setHolidays(dates);
+
                         }
                     }
                 } else {
@@ -72,6 +76,7 @@ export default function HolidayCalendar(props) {
                         dates[datess.date_string] = datess.title
                     });
                     setHolidays({ ...d, ...dates });
+                    // setAllHolidays(...allHolidays, ...res.data)
                 } else {
                     props.toaster({ type: "success", message: res?.message });
                 }
@@ -161,21 +166,27 @@ export default function HolidayCalendar(props) {
         return auto;
     };
 
-    const handleDayClick = (dateStr) => {
+    const handleDayClick = (dateStr, cur) => {
         setSelectedDate(dateStr);
         setHolidayName(holidays[dateStr] || "");
+        setSelectedData(cur)
     };
 
     const handleSave = (e) => {
         e.preventDefault();
         if (!selectedDate || !holidayName.trim()) return;
         setHolidays((prev) => ({ ...prev, [selectedDate]: holidayName.trim() }));
-        const d = {
+        let d = {
             holiday: selectedDate,
             date_string: selectedDate,
             title: holidayName.trim(),
             year: currentYear
         }
+        if (selectedData?.compensate_date) {
+            d.compensate_date = selectedData?.compensate_date
+        }
+        // console.log(d)
+        // return
         createHolidays(d)
         setSelectedDate(null);
         setHolidayName("");
@@ -282,21 +293,23 @@ export default function HolidayCalendar(props) {
                                         ).padStart(2, "0")}-${String(day + 1).padStart(2, "0")}`;
                                         const isHoliday = holidays[dateStr];
                                         const isSelected = selectedDate === dateStr;
+                                        const currentData = allHolidays?.find(f => dateStr === f.date_string)
 
                                         return (
                                             <div
                                                 key={dateStr}
-                                                onClick={() => { user.type === 'ADMIN' && handleDayClick(dateStr) }}
+                                                onClick={() => { user.type === 'ADMIN' && handleDayClick(dateStr, currentData) }}
                                                 className={`p-2 rounded-lg cursor-pointer transition ${isSelected
                                                     ? "bg-blue-500 text-white"
-                                                    : isHoliday === "Sunday"
-                                                        ? "bg-red-100 text-red-700 font-medium"
-                                                        : isHoliday === "Second Saturday" ||
-                                                            isHoliday === "Fourth Saturday"
-                                                            ? "bg-orange-100 text-orange-700 font-medium"
-                                                            : isHoliday
-                                                                ? "bg-green-100 text-green-700 font-medium"
-                                                                : "hover:bg-gray-200"
+                                                    : currentData?.compensate_date ? 'bg-green-700 text-white'
+                                                        : isHoliday === "Sunday"
+                                                            ? "bg-red-100 text-red-700 font-medium"
+                                                            : isHoliday === "Second Saturday" ||
+                                                                isHoliday === "Fourth Saturday"
+                                                                ? "bg-orange-100 text-orange-700 font-medium"
+                                                                : isHoliday
+                                                                    ? "bg-green-100 text-green-700 font-medium"
+                                                                    : "hover:bg-gray-200"
                                                     }`}
                                                 title={isHoliday || ""}
                                             >
@@ -328,7 +341,14 @@ export default function HolidayCalendar(props) {
                                     onChange={(e) => setHolidayName(e.target.value)}
                                     className="border rounded-md p-2 outline-none"
                                 />
-
+                                <p className="text-black">Compensate Date</p>
+                                <input
+                                    type="date"
+                                    placeholder="Compensate Date"
+                                    value={moment(new Date(selectedData?.compensate_date)).format('YYYY-MM-DD')}
+                                    onChange={(e) => setSelectedData({ ...selectedData, compensate_date: new Date(e.target.value) })}
+                                    className="border rounded-md p-2 outline-none"
+                                />
                                 <div className="flex justify-between gap-3">
                                     <button
                                         type="button"
