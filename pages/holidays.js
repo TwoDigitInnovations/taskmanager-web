@@ -74,8 +74,13 @@ export default function HolidayCalendar(props) {
                     let dates = {}
                     res.data.forEach(datess => {
                         dates[datess.date_string] = datess.title
+                        if (d[datess.date_string]) {
+                            delete d[datess.date_string]
+                        }
                     });
-                    setHolidays({ ...d, ...dates });
+                    console.log(dates)
+                    console.log(d)
+                    setHolidays({ ...dates, ...d });
                     // setAllHolidays(...allHolidays, ...res.data)
                 } else {
                     props.toaster({ type: "success", message: res?.message });
@@ -293,7 +298,7 @@ export default function HolidayCalendar(props) {
                                         ).padStart(2, "0")}-${String(day + 1).padStart(2, "0")}`;
                                         const isHoliday = holidays[dateStr];
                                         const isSelected = selectedDate === dateStr;
-                                        const currentData = allHolidays?.find(f => dateStr === f.date_string)
+                                        const currentData = allHolidays?.find(f => dateStr === f.date_string && initial?._id === f.user)
 
                                         return (
                                             <div
