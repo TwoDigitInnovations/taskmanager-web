@@ -28,6 +28,7 @@ const ProjectsList = (props) => {
   const [clienID, setClientID] = useState("");
   const [clientData, setClientData] = useState({})
   const [user, setUser] = useContext(userContext)
+  const [showPendingAmount, setShowpendingAmount] = useState(false);
 
   useEffect(() => {
     getClientList();
@@ -178,7 +179,12 @@ const ProjectsList = (props) => {
         <div className="px-5 overflow-visible mt-3">
           <div className="grid md:grid-cols-2 grid-cols-1 bg-[var(--mainColor)] p-3  border-t-4 border-[var(--customYellow)] ">
             <div>
-              <p className="text-white font-bold md:text-3xl text-lg">
+              <p className="text-white font-bold md:text-3xl text-lg" onClick={() => {
+                setShowpendingAmount(true)
+                setTimeout(() => {
+                  setShowpendingAmount(false)
+                }, 60000);
+              }}>
                 Projects List
               </p>
             </div>
@@ -204,6 +210,7 @@ const ProjectsList = (props) => {
             goToTop={goToTop}
             {...props}
             getClientList={getClientList}
+            showPendingAmount={showPendingAmount}
           />
         </div>
 

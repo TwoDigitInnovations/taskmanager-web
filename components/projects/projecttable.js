@@ -20,6 +20,7 @@ function ProjectTable(props) {
     const [user, setUser] = useContext(userContext)
     const [showModal, setShowModal] = useState(false);
 
+
     const columns = useMemo(
         () => [
             {
@@ -30,6 +31,34 @@ function ProjectTable(props) {
             {
                 Header: "Name",
                 accessor: "name",
+            },
+            {
+                Header: "Period",
+                accessor: "period",
+            },
+            {
+                Header: "Closed Date",
+                accessor: "createdAt",
+            },
+            {
+                Header: "Action",
+                Cell: ActionSection,
+            },
+        ],
+        []
+    );
+
+    const admincolumns = useMemo(
+        () => [
+            {
+                Header: "ID",
+                Cell: indexID,
+                // accessor: "indexID",
+            },
+            {
+                Header: "Name",
+                accessor: "name",
+                Cell: statusSection
             },
             {
                 Header: "Period",
@@ -52,8 +81,7 @@ function ProjectTable(props) {
         ],
         []
     );
-
-    const admincolumns = useMemo(
+    const Enableadmincolumns = useMemo(
         () => [
             {
                 Header: "ID",
@@ -143,6 +171,14 @@ function ProjectTable(props) {
                 >
                     <IoEyeSharp className="text-black h-4 w-4 " />
                 </div>
+                <div
+                    className="h-7 w-9 bg-[var(--customYellow)] rounded-sm ml-2 flex justify-center items-center cursor-pointer"
+
+                >
+                    <button className='bg-[#6C55F9] text-white text-base w-20 p-1 rounded' onClick={() => {
+                        router.push(`/project-user-tasks?projectId=${row.original._id}`)
+                    }}>Tasks</button>
+                </div>
 
             </div>
         );
@@ -154,7 +190,7 @@ function ProjectTable(props) {
 
     return (
         <>
-            <Table columns={user?.type === 'ADMIN' ? admincolumns : columns} data={props.data} />
+            <Table columns={user?.type === 'ADMIN' ? props.showPendingAmount ? Enableadmincolumns : admincolumns : columns} data={props.data} />
             {showModal && (
                 <ProjectViewModal
                     {...props}

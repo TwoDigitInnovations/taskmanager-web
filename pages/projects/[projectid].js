@@ -58,7 +58,7 @@ function RoleCard({ role, data }) {
     )
 }
 
-function TypeCard({ type, data }) {
+function TypeCard({ type, data, router, projectId }) {
     return (
         <div className="bg-[var(--mainLightColor)] rounded-3xl p-5 shadow-inner">
             <div className="flex items-center justify-between mb-4">
@@ -66,7 +66,8 @@ function TypeCard({ type, data }) {
                     <div className="text-sm font-semibold text-gray-900">{type.type}</div>
                     <div className="text-xs text-gray-500">{type.total_hrs?.toFixed(2)} hrs</div>
                 </div>
-                <div className="text-xs text-gray-500">Roles: {type.work_role.length}</div>
+
+
             </div>
 
             <div className="space-y-3">
@@ -205,8 +206,8 @@ export default function ProjectHistoryUI(props) {
                                 {data?.milestones?.map((t, i) => (
                                     <div key={i} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
                                         <div>
-                                            <div className="text-sm font-semibold">Milestone {i + 1}</div>
-                                            <div className={`"text-xs text-gray-500"  ${t.status === 'paid' ? "text-green-600" : "text-yellow-600"}`}>{t.status}</div>
+                                            <div className="text-sm font-semibold">{t.name}</div>
+                                            <div className={`"text-xs text-gray-500 capitalize"  ${t.status === 'paid' ? "text-green-600" : "text-yellow-600"}`}>{t.status}</div>
                                         </div>
                                         <div className={`"text-sm font-semibold" `}>{t.amount}</div>
                                     </div>
@@ -228,11 +229,16 @@ export default function ProjectHistoryUI(props) {
                                             <h3 className="text-lg font-semibold text-black">{t?.type}</h3>
                                             <div className="text-xs text-black">{t?.total_hrs?.toFixed(2)} hrs • {t?.work_role.length} role(s)</div>
                                         </div>
+                                        <div>
+                                            <button className='bg-[#6C55F9] text-white text-base w-20 p-1 rounded' onClick={() => {
+                                                router.push(`/project-user-tasks?projectId=${projectid}&&work_type=${t.type}`)
+                                            }}>View</button>
+                                        </div>
                                     </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         {t?.work_role.map((r, j) => (
-                                            <TypeCard key={j} type={{ ...t, work_role: [r] }} data={data} />
+                                            <TypeCard key={j} type={{ ...t, work_role: [r] }} data={data} router={router} projectId={projectid} />
                                         ))}
                                     </div>
                                 </div>

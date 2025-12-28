@@ -96,13 +96,7 @@ const menuItems = [
     access: ["USER", "ORG", "ADMIN"],
     sub: false,
   },
-  // {
-  //   href: "/history",
-  //   title: "History",
-  //   icon: "/History.png",
-  //   activeIcon: "/History1.png",
-  //   access: ["USER", "ORG", "ADMIN"],
-  // },
+
   {
     href: "/report",
     title: "Reports",
@@ -120,50 +114,6 @@ const menuItems = [
     sub: false,
   },
 
-  // {
-  //   href: "/billing",
-  //   title: "Billing",
-  //   icon: "/privacy.png",
-  //   activeIcon: "/privacy1.png",
-  //   access: ["USER", "ORG", "ADMIN"],
-  // },
-  // {
-  //   title: "Financials",
-  //   icon: "/privacy.png",
-  //   sub: true,
-  //   active: false,
-  //   activeIcon: "/privacy1.png",
-  //   access: ["USER", "ORG", "ADMIN"],
-  //   list: [
-  //     {
-  //       href: "/billing2",
-  //       title: "Billing",
-  //       icon: "/privacy.png",
-  //       activeIcon: "/privacy1.png",
-  //       access: ["USER", "ORG", "ADMIN"],
-  //     },
-  //     {
-  //       href: "/payroll",
-  //       title: "Payroll",
-  //       icon: "/privacy.png",
-  //       activeIcon: "/privacy1.png",
-  //       access: ["ADMIN"],
-  //     },
-  //   ]
-  // },
-  // {
-  //   href: "/archive",
-  //   title: "Archive Invoices",
-  //   icon: "/privacy.png",
-  //   activeIcon: "/privacy1.png",
-  //   access: ["ORG", "ADMIN"],
-  // },
-  // {
-  //   href: "/notification",
-  //   title: "Notification ",
-  //   icon: "/notification1.png",
-  //   activeIcon: "/notification.png",
-  // },
   {
     href: "/editProfile",
     title: "Edit profile",
@@ -180,13 +130,6 @@ const menuItems = [
     access: ["ORG"],
     sub: false,
   },
-  // {
-  //   href: "/festaevent",
-  //   title: "Festa Events",
-  //   icon: "/user.png",
-  //   activeIcon: "/user1.png",
-  //   access: ["USER", "ORG", "ADMIN"],
-  // },
 ];
 
 const Layout = ({ children, loader, toaster, organization }) => {
@@ -276,26 +219,6 @@ const Layout = ({ children, loader, toaster, organization }) => {
         toaster({ type: "error", message: error.message });
         console.log(error);
       }
-      // Api("get", "me", "", router).then(
-      //   async (res) => {
-
-      //     if (res?.status) {
-      //       localStorage.setItem("userDetail", JSON.stringify(res.data));
-      //       setUser(res.data);
-      //       setUserDetail(res.data)
-
-      //     } else {
-      //       setToast({ type: "success", message: res?.message });
-      //     }
-      //   },
-      //   (err) => {
-      //     setTimeout(() => {
-      //       setIsuAth(false);
-      //     }, 1000);
-      //     toaster({ type: "error", message: err.message });
-      //     console.log(err);
-      //   }
-      // );
     } else {
       setTimeout(() => {
         setIsuAth(false);
@@ -321,7 +244,7 @@ const Layout = ({ children, loader, toaster, organization }) => {
         loader(false);
         // ;
         if (res?.status) {
-          let d = [{ _id: '', username: 'ADMIN' }, ...res.data.users]
+          let d = [{ ...user, username: 'ADMIN' }, ...res.data.users]
           setOrgList(d);
         } else {
           toaster({ type: "success", message: res?.message });
@@ -356,7 +279,7 @@ const Layout = ({ children, loader, toaster, organization }) => {
 
         {router.route !== "/" && router.route !== "/signup" && (
           <header
-            className={`bg-[var(--mainColor)] fixed top-0 w-full h-16 flex  font-semibold uppercase  z-30 ${toggleDrawer && user?.id !== "6450e9bef4d2cc08c2ec0431"
+            className={`bg-[var(--mainColor)] fixed top-0 w-full h-16 flex  font-semibold uppercase  z-30 ${toggleDrawer
               ? "ml-60"
               : "ml-0"
               }`}
@@ -425,146 +348,132 @@ const Layout = ({ children, loader, toaster, organization }) => {
         )}
         {router.route !== "/" &&
           router.route !== "/signup" &&
-          toggleDrawer &&
-          user?.id !== "6450e9bef4d2cc08c2ec0431" && (
+          toggleDrawer && (
             /*bg-stone-800*/
             <aside
-              className={`bg-[var(--mainColor)] w-60 fixed  min-h-screen z-40 border-r-2 border-[var(--mainColor)]`}
+              className={`bg-[var(--mainColor)] w-60 fixed h-screen z-40 border-r-2 border-[var(--mainColor)] flex flex-col overflow-hidden`}
             >
-              <div className=" w-full justify-center text-center border-b-4 border-[var(--mainColor)]">
+              <div className="w-full justify-center text-center border-b-4 border-[var(--mainColor)] flex-shrink-0 sticky top-0">
                 <Image
                   src="/2digit/04.png"
                   width="180"
                   height="180"
                   alt="icon"
                   layout="fixed"
-                  className=" w-fit h-fit"
+                  className="w-fit h-fit"
                 ></Image>
               </div>
 
-              <nav>
-                <ul>
-                  {menulist.map((item) => (
-                    <div key={item.title} className={`${router.asPath === item.href && 'bg-[var(--customYellow)] hover:bg-[var(--customYellow)] '}`} >
+              <nav className="flex-1 min-h-0">
+                <div className="overflow-y-auto h-full hide-scrollbar">
+                  <ul>
+                    {menulist.map((item) => (
+                      <div key={item.title} className={`${router.asPath === item.href && 'bg-[var(--customYellow)] hover:bg-[var(--customYellow)] '}`} >
 
-                      {!item.sub && <div className="hover:bg-[var(--customYellow)]" >
-                        {item?.access?.includes(user?.type) && (
-                          <li
-                            className="py-4  flex  px-5 border-b-2 border-[var(--white)] align-middle group"
-                            onClick={() => {
-                              router.push(item.href);
-                              setMenulist([...menulist])
-                              if (mobile) {
-                                setToggleDrawer(!toggleDrawer);
-                              }
-                            }}
-                          >
-                            <Link href={item.href}>
-                              <p
-                                className={`flex ml-2 font-bold group-hover:text-[var(--mainColor)] cursor-pointer text-md ${router.asPath === item.href
-                                  ? "text-[var(--mainColor)]"
-                                  : "text-white"
-                                  }`}
-                              >
-                                {item.title}
-                              </p>
-                            </Link>
-                            <div className=" flex-1 flex justify-end">
-                              <FaAngleRight className={`text-xl  group-hover:text-[var(--mainColor)] ${router.asPath === item.href
-                                ? "text-[var(--mainColor)]"
-                                : "text-white"}`} />
-                            </div>
-                          </li>
-                        )}
-
-
-                      </div>}
-
-                      {item.sub && <div className="border-b-2 border-stone-800 " >
-                        {item?.access?.includes(user?.type) && (
-                          <li
-                            className={`py-5  flex  px-5  border-stone-800 align-middle   ${item.active && 'bg-[var(--customGray)] '}`}
-
-                            // className={`py-2  flex  px-5  border-stone-800 align-middle }`}
-                            onClick={() => {
-                              item.active = !item.active;
-                              setMenulist([...menulist])
-                            }}
-                          >
-
-                            {/* {Constants[item?.title.replace(' ', '')](item.active ? '#FB1913' : '#ffffff', 18)} */}
-                            <div>
-                              <a
-                                className={`flex ml-2 font-bold hover:text-white cursor-pointer text-md ${item.active
-                                  ? "text-[var(--mainColor)]"
-                                  : "text-white"
-                                  }`}
-                              >
-                                {item.title}
-                              </a>
-                            </div>
-                            <div className="text-right flex-1 ">
-                              <FaAngleRight className={`text-xl  group-hover:text-[var(--mainColor)] ${router.asPath === item.href
-                                ? "text-[var(--mainColor)]"
-                                : "text-black"}`} />
-                            </div>
-                          </li>
-                        )}
-                        {item?.active && item?.list.map((submenu, inx) => (<div key={inx} >
-                          {item?.access?.includes(user?.usertype) && (
+                        {!item.sub && <div className="hover:bg-[var(--customYellow)]" >
+                          {item?.access?.includes(user?.type) && (
                             <li
-                              className={`py-2  flex  px-5  border-stone-800 align-middle  bg-[var(--customGray)] ${router.asPath === submenu.href && 'bg-[var(--customGray)] '}`}
+                              className="py-3 flex  px-5 border-b-2 border-[var(--white)] align-middle group"
                               onClick={() => {
-                                router.push(submenu.href);
-                                // if (mobile) {
-                                // setToggleDrawer(!toggleDrawer);
-                                // }
+                                router.push(item.href);
+                                setMenulist([...menulist])
+                                if (mobile) {
+                                  setToggleDrawer(!toggleDrawer);
+                                }
                               }}
                             >
-                              {/* <div className="justify-center align-middle ">
-                              <Image
-                                src={
-                                  router.asPath === item.href
-                                    ? item.activeIcon
-                                    : item.icon
-                                }
-                                width="15"
-                                height="15"
-                                alt="icon"
-                                layout="fixed"
-                              ></Image>
-                            </div> */}
-                              <Link href={submenu.href}>
+                              <Link href={item.href}>
                                 <p
-                                  className={`flex ml-2 font-bold hover:text-white cursor-pointer text-sm ${router.asPath === submenu.href
+                                  className={`flex ml-2 font-bold group-hover:text-[var(--mainColor)] cursor-pointer text-md ${router.asPath === item.href
                                     ? "text-[var(--mainColor)]"
                                     : "text-white"
                                     }`}
                                 >
-                                  {submenu.title}
+                                  {item.title}
                                 </p>
                               </Link>
-                              <div className="text-right flex-1 ">
-                                <Image
-                                  src={
-                                    router.asPath === submenu.href
-                                      ? "/fwd-red.png"
-                                      : "/fwd-white.png"
-                                  }
-                                  width="8"
-                                  height="15"
-                                  alt="icon"
-                                  layout="fixed"
-                                ></Image>
+                              <div className=" flex-1 flex justify-end">
+                                <FaAngleRight className={`text-xl  group-hover:text-[var(--mainColor)] ${router.asPath === item.href
+                                  ? "text-[var(--mainColor)]"
+                                  : "text-white"}`} />
                               </div>
                             </li>
                           )}
-                        </div>))}
-                      </div>}
-                    </div>
 
-                  ))}
-                </ul>
+
+                        </div>}
+
+                        {item.sub && <div className="border-b-2 border-stone-800 " >
+                          {item?.access?.includes(user?.type) && (
+                            <li
+                              className={`py-5  flex  px-5  border-stone-800 align-middle   ${item.active && 'bg-[var(--customGray)] '}`}
+
+                              // className={`py-2  flex  px-5  border-stone-800 align-middle }`}
+                              onClick={() => {
+                                item.active = !item.active;
+                                setMenulist([...menulist])
+                              }}
+                            >
+
+                              {/* {Constants[item?.title.replace(' ', '')](item.active ? '#FB1913' : '#ffffff', 18)} */}
+                              <div>
+                                <a
+                                  className={`flex ml-2 font-bold hover:text-white cursor-pointer text-md ${item.active
+                                    ? "text-[var(--mainColor)]"
+                                    : "text-white"
+                                    }`}
+                                >
+                                  {item.title}
+                                </a>
+                              </div>
+                              <div className="text-right flex-1 ">
+                                <FaAngleRight className={`text-xl  group-hover:text-[var(--mainColor)] ${router.asPath === item.href
+                                  ? "text-[var(--mainColor)]"
+                                  : "text-black"}`} />
+                              </div>
+                            </li>
+                          )}
+                          {item?.active && item?.list.map((submenu, inx) => (<div key={inx} >
+                            {item?.access?.includes(user?.usertype) && (
+                              <li
+                                className={`py-2  flex  px-5  border-stone-800 align-middle  bg-[var(--customGray)] ${router.asPath === submenu.href && 'bg-[var(--customGray)] '}`}
+                                onClick={() => {
+                                  router.push(submenu.href);
+
+                                }}
+                              >
+                                <Link href={submenu.href}>
+                                  <p
+                                    className={`flex ml-2 font-bold hover:text-white cursor-pointer text-sm ${router.asPath === submenu.href
+                                      ? "text-[var(--mainColor)]"
+                                      : "text-white"
+                                      }`}
+                                  >
+                                    {submenu.title}
+                                  </p>
+                                </Link>
+                                <div className="text-right flex-1 ">
+                                  <Image
+                                    src={
+                                      router.asPath === submenu.href
+                                        ? "/fwd-red.png"
+                                        : "/fwd-white.png"
+                                    }
+                                    width="8"
+                                    height="15"
+                                    alt="icon"
+                                    layout="fixed"
+                                  ></Image>
+                                </div>
+                              </li>
+                            )}
+                          </div>))}
+                        </div>}
+                      </div>
+
+                    ))}
+                  </ul>
+                </div>
               </nav>
             </aside>
           )}
@@ -573,15 +482,12 @@ const Layout = ({ children, loader, toaster, organization }) => {
             className={
               router.route !== "/" &&
                 router.route !== "/signup" ?
-                toggleDrawer &&
-                  user?.id !== "6450e9bef4d2cc08c2ec0431"
+                toggleDrawer
                   ? " md:pl-60 md:w-full  md:pt-16"
                   : mobile ? 'flex-1 pt-16' : "flex-1 md:pt-16" : 'flex-1  md:pt-0'
             }
           >
-            {/* {pageShow ? children : loader(true)} */}
             {children}
-            {/* <ConfirmProvider>{children}</ConfirmProvider> */}
           </main>
         </div>
         <Dialog
@@ -615,9 +521,9 @@ const Layout = ({ children, loader, toaster, organization }) => {
         </Dialog>
 
         <Dialog open={organizationOpen} onClose={handleClose}>
-          <div className="px-5 pt-20 pb-5 border-2  border-[var(--mainColor)] bg-[var(--mainColor)] relative overflow-hidden w-80">
+          <div className="px-5 pt-4 pb-5 border-2  border-[var(--mainColor)] bg-[var(--mainColor)] relative overflow-hidden w-80">
             <IoCloseCircleOutline
-              className="text-[var(--mainColor)] h-8 w-8 absolute right-2 top-2"
+              className="text-white h-8 w-8 absolute right-2 top-2"
               onClick={handleClose}
             />
             <p className="text-white text-lg font-semibold">Devlopers</p>
@@ -645,3 +551,4 @@ const Layout = ({ children, loader, toaster, organization }) => {
 };
 
 export default Layout;
+

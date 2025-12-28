@@ -12,7 +12,10 @@ export default function EmployeeDashboard(props) {
     const [employees, setEmployees] = useState([]);
 
     const [selectedEmp, setSelectedEmp] = useState(null);
-    const [newStatus, setNewStatus] = useState("");
+    const [filters, setFilters] = useState({
+        startDate: new Date(new Date().setDate(new Date().getDate() - 7)).toISOString().split("T")[0], // 7 days ago
+        endDate: today,
+    });
 
     // Load saved data
     useEffect(() => {
@@ -23,9 +26,9 @@ export default function EmployeeDashboard(props) {
 
 
 
-    const getTodayStatus = async () => {
+    const getTodayStatus = async (start = filters.startDate, end = filters.endDate) => {
         props.loader(true);
-        Api("get", `getEmployeeStatus`, '', router).then(
+        Api("get", `getEmployeeStatus?startDate=${start}&endDate=${end}`, '', router).then(
             async (res) => {
                 props.loader(false);
                 if (res?.status) {
@@ -51,7 +54,7 @@ export default function EmployeeDashboard(props) {
         e.preventDefault();
         setEmployees((prev) =>
             prev.map((emp) =>
-                emp.id === selectedEmp.id ? { ...emp, status: newStatus } : emp
+                emp._id === selectedEmp._id ? { ...emp, status: newStatus } : emp
             )
         );
         setSelectedEmp(null);
@@ -59,25 +62,49 @@ export default function EmployeeDashboard(props) {
 
     return (
         <div className=" bg-gray-50 text-gray-800 p-1">
-            {/* <h1 className="text-3xl font-bold text-center mb-4">Employee Dashboard</h1>
-            <p className="text-center text-gray-600 mb-8">
-                Date: <span className="font-medium">{today}</span>
-            </p> */}
+            <div className="w-full mx-auto mb-4">
+                <div className="flex items-center justify-between bg-white p-4 rounded-lg shadow">
+                    <h1 className="text-xl font-semibold">Employee Dashboard</h1>
+                    <div className="flex items-center gap-4">
+                        <label className="text-sm font-medium">Date Range:</label>
+                        <input
+                            type="date"
+                            value={filters.startDate}
+                            onChange={(e) => setFilters({ ...filters, startDate: e.target.value })}
+                            className="border rounded px-3 py-1"
+                        />
+                        <span className="text-sm">to</span>
+                        <input
+                            type="date"
+                            value={filters.endDate}
+                            onChange={(e) => setFilters({ ...filters, endDate: e.target.value })}
+                            className="border rounded px-3 py-1"
+                        />
+                        <button
+                            onClick={() => getTodayStatus()}
+                            className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700"
+                        >
+                            Apply
+                        </button>
+                    </div>
+                </div>
+            </div>
 
             {/* Employee Table */}
-            <div className="max-w-3xl mx-auto bg-white  shadow-lg overflow-hidden">
+            <div className="w-full mx-auto bg-white  shadow-lg overflow-hidden">
                 <table className="w-full text-left">
                     <thead className="bg-gray-200">
                         <tr>
                             <th className="p-3">Employee</th>
                             <th className="p-3 text-center">Status</th>
                             <th className="p-3 text-center">Month Leave</th>
+                            <th className="p-3 text-center">Year Leave</th>
                         </tr>
                     </thead>
                     <tbody>
                         {employees.map((emp) => (
                             <tr
-                                key={emp.id}
+                                key={emp._id}
                                 className="border-b hover:bg-gray-100 transition capitalize "
                             >
                                 <td className="p-3 font-medium">{emp.username}</td>
@@ -89,7 +116,8 @@ export default function EmployeeDashboard(props) {
                                 >
                                     {emp.status}
                                 </td>
-                                <td className="p-3 font-medium text-center"><span className="text-red-600">{emp.totalLeavesThisMonth}</span><span className="text-green-600">/{emp.totalCompensateThisMonth}</span></td>
+                                <td className="p-3 font-medium text-center"><span className="text-red-600">{emp.totalLeavesThisPeriod}</span><span className="text-green-600">/{emp.totalCompensateThisPeriod}</span></td>
+                                <td className="p-3 font-medium text-center"><span className="text-red-600">{emp.totalLeavesThisYear}</span><span className="text-green-600">/{emp.totalCompensateThisYear}</span></td>
                             </tr>
                         ))}
                     </tbody>
@@ -101,7 +129,7 @@ export default function EmployeeDashboard(props) {
                 <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
                     <div className="bg-white p-6 rounded-2xl shadow-xl w-full max-w-sm">
                         <h2 className="text-xl font-semibold mb-4 text-center">
-                            Edit Status for {selectedEmp.name}
+                            Edit Status for {selectedEmp.username}
                         </h2>
 
                         <form onSubmit={handleSave} className="flex flex-col gap-4">

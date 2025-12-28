@@ -23,12 +23,17 @@ export default function HolidayCalendar(props) {
     const [holidayName, setHolidayName] = useState("");
     const [selectedData, setSelectedData] = useState({})
     const [allHolidays, setAllHolidays] = useState([])
+    const [conpensateDateList, setConpensatedateList] = useState([])
     // Load from localStorage and merge with auto holidays
     useEffect(() => {
-        getAllHolidays();
+        setAllHolidays([])
+        setTimeout(() => {
+            getAllHolidays();
+        }, 500);
     }, [initial]);
+    // console.log(initial)
 
-    console.log(allHolidays)
+    // console.log(allHolidays)
 
     const getAllHolidays = () => {
         props.loader(true);
@@ -72,6 +77,9 @@ export default function HolidayCalendar(props) {
                 props.loader(false);
                 if (res?.status) {
                     let dates = {}
+                    // const data = res.data.map(r => r.compensate_date && r.date_string)
+                    // console.log('filter dat-------------', data)
+                    setConpensatedateList(res.data)
                     res.data.forEach(datess => {
                         dates[datess.date_string] = datess.title
                         if (d[datess.date_string]) {
@@ -172,6 +180,7 @@ export default function HolidayCalendar(props) {
     };
 
     const handleDayClick = (dateStr, cur) => {
+        console.log(cur)
         setSelectedDate(dateStr);
         setHolidayName(holidays[dateStr] || "");
         setSelectedData(cur)
@@ -185,10 +194,13 @@ export default function HolidayCalendar(props) {
             holiday: selectedDate,
             date_string: selectedDate,
             title: holidayName.trim(),
-            year: currentYear
+            year: currentYear,
+            user: initial._id,
+            id: selectedData?._id
         }
         if (selectedData?.compensate_date) {
             d.compensate_date = selectedData?.compensate_date
+
         }
         // console.log(d)
         // return
@@ -296,10 +308,11 @@ export default function HolidayCalendar(props) {
                                         const dateStr = `${currentYear}-${String(
                                             monthIndex + 1
                                         ).padStart(2, "0")}-${String(day + 1).padStart(2, "0")}`;
+                                        // console.log(dateStr)
                                         const isHoliday = holidays[dateStr];
                                         const isSelected = selectedDate === dateStr;
-                                        const currentData = allHolidays?.find(f => dateStr === f.date_string && initial?._id === f.user)
-
+                                        const currentData = conpensateDateList?.find(f => f.date_string == dateStr)
+                                        // console.log(currentData)
                                         return (
                                             <div
                                                 key={dateStr}

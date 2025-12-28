@@ -586,3 +586,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-radius: 4px;
   padding: 2px;
 }
+
+/* Hide scrollbar */
+.hide-scrollbar {
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, and Opera */
+}

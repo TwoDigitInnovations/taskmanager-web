@@ -50,18 +50,12 @@ export default function ProjectViewModal({ project, onClose, toaster }) {
                         <p className="font-semibold">Project Name:</p>
                         <p>{project.name}</p>
                     </div>
-                    {user.type === "ADMIN" && <div>
-                        <p className="font-semibold">Amount:</p>
-                        <p>{project.amount}</p>
-                    </div>}
+
                     <div>
                         <p className="font-semibold">Period:</p>
                         <p>{project.period}</p>
                     </div>
-                    {user.type === "ADMIN" && <div>
-                        <p className="font-semibold">Client:</p>
-                        <p>{project.client_obj.fullName}</p>
-                    </div>}
+
                     <div>
                         <p className="font-semibold">Design Start Date:</p>
                         {project.start_figma_date && <p>{moment(project.start_figma_date).format('DD/MM/YYYY')}</p>}
@@ -94,15 +88,12 @@ export default function ProjectViewModal({ project, onClose, toaster }) {
                 </div>
 
                 {/* Milestones */}
-                <div className="mt-6">
+                {user.type === "PROVIDER" && <div className="mt-6">
                     <p className="font-semibold mb-2">Milestones:</p>
                     <div className="space-y-3">
                         {project.milestones?.map((m, i) => (
                             <div key={i} className="p-3 border rounded-lg bg-gray-50">
-                                {user.type === "ADMIN" && < p >
-                                    <span className="font-semibold">Amount:</span> {m.amount}{" "}
-                                    {m.currency}
-                                </p>}
+
                                 <p>
                                     <span className="font-semibold">Period:</span> {m.period}
                                 </p>
@@ -115,7 +106,7 @@ export default function ProjectViewModal({ project, onClose, toaster }) {
                             </div>
                         ))}
                     </div>
-                </div>
+                </div>}
 
                 {/* Links */}
                 <div className="mt-6">

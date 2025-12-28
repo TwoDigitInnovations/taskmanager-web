@@ -497,7 +497,23 @@ const Register = (props) => {
 
             <div className="mt-5">
               {clientObj.milestones.map((item, index) => (
-                <div className="p-2" key={index}>   <p className="text-black text-lg font-semibold">{index + 1}</p>
+                <div className="p-2" key={index}>
+                  <div className="flex">
+                    <p className="text-black text-lg font-semibold">{index + 1}</p>
+                    <select value={item?.name}
+                      className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full"
+                      onChange={(text) => {
+                        item.name = text.target.value
+                        setClientObj({
+                          ...clientObj,
+                        });
+                      }}>
+                      <option value=''>Select type</option>
+                      <option value={'Milestone'}>Milestone</option>
+                      <option value={'Manitenance'}>Manitenance</option>
+                    </select>
+                  </div>
+
 
                   <div className="grid grid-cols-4 gap-2 mb-3">
                     <div className="p-2">

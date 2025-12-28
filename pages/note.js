@@ -258,7 +258,7 @@ export default function NotesApp(props) {
 
                                     {note.project && (
                                         <p className="text-xs mt-1 text-blue-600">
-                                            Project: {projects.find(f => f._id === note?.project)?.name}
+                                            Project: {projects?.find(f => f._id === note?.project)?.name}
                                         </p>
                                     )}
                                     {note?.developer && user?.type !== 'ADMIN' && (

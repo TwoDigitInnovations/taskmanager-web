@@ -225,7 +225,7 @@ const Index = (props) => {
           </div>
         </div>
         {user.type === 'ADMIN' && <div className="grid md:grid-cols-2 grid-cols-1">
-          <div className="w-full grid-cols-1">
+          <div className="w-full grid-cols-1  col-span-2">
             <div className="grid grid-cols-2 bg-[var(--mainColor)] md:px-5 p-3 py-5 border-t-4 border-[var(--customYellow)] md:mx-5 m mx-3">
               <div>
                 <p className="text-white font-bold md:text-3xl text-lg">

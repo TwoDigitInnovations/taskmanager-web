@@ -7,8 +7,8 @@ import { getAuthToken } from "./lib/storage";
 // pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 
-export const ConstantsUrl = "https://taskmanagerapi.2digitinnovations.com/v1/api/";
-// export const ConstantsUrl = "http://localhost:3008/v1/api/";
+// export const ConstantsUrl = "https://taskmanagerapi.2digitinnovations.com/v1/api/";
+export const ConstantsUrl = "http://localhost:3008/v1/api/";
 
 
 function Api(method, url, data, router) {
