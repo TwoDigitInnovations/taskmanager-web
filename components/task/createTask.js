@@ -281,11 +281,16 @@ const CreateTask = (props) => {
                 /> */}
                 <div className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-3 "
                 >
-                  <TimePicker date={moment(new Date(jobInfo.startDate)).format()} value={moment(jobInfo?.startTime || new Date()).format('HH:mm A')} onChange={(e) => {
-                    console.log(e)
-                    setJobInfo({ ...jobInfo, startTime: e });
-                    getJobHour(moment(new Date(e)).format(), jobInfo.endTime);
-                  }} />
+                  <TimePicker
+                    date={moment(new Date(jobInfo.startDate)).format()}
+                    value={moment(jobInfo?.startTime || new Date()).format('HH:mm A')}
+                    // minTime={new Date()}
+                    onChange={(e) => {
+                      console.log(e)
+                      setJobInfo({ ...jobInfo, startTime: e });
+                      getJobHour(moment(new Date(e)).format(), jobInfo.endTime);
+
+                    }} />
                 </div>
               </div>
 
@@ -295,11 +300,15 @@ const CreateTask = (props) => {
                 </p>
                 <div className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-3 "
                 >
-                  <TimePicker date={moment(new Date(jobInfo.startDate)).format()} value={moment(jobInfo?.endTime || new Date()).format('HH:mm A')} onChange={(e) => {
-                    console.log(e)
-                    setJobInfo({ ...jobInfo, endTime: e });
-                    getJobHour(jobInfo.startTime, moment(new Date(e)).format());
-                  }} />
+                  <TimePicker
+                    date={moment(new Date(jobInfo.startDate)).format()}
+                    value={moment(jobInfo?.endTime || new Date()).format('HH:mm A')}
+                    // minTime={new Date(jobInfo?.startTime)}
+                    onChange={(e) => {
+                      console.log(e)
+                      setJobInfo({ ...jobInfo, endTime: e });
+                      getJobHour(jobInfo.startTime, moment(new Date(e)).format());
+                    }} />
                 </div>
                 {/* <input
                   value={moment(jobInfo.endTime).format('HH:mm')}
