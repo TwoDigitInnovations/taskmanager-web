@@ -7,6 +7,7 @@ import moment from "moment";
 import { MultiSelect } from "react-multi-select-component";
 import JobFilter from "../JobFilter";
 import _, { isEmpty, map } from 'underscore';
+import TimePicker from "../TimePicker";
 
 const CreateTask = (props) => {
   const jobID = props?.jobId
@@ -261,7 +262,16 @@ const CreateTask = (props) => {
                 <p className="text-black text-lg font-semibold">
                   {"Start Time"}
                 </p>
-                <input
+                <div className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-3 "
+                >
+                  <TimePicker date={jobInfo?.startDate} value={moment(jobInfo?.startTime).format('HH:mm A')} onChange={(e) => {
+                    console.log(e)
+                    setJobInfo({ ...jobInfo, startTime: e });
+                    getJobHour(newDate, e);
+                  }} />
+                </div>
+
+                {/* <input
                   value={moment(jobInfo?.startTime).format('HH:mm')}
                   max={jobInfo.endTime}
                   onChange={(text) => {
@@ -275,14 +285,14 @@ const CreateTask = (props) => {
                   }}
                   type="time"
                   className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-3 "
-                />
+                /> */}
               </div>
 
               <div className="grid grid-cols-1">
                 <p className="text-black text-lg font-semibold">
                   {"End Time"}
                 </p>
-                <input
+                {/* <input
                   value={moment(jobInfo.endTime).format('HH:mm')}
                   // min={jobInfo.startTime}
                   onChange={(text) => {
@@ -297,7 +307,15 @@ const CreateTask = (props) => {
                   }}
                   type="time"
                   className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-3 "
-                />
+                /> */}
+                <div className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-3 "
+                >
+                  <TimePicker date={jobInfo?.startDate} value={moment(jobInfo?.startTime).format('HH:mm A')} onChange={(e) => {
+                    console.log(e)
+                    setJobInfo({ ...jobInfo, startTime: e });
+                    getJobHour(newDate, e);
+                  }} />
+                </div>
               </div>
             </div>
           </div>
