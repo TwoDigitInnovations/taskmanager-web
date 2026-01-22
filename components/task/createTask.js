@@ -164,8 +164,7 @@ const CreateTask = (props) => {
     if (props?.jobId) {
       url = `jobs/${props?.jobId}`
     }
-
-    // if (!!user) {
+    jobInfo.startDate = moment(jobInfo.startDate).format();
 
     Api(
       "post",
