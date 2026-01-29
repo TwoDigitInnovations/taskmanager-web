@@ -7,7 +7,7 @@ export default function TimePicker({
     onChange,
     date,
     minTime,
-    maxTime
+    maxTime,
 }) {
     const hours = Array.from({ length: 12 }, (_, i) =>
         String(i + 1).padStart(2, "0")
@@ -20,15 +20,17 @@ export default function TimePicker({
     const [period, setPeriod] = useState("AM");
 
     useEffect(() => {
+        console.log('timepicker value changed====>', value)
         if (value) {
             let h = value.split(":")[0];
+            let m = value.split(" ")[0].split(":")[1];
 
             if (Number(h) > 12) h = Number(h) - 12;
             if (Number(h) < 10 && !h.toString().includes("0")) h = `0${h}`;
-
             setHour(h);
-            setMinute(value.split(" ")[0].split(":")[1]);
+            setMinute(m);
             setPeriod(value.split(" ")[1]);
+            console.log('timepicker value====>', m, h, m, value)
         }
     }, [value]);
 

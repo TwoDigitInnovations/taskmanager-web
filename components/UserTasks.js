@@ -5,21 +5,22 @@ import * as XLSX from 'xlsx';
 import moment from "moment";
 import { userContext } from "@/pages/_app";
 
-export default function ProjectUserTasks({ data, project, filters, setFilters, onApplyFilters }) {
-    const [activeUserId, setActiveUserId] = useState(data[0]?.userId || null);
+export default function UserTasks({ data, project, filters, setFilters, onApplyFilters, currentUser, totalHours }) {
+    console.log('UserTasks data---->', data);
+    const [activeUserId, setActiveUserId] = useState(currentUser?.userId || null);
     const [user, setUser] = useContext(userContext)
-    const activeUser = data.find(user => user.userId === activeUserId);
+    const activeUser = { taskList: data };
 
     const columnOptions = [
-        { key: 'User', label: 'User' },
+        { key: 'Project', label: 'Project' },
         { key: 'Date', label: 'Date' },
         { key: 'Time', label: 'Time' },
         { key: 'Hours', label: 'Hours' },
-        { key: 'Role', label: 'Role' },
+        // { key: 'Role', label: 'Role' },
         { key: 'Task', label: 'Task' }
     ];
 
-    const [selectedColumns, setSelectedColumns] = useState(['Date', 'Time', 'Hours', 'Role', 'Task']);
+    const [selectedColumns, setSelectedColumns] = useState(['Project', 'Date', 'Time', 'Hours', 'Task']);
 
     const handleColumnChange = (key) => {
         setSelectedColumns(prev =>
@@ -33,23 +34,23 @@ export default function ProjectUserTasks({ data, project, filters, setFilters, o
         const obj = {};
         selectedColumns.forEach(col => {
             switch (col) {
-                case 'User':
-                    obj.User = user ? user.username : '';
+                case 'Project':
+                    obj.Project = task?.project.name || '';
                     break;
                 case 'Date':
-                    obj.Date = new Date(task.startDate).toLocaleDateString();
+                    obj.Date = task.date;
                     break;
                 case 'Time':
-                    obj.Time = `${new Date(task.startTime).toLocaleTimeString()} – ${new Date(task.endTime).toLocaleTimeString()}`;
+                    obj.Time = task.time;
                     break;
                 case 'Hours':
-                    obj.Hours = task.job_hrs;
+                    obj.Hours = task.hours;
                     break;
-                case 'Role':
-                    obj.Role = task.work_role;
-                    break;
+                // case 'Role':
+                //     obj.Role = task.role;
+                //     break;
                 case 'Task':
-                    obj.Task = task.description;
+                    obj.Task = task.task;
                     break;
             }
         });
@@ -62,7 +63,7 @@ export default function ProjectUserTasks({ data, project, filters, setFilters, o
         if (selectedColumns.includes('Hours') && selectedColumns.includes('Task')) {
             const totalRow = {};
             selectedColumns.forEach(col => {
-                if (col === 'Hours') totalRow.Hours = activeUser.totalHours;
+                if (col === 'Hours') totalRow.Hours = totalHours;
                 else if (col === 'Task') totalRow.Task = 'Total Hours';
                 else totalRow[col] = '';
             });
@@ -71,8 +72,8 @@ export default function ProjectUserTasks({ data, project, filters, setFilters, o
 
         const ws = XLSX.utils.json_to_sheet(exportData);
         const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, activeUser.username);
-        XLSX.writeFile(wb, `${activeUser.username}_tasks.xlsx`);
+        XLSX.utils.book_append_sheet(wb, ws, currentUser.name);
+        XLSX.writeFile(wb, `${currentUser.name}_tasks.xlsx`);
     };
 
     const downloadFullXLSX = () => {
@@ -105,8 +106,8 @@ export default function ProjectUserTasks({ data, project, filters, setFilters, o
             <div className="max-w-7xl mx-auto space-y-6">
                 {/* Header */}
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-semibold">
-                        Project Task Report - {project?.name}
+                    <h1 className="text-2xl font-semibold capitalize">
+                        Developer Task Report - {currentUser?.name}
                     </h1>
                     {/* <span className="text-sm text-gray-500">
                         Light Mode
@@ -179,7 +180,7 @@ export default function ProjectUserTasks({ data, project, filters, setFilters, o
                                 ))}
                             </div>
                         </div>
-                        <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
+                        {/* <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
                             {data.map((user) => (
                                 <button
                                     key={user.userId}
@@ -192,7 +193,7 @@ export default function ProjectUserTasks({ data, project, filters, setFilters, o
                                     {user.username}
                                 </button>
                             ))}
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 
@@ -201,21 +202,11 @@ export default function ProjectUserTasks({ data, project, filters, setFilters, o
                     <div className="bg-white border border-gray-200 rounded-xl shadow-sm">
                         {/* User Header */}
                         <div className="flex items-center justify-between p-4 border-b">
-                            <div>
-                                <h2 className="text-lg font-semibold capitalize">
-                                    {activeUser.username}
-                                </h2>
-                                <p className="text-sm text-gray-500">
-                                    User ID: {activeUser.userId}
-                                </p>
-                            </div>
 
-                            <div className="flex items-center space-x-4">
+                            <div className="w-full flex items-center justify-between ">
                                 <div className="text-right">
-                                    <p className="text-sm text-gray-500">Total Hours</p>
-                                    <p className="text-xl font-bold text-blue-600">
-                                        {activeUser.totalHours}
-                                    </p>
+                                    <p className="text-sm text-gray-500">Total Hours : <span className="text-xl font-bold text-blue-600">{totalHours}</span></p>
+
                                 </div>
                                 <div className="flex space-x-2">
                                     <button
@@ -224,12 +215,12 @@ export default function ProjectUserTasks({ data, project, filters, setFilters, o
                                     >
                                         Download XLSX
                                     </button>
-                                    {user.type === "ADMIN" && <button
+                                    {/* {user.type === "ADMIN" && <button
                                         onClick={downloadFullXLSX}
                                         className="px-4 py-2 bg-[var(--mainColor)] text-white text-sm font-medium rounded-md hover:bg-[var(--customYellow)] transition-colors"
                                     >
                                         Download Full XLSX
-                                    </button>}
+                                    </button>} */}
                                 </div>
                             </div>
                         </div>
@@ -239,10 +230,10 @@ export default function ProjectUserTasks({ data, project, filters, setFilters, o
                             <table className="w-full text-sm">
                                 <thead className="bg-gray-100 text-gray-600">
                                     <tr>
+                                        <th className="px-4 py-3">Project</th>
                                         <th className="px-4 py-3 text-left">Date</th>
                                         <th className="px-4 py-3">Time</th>
                                         <th className="px-4 py-3">Hours</th>
-                                        <th className="px-4 py-3">Role</th>
                                         <th className="px-4 py-3">Task</th>
                                     </tr>
                                 </thead>
@@ -250,29 +241,29 @@ export default function ProjectUserTasks({ data, project, filters, setFilters, o
                                 <tbody>
                                     {activeUser.taskList.map((task) => (
                                         <tr
-                                            key={task.taskId}
+                                            key={task._id}
                                             className="border-t hover:bg-gray-50"
                                         >
                                             <td className="px-4 py-3 text-center">
-                                                {moment(task.startDate).format('DD/MM/YYYY')}
+                                                {task.project.name}
+                                            </td>
+                                            <td className="px-4 py-3 text-center">
+                                                {moment(task.date, 'MM/DD/YYYY').format('DD/MM/YYYY')}
                                             </td>
 
                                             <td className="px-4 py-3 text-center">
-                                                {new Date(task.startTime).toLocaleTimeString()} –{" "}
-                                                {new Date(task.endTime).toLocaleTimeString()}
+                                                {task.time}
                                             </td>
 
                                             <td className="px-4 py-3 text-center font-semibold">
-                                                {task.job_hrs}
+                                                {task.hours}
                                             </td>
 
-                                            <td className="px-4 py-3 text-center">
-                                                {task.work_role}
-                                            </td>
+
 
                                             <td className="px-4 py-3 max-w-md">
                                                 <p className="font-medium">
-                                                    {task.description}
+                                                    {task.task}
                                                 </p>
                                             </td>
                                         </tr>

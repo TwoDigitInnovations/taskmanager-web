@@ -49,16 +49,7 @@ const CreateTask = (props) => {
     if (props?.organization?._id || props.user.isOrganization) {
       setIsOrg(true);
     }
-    setJobInfo({
-      startDate: moment(new Date()).format().slice(0, 16),
-      startTime: "",
-      endTime: "",
-      job_hrs: "",
-      description: "",
-      work_type: "",
-      work_role: "",
-      project: "",
-    });
+    initialState();
     getClientList("");
   }, []);
 
@@ -66,21 +57,56 @@ const CreateTask = (props) => {
     if (props?.organization?._id || props.user.isOrganization) {
       setIsOrg(true);
     }
-    setJobInfo({
-      startDate: moment(new Date()).format().slice(0, 16),
-      startTime: "",
-      endTime: "",
-      job_hrs: "",
-      description: "",
-      work_type: "",
-      work_role: "",
-      project: "",
-    });
+    initialState();
     if (props?.jobId) {
       getJobDetail(props?.jobId)
     }
   }, [jobID]);
 
+  const initialState = () => {
+    let sd = moment(new Date()).format();
+    console.log(sd)
+    let value = moment(new Date()).format('HH:mm A');
+    if (value) {
+      let h = value.split(":")[0];
+      let m = value.split(" ")[0].split(":")[1];
+      let fm = '00'
+      let p = value.split(" ")[1];
+      if (Number(m) > 45) {
+        fm = '00'
+        h = Number(h) + 1
+      } else if (Number(m) > 30) {
+        fm = '45'
+      } else if (Number(m) > 15) {
+        fm = '30'
+      } else {
+        fm = '15'
+      }
+
+      if (Number(h) > 12) h = Number(h) - 12;
+      if (Number(h) < 10 && !h.toString().includes("0")) h = `0${h}`;
+
+      let hour24 = Number(h);
+
+      if (p === "PM" && hour24 !== 12) hour24 += 12;
+      if (p === "AM" && hour24 === 12) hour24 = 0;
+
+      const d = new Date();
+      d.setHours(hour24, Number(fm), 0);
+
+      console.log(moment(new Date(d)).format().slice(0, 16))
+      setJobInfo({
+        startDate: moment(new Date()).format().slice(0, 16),
+        startTime: moment(new Date(d)).format().slice(0, 16),
+        endTime: moment(new Date(d)).format().slice(0, 16),
+        job_hrs: "",
+        description: "",
+        work_type: "",
+        work_role: "",
+        project: "",
+      });
+    }
+  }
   const getClientList = (client_id) => {
     props.loader(true);
     Api("get", 'project/GetAllProjectByORg', "", props.router).then(
@@ -280,7 +306,7 @@ const CreateTask = (props) => {
                 /> */}
                 <div className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-3 "
                 >
-                  <TimePicker
+                  {jobInfo?.startTime && <TimePicker
                     date={moment(new Date(jobInfo.startDate)).format()}
                     value={moment(jobInfo?.startTime || new Date()).format('HH:mm A')}
                     // minTime={new Date()}
@@ -289,7 +315,7 @@ const CreateTask = (props) => {
                       setJobInfo({ ...jobInfo, startTime: e });
                       getJobHour(moment(new Date(e)).format(), jobInfo.endTime);
 
-                    }} />
+                    }} />}
                 </div>
               </div>
 
@@ -299,7 +325,7 @@ const CreateTask = (props) => {
                 </p>
                 <div className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-3 "
                 >
-                  <TimePicker
+                  {jobInfo?.endTime && <TimePicker
                     date={moment(new Date(jobInfo.startDate)).format()}
                     value={moment(jobInfo?.endTime || new Date()).format('HH:mm A')}
                     // minTime={new Date(jobInfo?.startTime)}
@@ -307,7 +333,7 @@ const CreateTask = (props) => {
                       console.log(e)
                       setJobInfo({ ...jobInfo, endTime: e });
                       getJobHour(jobInfo.startTime, moment(new Date(e)).format());
-                    }} />
+                    }} />}
                 </div>
                 {/* <input
                   value={moment(jobInfo.endTime).format('HH:mm')}

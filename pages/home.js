@@ -177,16 +177,28 @@ const Index = (props) => {
     <AuthGuard allowedRoles={["ADMIN", "PROVIDER"]}>
       <div className="min-h-screen bg-[var(--mainLightColor)] ">
         <div className="p-5 ">
-          {/* <div className="border-2 border-[var(--customYellow)] rounded-xl p-5">
-          <h1 className="text-white md:text-3xl text-xl font-bold">
-            {moment(new Date()).format("ddd, DD MMM yyyy")}
-          </h1>
-          <h1 className="text-white md:text-3xl text-xl font-bold md:mt-5 mt-2">
-            Hello <span className="text-[var(--customYellow)] uppercase">{userName}</span>{" "}
-          </h1>
-        </div> */}
+          <div className="flex justify-between border-2 border-[var(--customYellow)] rounded-xl p-5 bg-white">
+            <div>
+              <h1 className="text-black md:text-3xl text-xl font-bold">
+                {moment(new Date()).format("ddd, DD MMM yyyy")}
+              </h1>
+              <h1 className="text-black md:text-3xl text-xl font-bold md:mt-5 mt-2">
+                Hello <span className="text-[var(--mainColor)] uppercase">{userName}</span>{" "}
+              </h1>
+            </div>
+            <div
+              className="flex justify-start items-center"
+              onClick={() => {
+                router.push(`/user-tasks?userID=${user.id}`)
+              }}
+            >
+              <div className="h-7 px-2 cursor-pointer bg-[var(--mainColor)] text-white rounded-sm ml-2 flex justify-center items-center">
+                My Tasks Sheet
+              </div>
+            </div>
+          </div>
 
-          <div className="grid md:grid-cols-3 grid-col-1 ">
+          {/* <div className="grid md:grid-cols-3 grid-col-1 ">
 
             <div className="border-2  border-[var(--mainColor)]  border-t-[var(--customYellow)] border-t-4 relative flex justify-center   md:mr-3 mt-2 cursor-pointer" onClick={() => router.push('/tasks/task?type=today')}>
               <p className="font-bold text-lg text-center text-[var(--mainColor)] absolute -top-4 bg-[var(--customYellow)] px-3">Total Task</p>
@@ -222,7 +234,7 @@ const Index = (props) => {
                 </Tooltip>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
         {user.type === 'ADMIN' && <div className="grid md:grid-cols-2 grid-cols-1">
           <div className="w-full grid-cols-1  col-span-2">

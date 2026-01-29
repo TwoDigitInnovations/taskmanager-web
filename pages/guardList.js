@@ -282,21 +282,34 @@ const GuardList = (props) => {
 
   function ActiveStatus({ row }) {
     return (
-      <div
-        className="flex justify-start items-center"
-        onClick={() => {
-          console.log('selected guard----------->', row.original.identity)
-          if (row.original.identity) {
-            setSingalData(row.original);
-          } else {
-            setSingalData({ ...row.original, identity: [] });
-          }
+      <div className="flex gap-2">
+        <div
+          className="flex justify-start items-center"
+          onClick={() => {
+            console.log('selected guard----------->', row.original.identity)
+            if (row.original.identity) {
+              setSingalData(row.original);
+            } else {
+              setSingalData({ ...row.original, identity: [] });
+            }
 
-          handleClickOpen();
-        }}
-      >
-        <div className="h-7 w-9 bg-[var(--customYellow)] rounded-sm ml-2 flex justify-center items-center">
-          <IoEyeSharp className="text-black h-4 w-4 " />
+            handleClickOpen();
+          }}
+        >
+          <div className="h-7 w-9 bg-[var(--customYellow)] rounded-sm ml-2 flex justify-center items-center">
+            <IoEyeSharp className="text-black h-4 w-4 " />
+          </div>
+        </div>
+        <div
+          className="flex justify-start items-center"
+          onClick={() => {
+            console.log('selected guard----------->', row.original.identity)
+            router.push(`/user-tasks?userID=${row.original._id}`)
+          }}
+        >
+          <div className="h-7 px-2 cursor-pointer bg-[var(--customYellow)] rounded-sm ml-2 flex justify-center items-center">
+            Tasks
+          </div>
         </div>
       </div>
     );
@@ -306,7 +319,6 @@ const GuardList = (props) => {
     console.log()
     return (
       <div className="flex justify-start items-center ">
-
         {row?.original?.payroll && <div onClick={() => {
           if (!row?.original?.payroll?.verified) {
             setSingalData(row.original);
