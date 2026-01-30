@@ -151,7 +151,8 @@ export default function UserTasks({ data, project, filters, setFilters, onApplyF
                         >
                             <option value="">All Types</option>
                             <option value="Regular">Regular</option>
-                            <option value="Maintenance">Maintenance</option>
+                            <option value='Maintenance'>Maintenance - Feature</option>
+                            <option value='Maintenance_Bug'>Maintenance - Bug Fix</option>
                         </select>
 
                         <button
