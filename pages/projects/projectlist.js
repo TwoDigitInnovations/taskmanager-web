@@ -32,6 +32,7 @@ const ProjectsList = (props) => {
 
   useEffect(() => {
     getClientList();
+    getAllProjectMilestonePayments();
   }, []);
 
   const getClientList = () => {
@@ -46,6 +47,26 @@ const ProjectsList = (props) => {
         if (res?.status) {
           setClientList(res.data);
           setMainList(res.data);
+        } else {
+          props.toaster({ type: "success", message: res?.message });
+        }
+      },
+      (err) => {
+        props.loader(false);
+        props.toaster({ type: "error", message: err.message });
+        console.log(err);
+      }
+    );
+  };
+
+  const getAllProjectMilestonePayments = () => {
+
+    Api("get", 'projects/milestones', "", router).then(
+      async (res) => {
+        console.log("milestone payments", res);
+        props.loader(false);
+        if (res?.status) {
+
         } else {
           props.toaster({ type: "success", message: res?.message });
         }
@@ -178,7 +199,7 @@ const ProjectsList = (props) => {
         </div>
         <div className="px-5 overflow-visible mt-3">
           <div className="grid md:grid-cols-2 grid-cols-1 bg-[var(--mainColor)] p-3  border-t-4 border-[var(--customYellow)] ">
-            <div>
+            <div className="flex gap-2 items-center">
               <p className="text-white font-bold md:text-3xl text-lg" onClick={() => {
                 setShowpendingAmount(true)
                 setTimeout(() => {
@@ -187,6 +208,14 @@ const ProjectsList = (props) => {
               }}>
                 Projects List
               </p>
+              {showPendingAmount && <button
+                className="bg-white text-[var(--mainColor)] p-2 md:ml-0 ml-2 rounded-sm"
+                onClick={() => {
+                  router.push('/paymentStatus');
+                }}
+              >
+                Summary Report
+              </button>}
             </div>
             <div className="flex items-center justify-end md:mt-0 mt-2 ">
 
