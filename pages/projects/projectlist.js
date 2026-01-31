@@ -201,6 +201,7 @@ const ProjectsList = (props) => {
           <div className="grid md:grid-cols-2 grid-cols-1 bg-[var(--mainColor)] p-3  border-t-4 border-[var(--customYellow)] ">
             <div className="flex gap-2 items-center">
               <p className="text-white font-bold md:text-3xl text-lg" onClick={() => {
+                if (user.type !== "ADMIN") return;
                 setShowpendingAmount(true)
                 setTimeout(() => {
                   setShowpendingAmount(false)
