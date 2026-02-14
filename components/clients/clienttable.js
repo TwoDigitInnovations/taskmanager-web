@@ -7,12 +7,15 @@ import { MdDeleteForever, MdModeEditOutline } from "react-icons/md";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { Api } from "@/src/services/service";
 import { useRouter } from "next/router";
+import PasswordModal from "./PasswordModal";
 
 function ClientTable(props) {
   const router = useRouter();
   const [open, setOpen] = useState(false)
   const [type, setType] = useState('')
   const [client, setClient] = useState({})
+  const [openPass, setOpenPass] = useState(false);
+
   const columns = useMemo(
     () => [
       {
@@ -71,6 +74,44 @@ function ClientTable(props) {
     );
   }
 
+  const submit = (pass) => {
+
+
+    if (!pass) {
+      props.toaster({ type: "error", message: "Password is required" });
+      return;
+    }
+    setOpenPass(false);
+
+    props.loader(true);
+    const data = {
+      username: client.fullName.toLowerCase(),
+      email: client.email.toLowerCase(),
+      password: pass,
+      // isOrganization: userDetail.isOrganization,
+      phone: client.phoneNumber,
+      type: 'CLIENT',
+      clientID: client._id
+    };
+
+    Api("post", "signUp", data, router).then(
+      (res) => {
+        props.loader(false);
+        if (res.status) {
+          props.getClientList()
+          setClient({})
+        } else {
+          props.toaster({ type: "error", message: res?.data?.message });
+        }
+      },
+      (err) => {
+        props.loader(false);
+        console.log(err);
+        props.toaster({ type: "error", message: err?.data?.message });
+      }
+    );
+  };
+
   function verifyCol({ value }) {
     return (
       <div className="flex justify-start items-center ">
@@ -100,15 +141,24 @@ function ClientTable(props) {
         >
           <RiDeleteBinFill className="text-black h-4 w-4 " />
         </div>
-        {row.original.status === 'Verified' && <div
+        {(!row.original.status || row.original.status === 'Pending') && <div
           className="h-7 w-20 px-2 bg-[var(--customYellow)] rounded-sm ml-2 flex justify-center items-center cursor-pointer"
           onClick={() => {
-            setOpen(true)
             setClient(row.original)
-            setType('Suspended')
+            setOpenPass(true)
           }}
         >
-          <p className="text-white">Suspend</p>
+          <p className="text-black font-bold">Access</p>
+        </div>}
+        {row.original.status === 'Verified' && <div
+          className="h-7 w-20 px-2 bg-green-500 rounded-sm ml-2 flex justify-center items-center cursor-pointer"
+          onClick={() => {
+            // setOpen(true)
+            // setClient(row.original)
+            // setType('Suspended')
+          }}
+        >
+          <p className="text-black font-bold">Accessed</p>
         </div>}
         {row.original.status === 'Suspended' && <div
           className="h-7 px-2 w-20 bg-green-700 rounded-sm ml-2 flex justify-center items-center cursor-pointer"
@@ -118,7 +168,7 @@ function ClientTable(props) {
             setType('Verified')
           }}
         >
-          <p className="text-white">Verify</p>
+          <p className="text-black">Verify</p>
         </div>}
       </div>
     );
@@ -169,6 +219,16 @@ function ClientTable(props) {
           </DialogActions>
         </div>
       </Dialog>
+
+      <PasswordModal
+        open={openPass}
+        onClose={() => setOpenPass(false)}
+        onSubmit={(pass) => {
+          console.log(pass);
+
+          submit(pass)
+        }}
+      />
     </>
 
   );

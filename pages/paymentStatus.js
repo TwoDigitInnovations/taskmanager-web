@@ -18,8 +18,8 @@ export default function PaymentStatus(props) {
     const [filters, setFilters] = useState({
         // projectId: projectId,
         workType: 'paid',
-        startDate: moment().subtract(30, 'days').toDate(),
-        endDate: moment().toDate(),
+        startDate: moment().subtract(1, "month").startOf("month").format("YYYY-MM-DD"),
+        endDate: moment().subtract(1, "month").endOf("month").format("YYYY-MM-DD")
     });
 
     const fetchData = async () => {

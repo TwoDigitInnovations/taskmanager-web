@@ -140,6 +140,7 @@ const Register = (props) => {
     //   setSubmitted(true);
     //   return;
     // }
+    console.log(clientObj)
     const projectObj = new FormData();
     projectObj.append('name', clientObj.name)
     projectObj.append('amount', clientObj.amount)
@@ -223,7 +224,7 @@ const Register = (props) => {
       }
     );
   };
-
+  console.log(clientObj)
   return (
     <div className=" bg-[var(--white)] overflow-x-auto mt-16 mb-5">
       <div className=" bg-[var(--mainLightColor)]">
@@ -498,27 +499,28 @@ const Register = (props) => {
             <div className="mt-5">
               {clientObj.milestones.map((item, index) => (
                 <div className="p-2" key={index}>
-                  <div className="flex">
-                    <p className="text-black text-lg font-semibold">{index + 1}</p>
-                    <select value={item?.name}
-                      className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full"
-                      onChange={(text) => {
-                        item.name = text.target.value
-                        setClientObj({
-                          ...clientObj,
-                        });
-                      }}>
-                      <option value=''>Select type</option>
-                      <option value={'Milestone'}>Milestone</option>
-                      <option value={'Manitenance'}>Manitenance</option>
-                    </select>
-                  </div>
+
 
 
                   <div className="grid grid-cols-4 gap-2 mb-3">
+                    <div className="flex">
+                      <p className="text-black text-lg font-semibold">{index + 1}</p>
+                      <select value={item?.name}
+                        className="rounded-md border-2 border-[var(--mainColor)] mt-3 outline-none text-black bg-[var(--white)] icncolor w-full h-[45px]"
+                        onChange={(text) => {
+                          item.name = text.target.value
+                          setClientObj({
+                            ...clientObj,
+                          });
+                        }}>
+                        <option value=''>Select type</option>
+                        <option value={'Milestone'}>Milestone</option>
+                        <option value={'Manitenance'}>Manitenance</option>
+                      </select>
+                    </div>
                     <div className="p-2">
                       <input
-                        placeholder="Amount"
+                        placeholder="₹ Amount"
                         value={item?.amount}
                         onChange={(text) => {
                           item.amount = text.target.value
@@ -527,11 +529,25 @@ const Register = (props) => {
                           });
                         }}
                         type="number"
-                        className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full"
+                        className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full h-[45px]"
                       />
                     </div>
                     <div className="p-2">
                       <input
+                        placeholder="$ Amount"
+                        value={item?.dollar_amount}
+                        onChange={(text) => {
+                          item.dollar_amount = text.target.value
+                          setClientObj({
+                            ...clientObj,
+                          });
+                        }}
+                        type="number"
+                        className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full h-[45px]"
+                      />
+                    </div>
+                    <div className="p-2">
+                      {/* <input
                         placeholder="Currency"
                         value={item?.currency}
                         onChange={(text) => {
@@ -542,9 +558,24 @@ const Register = (props) => {
                         }}
                         type="text"
                         className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full"
-                      />
+                      /> */}
+                      <select value={item?.currency}
+                        className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full h-[45px]"
+                        onChange={(text) => {
+                          item.currency = text.target.value
+                          setClientObj({
+                            ...clientObj,
+                          });
+                        }}>
+                        <option value=''>Select Currency</option>
+                        <option value={'₹'}>₹</option>
+                        <option value={'$'}>$</option>
+                        <option value={'EUR'}>EUR</option>
+                        <option value={'POUND'}>POUND</option>
+                        <option value={'CAD'}>CAD</option>
+                      </select>
                     </div>
-                    <div className="p-2">
+                    {/* <div className="p-2">
                       <input
                         placeholder="Period"
                         value={item?.period}
@@ -555,21 +586,21 @@ const Register = (props) => {
                           });
                         }}
                         type="text"
-                        className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full"
+                        className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full h-[45px]"
                       />
-                    </div>
-                    <div className="p-2">
+                    </div> */}
+                    <div className="p-2 md:col-span-2">
                       <input
-                        placeholder="List of tasks"
-                        value={item?.tasks}
+                        placeholder="Payment Description"
+                        value={item?.payment_desc}
                         onChange={(text) => {
-                          item.tasks = text.target.value
+                          item.payment_desc = text.target.value
                           setClientObj({
                             ...clientObj,
                           });
                         }}
                         type="text"
-                        className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full"
+                        className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full h-[45px]"
                       />
                     </div>
                     <div className="p-2">
@@ -581,7 +612,7 @@ const Register = (props) => {
                             ...clientObj,
                           });
                         }}
-                        className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full"
+                        className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full h-[45px]"
 
                       >
                         <option value="unpaid">Unpaid</option>
@@ -600,7 +631,7 @@ const Register = (props) => {
                           });
                         }}
                         type="date"
-                        className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-1 icncolor w-full"
+                        className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-1 icncolor w-full h-[45px]"
                       />
                     </div>
                     <div className="p-2">
@@ -612,9 +643,10 @@ const Register = (props) => {
                             ...clientObj,
                           });
                         }}
-                        className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full"
+                        className="rounded-md border-2 border-[var(--mainColor)] mt-1 outline-none text-black bg-[var(--white)] p-2 icncolor w-full h-[45px]"
                       >
                         <option value=''>Slelect Payment Method</option>
+                        <option value='PAYGLOCAL'>PAYGLOCAL</option>
                         <option value='Paypal'>Paypal</option>
                         <option value='Stripe'>Stripe</option>
                         <option value='Razorpay'>Razorpay</option>
@@ -626,7 +658,7 @@ const Register = (props) => {
                     </div>
                     <div className="p-2">
                       <button
-                        className="text-white bg-[var(--mainColor)] rounded-sm  text-md py-2 px-2 h-10"
+                        className="text-white bg-[var(--mainColor)] rounded-sm  text-md py-2 px-2 h-10 mt-2"
                         onClick={() => {
                           if (index > -1) {
                             let mltns = clientObj.milestones;

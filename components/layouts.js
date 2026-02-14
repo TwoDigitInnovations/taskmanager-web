@@ -45,7 +45,7 @@ const menuItems = [
     // icon: "/home1.png",
     img: 'dashboard',
     activeIcon: "/home.png",
-    access: ["USER", "ORG", "ADMIN", "PROVIDER"],
+    access: ["USER", "ORG", "ADMIN", "PROVIDER", "CLIENT"],
     sub: false,
   },
   // {
@@ -85,7 +85,7 @@ const menuItems = [
     title: "My Notes",
     icon: "/privacy.png",
     activeIcon: "/privacy1.png",
-    access: ["PROVIDER", "ADMIN"],
+    access: ["PROVIDER", "ADMIN", "CLIENT"],
     sub: false,
   },
   {

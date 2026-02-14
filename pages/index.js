@@ -69,6 +69,8 @@ export default function Home(props) {
           router.push("home");
         } else if (res.data.type === "ADMIN") {
           router.push("home");
+        } else if (res.data.type === "CLIENT") {
+          router.push("home");
         } else {
           props.toaster({ type: "error", message: "You have not access this portal" });
         }

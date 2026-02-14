@@ -174,7 +174,7 @@ const Index = (props) => {
   };
 
   return (
-    <AuthGuard allowedRoles={["ADMIN", "PROVIDER"]}>
+    <AuthGuard allowedRoles={["ADMIN", "PROVIDER", "CLIENT"]}>
       <div className="min-h-screen bg-[var(--mainLightColor)] ">
         <div className="p-5 ">
           <div className="flex justify-between border-2 border-[var(--customYellow)] rounded-xl p-5 bg-white">
@@ -186,7 +186,7 @@ const Index = (props) => {
                 Hello <span className="text-[var(--mainColor)] uppercase">{userName}</span>{" "}
               </h1>
             </div>
-            <div
+            {user.type != 'CLIENT' && <div
               className="flex justify-start items-center"
               onClick={() => {
                 router.push(`/user-tasks?userID=${user.id}`)
@@ -195,7 +195,7 @@ const Index = (props) => {
               <div className="h-7 px-2 cursor-pointer bg-[var(--mainColor)] text-white rounded-sm ml-2 flex justify-center items-center">
                 My Tasks Sheet
               </div>
-            </div>
+            </div>}
           </div>
 
           {/* <div className="grid md:grid-cols-3 grid-col-1 ">

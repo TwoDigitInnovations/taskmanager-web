@@ -20,8 +20,10 @@ export default function NotesApp(props) {
     // Load notes from localStorage
     useEffect(() => {
         getAllNotes();
-        getAllprojects();
-    }, []);
+        if (user.type != 'CLIENT') {
+            getAllprojects();
+        }
+    }, [user]);
 
     useEffect(() => {
         if (user.id && user.type === 'ADMIN') {
@@ -207,7 +209,7 @@ export default function NotesApp(props) {
     );
 
     return (
-        <AuthGuard allowedRoles={["ADMIN", "PROVIDER"]}>
+        <AuthGuard allowedRoles={["ADMIN", "PROVIDER", "CLIENT"]}>
             <div className="flex flex-col md:flex-row h-screen bg-[#F5F5F7]">
                 {/* Sidebar */}
                 <div className="md:w-1/3 lg:w-1/4 bg-white border-r border-gray-200 flex flex-col">
@@ -254,7 +256,7 @@ export default function NotesApp(props) {
                                         }`}
                                 >
                                     <h3 className="font-medium text-gray-800 truncate">{note.title}</h3>
-                                    <p className="text-xs text-gray-500">{moment(new Date(note.date)).format('DD-MM-YYYY, hh:mm A')}</p>
+                                    <p className="text-xs text-gray-500">{moment(new Date(note.updatedAt)).format('DD-MM-YYYY, hh:mm A')}</p>
 
                                     {note.project && (
                                         <p className="text-xs mt-1 text-blue-600">
@@ -299,7 +301,7 @@ export default function NotesApp(props) {
 
                                 <div className="flex gap-2 items-center">
                                     {/* Project Selector */}
-                                    <select
+                                    {user?.type != 'CLIENT' && <select
                                         value={selectedNote.project}
                                         onChange={(e) => {
                                             let newdata = { ...selectedNote, project: e.target.value }
@@ -314,7 +316,7 @@ export default function NotesApp(props) {
                                                 {proj.name}
                                             </option>
                                         ))}
-                                    </select>
+                                    </select>}
 
                                     {/* Developer Selector */}
                                     {user?.type === 'ADMIN' && <select

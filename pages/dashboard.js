@@ -3,6 +3,7 @@ import { Api } from "@/src/services/service";
 import { useRouter } from "next/router";
 import { useState, useEffect, useContext } from "react";
 import { userContext } from "./_app";
+import moment from "moment";
 
 export default function EmployeeDashboard(props) {
     const [user, setUser] = useContext(userContext);
@@ -13,8 +14,8 @@ export default function EmployeeDashboard(props) {
 
     const [selectedEmp, setSelectedEmp] = useState(null);
     const [filters, setFilters] = useState({
-        startDate: new Date(new Date().setDate(new Date().getDate() - 7)).toISOString().split("T")[0], // 7 days ago
-        endDate: today,
+        startDate: moment().startOf("month").format("YYYY-MM-DD"),
+        endDate: today
     });
 
     // Load saved data
