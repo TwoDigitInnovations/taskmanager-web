@@ -339,16 +339,16 @@ export default function NotesApp(props) {
                                     {/* Delete Button */}
 
 
-                                    {/* {user?.id === selectedNote?.created_by && */}
-                                    <div className="flex items-center">
-                                        <input type='checkbox' checked={selectedNote?.isPublic} onChange={(e) => {
-                                            let newdata = { ...selectedNote, isPublic: e.target.checked }
-                                            setSelectedNote(newdata);
-                                            assignNote(newdata);
-                                        }} />
-                                        <p className="text-black text-base font-medium ml-1">Public</p>
-                                    </div>
-                                    {/* } */}
+                                    {user?.id === selectedNote?.created_by &&
+                                        <div className="flex items-center">
+                                            <input type='checkbox' checked={selectedNote?.isPublic} onChange={(e) => {
+                                                let newdata = { ...selectedNote, isPublic: e.target.checked }
+                                                setSelectedNote(newdata);
+                                                assignNote(newdata);
+                                            }} />
+                                            <p className="text-black text-base font-medium ml-1">Public</p>
+                                        </div>
+                                    }
 
                                     {user?.id === selectedNote?.created_by && <button
                                         onClick={async () => {
