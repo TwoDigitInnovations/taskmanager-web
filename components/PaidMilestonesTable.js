@@ -49,6 +49,9 @@ export default function PaidMilestonesTable({ data, totalPaidAmount, status }) {
 
         // Create worksheet
         const worksheet = XLSX.utils.json_to_sheet(rows);
+        const range = XLSX.utils.decode_range(worksheet["!ref"]);
+
+
 
         // Column width
         worksheet["!cols"] = [

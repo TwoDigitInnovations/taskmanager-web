@@ -86,7 +86,7 @@ export default function NotesApp(props) {
     const getAllusers = async () => {
         props.loader(true);
         try {
-            const res = await api.post('user/guardList');
+            const res = await api.post('user/guardList?isActive=true');
             props.loader(false)
             console.log(res)
             if (res?.status) {
@@ -337,16 +337,27 @@ export default function NotesApp(props) {
                                     </select>}
 
                                     {/* Delete Button */}
+
+
+                                    {/* {user?.id === selectedNote?.created_by && */}
+                                    <div className="flex items-center">
+                                        <input type='checkbox' checked={selectedNote?.isPublic} onChange={(e) => {
+                                            let newdata = { ...selectedNote, isPublic: e.target.checked }
+                                            setSelectedNote(newdata);
+                                            assignNote(newdata);
+                                        }} />
+                                        <p className="text-black text-base font-medium ml-1">Public</p>
+                                    </div>
+                                    {/* } */}
+
                                     {user?.id === selectedNote?.created_by && <button
                                         onClick={async () => {
                                             const result = await confirm("Delete Note", "Are you sure you want to delete this?", { id: selectedNote._id });
                                             if (result.confirm) {
                                                 deleteNote(selectedNote._id)
                                             }
-                                        }
-
-                                        }
-                                        className="text-red-500 hover:text-red-600 text-sm font-medium"
+                                        }}
+                                        className="text-white text-sm font-medium bg-red-500 px-2 py-1 rounded-sm ml-5"
                                     >
                                         Delete
                                     </button>}
