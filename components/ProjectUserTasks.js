@@ -15,11 +15,11 @@ export default function ProjectUserTasks({ data, project, filters, setFilters, o
         { key: 'Date', label: 'Date' },
         { key: 'Time', label: 'Time' },
         { key: 'Hours', label: 'Hours' },
-        { key: 'Role', label: 'Role' },
+        { key: 'Task Type', label: 'Task Type' },
         { key: 'Task', label: 'Task' }
     ];
 
-    const [selectedColumns, setSelectedColumns] = useState(['Date', 'Time', 'Hours', 'Role', 'Task']);
+    const [selectedColumns, setSelectedColumns] = useState(['Date', 'Time', 'Hours', 'Task Type', 'Task']);
 
     const handleColumnChange = (key) => {
         setSelectedColumns(prev =>
@@ -45,8 +45,8 @@ export default function ProjectUserTasks({ data, project, filters, setFilters, o
                 case 'Hours':
                     obj.Hours = task.job_hrs;
                     break;
-                case 'Role':
-                    obj.Role = task.work_role;
+                case 'Task Type':
+                    obj['Task Type'] = task.work_type === 'Maintenance' ? 'Maintenance - Feature' : task.work_type;
                     break;
                 case 'Task':
                     obj.Task = task.description;
@@ -243,7 +243,7 @@ export default function ProjectUserTasks({ data, project, filters, setFilters, o
                                         <th className="px-4 py-3 text-left">Date</th>
                                         <th className="px-4 py-3">Time</th>
                                         <th className="px-4 py-3">Hours</th>
-                                        <th className="px-4 py-3">Role</th>
+                                        <th className="px-4 py-3">Task Type</th>
                                         <th className="px-4 py-3">Task</th>
                                     </tr>
                                 </thead>
@@ -268,7 +268,7 @@ export default function ProjectUserTasks({ data, project, filters, setFilters, o
                                             </td>
 
                                             <td className="px-4 py-3 text-center">
-                                                {task.work_role}
+                                                {task.work_type === 'Maintenance' ? 'Maintenance - Feature' : task.work_type}
                                             </td>
 
                                             <td className="px-4 py-3 max-w-md">
